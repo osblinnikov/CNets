@@ -1,0 +1,16 @@
+{
+"path":"com.github.airutech.cnets.runnablesContainer",
+"ver":"0.0.0",
+"type":"com.github.airutech.gernet.plugins.library",
+"args": [],
+"props":[],
+"blocks":[],
+"depends":[{
+  "path":"com.github.airutech.cnets.types",
+  "ver": "[0.0.0,)"
+}],
+"connection":{
+  "writeTo": [],
+  "readFrom": []
+}
+}

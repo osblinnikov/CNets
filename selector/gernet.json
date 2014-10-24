@@ -1,0 +1,35 @@
+{
+"path":"com.github.airutech.cnets.selector",
+"ver":"0.0.0",
+"type":"com.github.airutech.gernet.plugins.buffer",
+"rwArgs":[{
+  "name": "bufferId",
+  "type": "int"
+}],
+"args": [{
+  "name": "reducableReaders",
+  "type": "reader[]"
+}],
+"props":[],
+"depends":[{
+  "path":"com.github.airutech.cnets.types",
+  "ver": "[0.0.0,)"
+},{
+  "path":"com.github.airutech.cnets.readerWriter",
+  "ver": "[0.0.0,)"
+},{
+  "path":"com.github.airutech.cnets.queue",
+  "ver": "[0.0.0,)"
+},{
+  "path":"com.github.airutech.cnets.mapBuffer",
+  "ver": "[0.0.0,)"
+},{
+  "path":"com.github.airutech.cnets.runnablesContainer",
+  "ver": "[0.0.0,)"
+}],
+"blocks":[],
+"connection":{
+  "writeTo": [],
+  "readFrom": []
+}
+}

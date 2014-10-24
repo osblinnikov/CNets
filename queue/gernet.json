@@ -1,0 +1,33 @@
+{
+"path":"com.github.airutech.cnets.queue",
+"ver":"0.0.0",
+"type":"com.github.airutech.gernet.plugins.library",
+"args": [{
+  "name": "capacity",
+  "type": "int",
+  "value": "1"
+}],
+"props":[{
+  "name":"data",
+  "type":"unsigned[]",
+  "size":"capacity"  
+},{
+  "name":"maxIndex",
+  "type":"unsigned"
+},{
+  "name":"head",
+  "type":"unsigned"
+},{
+  "name":"tail",
+  "type":"unsigned"
+}],
+"blocks":[],
+"depends":[{
+  "path":"com.github.airutech.cnets.types",
+  "ver": "[0.0.0,)"
+}],
+"connection":{
+  "writeTo": [],
+  "readFrom": []
+}
+}

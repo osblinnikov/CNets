@@ -1,0 +1,31 @@
+{
+"path":"com.github.airutech.cnets.mapBuffer",
+"ver":"0.0.0",
+"type":"com.github.airutech.gernet.plugins.buffer",
+"args": [{
+  "name": "buffers",
+  "type": "Object[]"
+},{
+  "name": "timeout_milisec",
+  "type": "long"
+},{
+  "name": "readers_grid_size",
+  "type": "int"
+}],
+"props":[],
+"depends":[{
+  "path":"com.github.airutech.cnets.types",
+  "ver": "[0.0.0,)"
+},{
+  "path":"com.github.airutech.cnets.readerWriter",
+  "ver": "[0.0.0,)"
+},{
+  "path":"com.github.airutech.cnets.queue",
+  "ver": "[0.0.0,)"
+}],
+"blocks":[],
+"connection":{
+  "writeTo": [],
+  "readFrom": []
+}
+}

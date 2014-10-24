@@ -1,0 +1,12 @@
+{
+"path":"com.github.airutech.cnets.types",
+"ver":"0.0.0",
+"type":"com.github.airutech.gernet.plugins.library",
+"args": [],
+"blocks":[],
+"depends":[],
+"connection":{
+  "writeTo": [],
+  "readFrom": []
+}
+}
