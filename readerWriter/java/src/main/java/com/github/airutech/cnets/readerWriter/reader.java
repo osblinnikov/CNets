@@ -98,4 +98,8 @@ public class reader {
       this.bytesCounter += bytesCounter;
     }
   }
+
+  public reader copy() {
+    return new reader(buffer.copy());
+  }
 }
