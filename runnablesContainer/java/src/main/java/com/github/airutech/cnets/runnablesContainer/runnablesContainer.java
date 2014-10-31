@@ -33,9 +33,16 @@ public class runnablesContainer{
   private runnablesContainer[] containers = null;
   private RunnableStoppable target = null;
 
+
+
   public void setContainers(runnablesContainer[] containers){
     this.containers = containers;
   }
+
+/*getTarget and getContainers allow third-party libraries to implement launch-stop algorithms*/
+  public RunnableStoppable getTarget(){return target;}
+  public runnablesContainer[] getContainers(){if(target!=null){return new runnablesContainer[]{this};}else{return containers;}}
+/**/
 
   public void setCore(RunnableStoppable target){
     this.target = target;
