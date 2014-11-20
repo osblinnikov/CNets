@@ -2,13 +2,17 @@
 #define com_github_airutech_cnets_readerWriter_writer_H
 
 typedef struct writer{
-  bufferKernelParams params;
+  unsigned packetsCounter, bytesCounter;
+  uint64_t statsTime;
+  struct bufferKernelParams statsWriterParams;
+  struct bufferKernelParams params;
   void* (*writeNext)(struct writer *that, BOOL make_timeout);
   int (*writeFinished)(struct writer *that);
   int (*size)(struct writer *that);
   int (*timeout)(struct writer *that);
   int (*gridSize)(struct writer *that);
   int (*uniqueId)(struct writer *that);
+  void (*incrementBytesCounter)(struct writer *that, int bytesCounter);
 }writer;
 
 com_github_airutech_cnets_readerWriter_EXPORT_API

@@ -47,6 +47,33 @@ void* com_github_airutech_cnets_readerWriter_writeNext(writer *that, BOOL make_t
 int com_github_airutech_cnets_readerWriter_writeFinished(writer *that) {
   if(that == NULL || that->params.target == NULL){return 0;}
   /*todo: add here special code for debuging data flow*/
+  uint64_t interval = statsCollectorStatic_getStatsInterval();
+  if(interval > 0) {
+    if (that->statsWriterParams.target == 0) {
+      that->statsWriterParams = (statsCollectorStatic_getWriter()).params;
+    }
+    struct writer statsWriter;
+    writer_init(&statsWriter, that->statsWriterParams);
+    if (statsWriter.params.target != 0 && statsWriter.uniqueId(&statsWriter) != that->uniqueId(that)) {
+      that->packetsCounter++;
+      uint64_t curTime = curTimeMilisec();
+      if (curTime - that->statsTime > interval) {
+        com_github_airutech_cnets_types_statsLocalProtocol* p;
+        p = (com_github_airutech_cnets_types_statsLocalProtocol*) statsWriter.writeNext(&statsWriter,0);
+        if (p != 0) {
+          p->writer = TRUE;
+          p->uniqueId = that->uniqueId(that);
+          p->gridId = that->params.grid_id;
+          p->packets = that->packetsCounter;
+          p->bytes = that->bytesCounter;
+          statsWriter.writeFinished(&statsWriter);
+          that->statsTime = curTime;
+          that->packetsCounter = 0;
+          that->bytesCounter = 0;
+        }
+      }
+    }
+  }
   return that->params.writeFinished(&that->params);
 }
 
@@ -68,6 +95,12 @@ int com_github_airutech_cnets_readerWriter_gridSizeW(writer *that){
 int com_github_airutech_cnets_readerWriter_uniqueIdW(writer *that){
   if(that == NULL || that->params.target == NULL){return 0;}
   return that->params.uniqueId(&that->params);
+}
+
+void com_github_airutech_cnets_readerWriter_incrementBytesCounterW(writer *that, int bytesCounter) {
+  if (statsCollectorStatic_getStatsInterval() > 0) {
+    that->bytesCounter += bytesCounter;
+  }
 }
 
 /*********READER FUNCTIONS**********/
@@ -95,6 +128,33 @@ void* com_github_airutech_cnets_readerWriter_readNext(reader *that, BOOL make_ti
 int com_github_airutech_cnets_readerWriter_readFinished(reader *that) {
   if(that == NULL || that->params.target == NULL){return 0;}
   /*todo: add here special code for debuging data flow*/
+  uint64_t interval = statsCollectorStatic_getStatsInterval();
+  if(interval > 0) {
+    if (that->statsWriterParams.target == 0) {
+      that->statsWriterParams = (statsCollectorStatic_getWriter()).params;
+    }
+    struct writer statsWriter;
+    writer_init(&statsWriter, that->statsWriterParams);
+    if (statsWriter.params.target != 0 && statsWriter.uniqueId(&statsWriter) != that->uniqueId(that)) {
+      that->packetsCounter++;
+      uint64_t curTime = curTimeMilisec();
+      if (curTime - that->statsTime > interval) {
+        com_github_airutech_cnets_types_statsLocalProtocol* p;
+        p = (com_github_airutech_cnets_types_statsLocalProtocol*) statsWriter.writeNext(&statsWriter,0);
+        if (p != 0) {
+          p->writer = FALSE;
+          p->uniqueId = that->uniqueId(that);
+          p->gridId = that->params.grid_id;
+          p->packets = that->packetsCounter;
+          p->bytes = that->bytesCounter;
+          statsWriter.writeFinished(&statsWriter);
+          that->statsTime = curTime;
+          that->packetsCounter = 0;
+          that->bytesCounter = 0;
+        }
+      }
+    }
+  }
   return that->params.readFinished(&that->params);
 }
 
@@ -118,6 +178,12 @@ int com_github_airutech_cnets_readerWriter_uniqueIdR(reader *that){
   return that->params.uniqueId(&that->params);
 }
 
+void com_github_airutech_cnets_readerWriter_incrementBytesCounterR(reader *that, int bytesCounter) {
+  if (statsCollectorStatic_getStatsInterval() > 0) {
+    that->bytesCounter += bytesCounter;
+  }
+}
+
 int com_github_airutech_cnets_readerWriter_addSelector(reader *that,linkedContainer *container){
   if(that == NULL || that->params.target == NULL){return -1;}
   return that->params.addSelector(&that->params, (void*)container);
@@ -130,6 +196,10 @@ void writer_init(writer *that, bufferKernelParams params){
     printf("writer_init that or params->target is NULL\n");
     return;
   }
+  that->packetsCounter = 0;
+  that->bytesCounter = 0;
+  that->statsTime = 0;
+  that->statsWriterParams.target = 0;
   that->params = params;
   that->writeNext = com_github_airutech_cnets_readerWriter_writeNext;
   that->writeFinished = com_github_airutech_cnets_readerWriter_writeFinished;
@@ -137,6 +207,7 @@ void writer_init(writer *that, bufferKernelParams params){
   that->timeout = com_github_airutech_cnets_readerWriter_timeoutW;
   that->gridSize = com_github_airutech_cnets_readerWriter_gridSizeW;
   that->uniqueId = com_github_airutech_cnets_readerWriter_uniqueIdW;
+  that->incrementBytesCounter = com_github_airutech_cnets_readerWriter_incrementBytesCounterW;
   return;
 }
 
@@ -145,6 +216,10 @@ void reader_init(reader *that, bufferKernelParams params){
     printf("reader_init that or params->target is NULL\n");
     return;
   }
+  that->packetsCounter = 0;
+  that->bytesCounter = 0;
+  that->statsTime = 0;
+  that->statsWriterParams.target = 0;
   that->params = params;
   that->readNextWithMeta = com_github_airutech_cnets_readerWriter_readNextWithMeta;
   that->readNext = com_github_airutech_cnets_readerWriter_readNext;
@@ -153,6 +228,7 @@ void reader_init(reader *that, bufferKernelParams params){
   that->timeout = com_github_airutech_cnets_readerWriter_timeoutR;
   that->gridSize = com_github_airutech_cnets_readerWriter_gridSizeR;
   that->uniqueId = com_github_airutech_cnets_readerWriter_uniqueIdR;
+  that->incrementBytesCounter = com_github_airutech_cnets_readerWriter_incrementBytesCounterR;
   that->addSelector = com_github_airutech_cnets_readerWriter_addSelector;
   return;
 }

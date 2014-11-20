@@ -3,10 +3,10 @@
 
 #include "./bufferReadData.h"
 
-#define bufferKernelParams_create(_NAME_,_target, grid_id, container, fullName_)\
+#define bufferKernelParams_create(_NAME_,_target, _grid_id, container, fullName_)\
     bufferKernelParams _NAME_;\
     _NAME_.additionalData = (void*)container;\
-    _NAME_.grid_id = grid_id;\
+    _NAME_.grid_id = _grid_id;\
     _NAME_.internalId = 0;\
     _NAME_.target = (void*)_target;\
     _NAME_.readNextWithMeta = fullName_##readNextWithMeta;\

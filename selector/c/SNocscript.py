@@ -15,7 +15,7 @@ def add_dependencies(env, args):
   AddDependency(args,'com_github_airutech_cnets_mapBuffer',join(args['PROJECTS_ROOT_PATH'],'src/github.com/airutech/cnets/mapBuffer/c'))
   AddDependency(args,'com_github_airutech_cnets_runnablesContainer',join(args['PROJECTS_ROOT_PATH'],'src/github.com/airutech/cnets/runnablesContainer/c'))
   '''[[[end]]] (checksum: 512eb8bcfea6d0e55d8e44d7fc61b2ea)'''
-  # AddPthreads(env, args)
+  AddPthreads(env, args)
   # AddNetwork(args) 
 
 c = {}

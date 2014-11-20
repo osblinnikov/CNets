@@ -28,10 +28,10 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 struct com_github_airutech_cnets_mapBuffer;
 
 com_github_airutech_cnets_mapBuffer_EXPORT_API
-reader com_github_airutech_cnets_mapBuffer_getReader(struct com_github_airutech_cnets_mapBuffer *that, void* container, int grid_id);
+reader com_github_airutech_cnets_mapBuffer_getReader(struct com_github_airutech_cnets_mapBuffer *that, void* container, int gridId);
 
 com_github_airutech_cnets_mapBuffer_EXPORT_API
-writer com_github_airutech_cnets_mapBuffer_getWriter(struct com_github_airutech_cnets_mapBuffer *that, void* container, int grid_id);
+writer com_github_airutech_cnets_mapBuffer_getWriter(struct com_github_airutech_cnets_mapBuffer *that, void* container, int gridId);
 
 com_github_airutech_cnets_mapBuffer_EXPORT_API
 void com_github_airutech_cnets_mapBuffer_initialize(struct com_github_airutech_cnets_mapBuffer *that);
@@ -46,11 +46,11 @@ void com_github_airutech_cnets_mapBuffer_onKernels(struct com_github_airutech_cn
 #define com_github_airutech_cnets_mapBuffer_onCreateMacro(_NAME_) /**/
 
 
-#define com_github_airutech_cnets_mapBuffer_createReader(_NAME_,_that,_grid_id)\
-  reader _NAME_ = com_github_airutech_cnets_mapBuffer_getReader(_that,NULL,_grid_id);
+#define com_github_airutech_cnets_mapBuffer_createReader(_NAME_,_that,_gridId)\
+  reader _NAME_ = com_github_airutech_cnets_mapBuffer_getReader(_that,NULL,_gridId);
 
-#define com_github_airutech_cnets_mapBuffer_createWriter(_NAME_,_that,_grid_id)\
-  writer _NAME_ = com_github_airutech_cnets_mapBuffer_getWriter(_that,NULL,_grid_id);
+#define com_github_airutech_cnets_mapBuffer_createWriter(_NAME_,_that,_gridId)\
+  writer _NAME_ = com_github_airutech_cnets_mapBuffer_getWriter(_that,NULL,_gridId);
 
 #define com_github_airutech_cnets_mapBuffer_create(_NAME_,_buffers,_timeout_milisec,_readers_grid_size)\
     com_github_airutech_cnets_mapBuffer _NAME_;\
@@ -65,7 +65,8 @@ typedef struct com_github_airutech_cnets_mapBuffer{
     arrayObject buffers;int64_t timeout_milisec;int32_t readers_grid_size;
 
   
-/*[[[end]]] (checksum: e01b97188c0778ba539e4cd5b31b648f)*/
+/*[[[end]]] (checksum: ed075c1740359aaeae56144742361bcc)*/
+  int                                       uniqueId;
   unsigned                                  *buffers_grid_ids;/*required for storing ids of writers*/
   int                                       *buffers_to_read;
   pthread_spinlock_t                        *buffers_to_read_lock;

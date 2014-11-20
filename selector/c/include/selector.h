@@ -28,10 +28,10 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 struct com_github_airutech_cnets_selector;
 
 com_github_airutech_cnets_selector_EXPORT_API
-reader com_github_airutech_cnets_selector_getReader(struct com_github_airutech_cnets_selector *that, void* container, int grid_id);
+reader com_github_airutech_cnets_selector_getReader(struct com_github_airutech_cnets_selector *that, void* container, int gridId);
 
 com_github_airutech_cnets_selector_EXPORT_API
-writer com_github_airutech_cnets_selector_getWriter(struct com_github_airutech_cnets_selector *that, void* container, int grid_id);
+writer com_github_airutech_cnets_selector_getWriter(struct com_github_airutech_cnets_selector *that, void* container, int gridId);
 
 com_github_airutech_cnets_selector_EXPORT_API
 void com_github_airutech_cnets_selector_initialize(struct com_github_airutech_cnets_selector *that);
@@ -49,15 +49,15 @@ void com_github_airutech_cnets_selector_onKernels(struct com_github_airutech_cne
 typedef struct com_github_airutech_cnets_selector_container{
   int bufferId;
 }com_github_airutech_cnets_selector_container;
-#define com_github_airutech_cnets_selector_createReader(_NAME_,_that,_grid_id,_bufferId)\
+#define com_github_airutech_cnets_selector_createReader(_NAME_,_that,_gridId,_bufferId)\
   com_github_airutech_cnets_selector_container _NAME_##_container;\
   _NAME_##_container.bufferId = _bufferId;\
-  reader _NAME_ = com_github_airutech_cnets_selector_getReader(_that,(void*)&_NAME_##_container,_grid_id);
+  reader _NAME_ = com_github_airutech_cnets_selector_getReader(_that,(void*)&_NAME_##_container,_gridId);
 
-#define com_github_airutech_cnets_selector_createWriter(_NAME_,_that,_grid_id,_bufferId)\
+#define com_github_airutech_cnets_selector_createWriter(_NAME_,_that,_gridId,_bufferId)\
   com_github_airutech_cnets_selector_container _NAME_##_container;\
   _NAME_##_container.bufferId = _bufferId;\
-  writer _NAME_ = com_github_airutech_cnets_selector_getWriter(_that,(void*)&_NAME_##_container,_grid_id);
+  writer _NAME_ = com_github_airutech_cnets_selector_getWriter(_that,(void*)&_NAME_##_container,_gridId);
 
 #define com_github_airutech_cnets_selector_create(_NAME_,_reducableReaders)\
     com_github_airutech_cnets_selector _NAME_;\
@@ -70,7 +70,7 @@ typedef struct com_github_airutech_cnets_selector{
     arrayObject reducableReaders;
 
   
-/*[[[end]]] (checksum: 286e3f59d9166659d7a061caf7f664dc) */
+/*[[[end]]] (checksum: 5a5ad31369ebb4aa75d65c8cae97971b) */
     linkedContainer *allContainers;
     unsigned        *writesToContainers;
     unsigned        timeout_milisec;

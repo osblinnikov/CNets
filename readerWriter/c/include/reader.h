@@ -4,7 +4,10 @@
 #include "./linkedContainer.h"
 
 typedef struct reader{
-  bufferKernelParams params;
+  unsigned packetsCounter, bytesCounter;
+  uint64_t statsTime;
+  struct bufferKernelParams statsWriterParams;
+  struct bufferKernelParams params;
   bufferReadData (*readNextWithMeta)(struct reader *that, BOOL make_timeout);
   void* (*readNext)(struct reader *that, BOOL make_timeout);
   int (*readFinished)(struct reader *that);
@@ -12,6 +15,7 @@ typedef struct reader{
   int (*timeout)(struct reader *that);
   int (*gridSize)(struct reader *that);
   int (*uniqueId)(struct reader *that);
+  void (*incrementBytesCounter)(struct reader *that, int bytesCounter);
   int (*addSelector)(struct reader *that, linkedContainer *selectorContainer);
 }reader;
 

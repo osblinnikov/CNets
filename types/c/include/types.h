@@ -88,5 +88,6 @@ typedef struct com_github_airutech_cnets_types{
 #include "./bufferReadData.h"
 #include "./bufferKernelParams.h"
 #include "./timeUtils.h"
+#include "./statsLocalProtocol.h"
 
 #endif /* com_github_airutech_cnets_types_H */

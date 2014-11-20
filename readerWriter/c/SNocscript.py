@@ -11,12 +11,12 @@ def add_dependencies(env, args):
 
   AddDependency(args,'com_github_airutech_cnets_types',join(args['PROJECTS_ROOT_PATH'],'src/github.com/airutech/cnets/types/c'))
   '''[[[end]]] (checksum: fadfcc0286d5ede2436d06ea30ca4283)'''
-  # AddPthreads(env, args)
+  AddPthreads(env, args)
   # AddNetwork(args) 
 
 c = {}
 c['PROG_NAME'] = 'com_github_airutech_cnets_readerWriter'
-c['sourceFiles'] = ['readerWriter.c']
+c['sourceFiles'] = ['readerWriter.c','statsCollectorStatic.c']
 c['testFiles'] = ['readerWriterTest.c']
 c['runFiles'] = ['main.c']
 c['defines'] = []

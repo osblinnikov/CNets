@@ -24,7 +24,7 @@ BOOL com_github_airutech_cnets_queue_isFull(com_github_airutech_cnets_queue *tha
   if(headMin < 0){
     headMin = that->maxIndex + headMin;
   }
-  return (headMin == that->head);
+  return (headMin == (long)that->head);
 }
 
 BOOL com_github_airutech_cnets_queue_enqueue(com_github_airutech_cnets_queue *that,unsigned obj){

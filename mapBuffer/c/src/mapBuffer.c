@@ -18,14 +18,14 @@ int com_github_airutech_cnets_mapBuffer_addSelector(bufferKernelParams *params, 
 void com_github_airutech_cnets_mapBuffer_onCreate(com_github_airutech_cnets_mapBuffer *that);
 void com_github_airutech_cnets_mapBuffer_onDestroy(com_github_airutech_cnets_mapBuffer *that);
 
-reader com_github_airutech_cnets_mapBuffer_getReader(com_github_airutech_cnets_mapBuffer *that, void* container, int grid_id){
-  bufferKernelParams_create(params, that, grid_id, container,com_github_airutech_cnets_mapBuffer_)
+reader com_github_airutech_cnets_mapBuffer_getReader(com_github_airutech_cnets_mapBuffer *that, void* container, int gridId){
+  bufferKernelParams_create(params, that, gridId, container,com_github_airutech_cnets_mapBuffer_)
   reader_create(res,params)
   return res;
 }
 
-writer com_github_airutech_cnets_mapBuffer_getWriter(com_github_airutech_cnets_mapBuffer *that, void* container, int grid_id){
-  bufferKernelParams_create(params, that, grid_id, container,com_github_airutech_cnets_mapBuffer_)
+writer com_github_airutech_cnets_mapBuffer_getWriter(com_github_airutech_cnets_mapBuffer *that, void* container, int gridId){
+  bufferKernelParams_create(params, that, gridId, container,com_github_airutech_cnets_mapBuffer_)
   writer_create(res,params)
   return res;
 }
@@ -37,18 +37,18 @@ void com_github_airutech_cnets_mapBuffer_initialize(com_github_airutech_cnets_ma
 void com_github_airutech_cnets_mapBuffer_deinitialize(struct com_github_airutech_cnets_mapBuffer *that){
   com_github_airutech_cnets_mapBuffer_onDestroy(that);
 }
-/*[[[end]]] (checksum: 059144cac0aa3f99e0adf2555aac4075)*/
+/*[[[end]]] (checksum: 8bc4baab7ebd65a97dcd5dd7dc03af56)*/
 
 #include <assert.h>
 
 void com_github_airutech_cnets_mapBuffer_onCreate(com_github_airutech_cnets_mapBuffer *that){
   int res;
-  unsigned i;
+  int i;
   for(i=0; i < that->readers_grid_size; i++){
     res = pthread_spin_init(&that->grid_mutex[i], 0);
     assert(!res);
   }
-  for(i = 0; i < that->buffers.length; i++){
+  for(i = 0; i < (int)that->buffers.length; i++){
     res = that->free_buffers.enqueue(&that->free_buffers,i);
     assert(res == TRUE);
     that->buffers_to_read[i] = 0;  
@@ -71,13 +71,15 @@ void com_github_airutech_cnets_mapBuffer_onCreate(com_github_airutech_cnets_mapB
 
   res = pthread_rwlock_init(&that->rwLock,NULL);
   assert(!res);
+
+  that->uniqueId = statsCollectorStatic_getNextLocalId();
   return;
 }
 
 void com_github_airutech_cnets_mapBuffer_onDestroy(com_github_airutech_cnets_mapBuffer *that){
   int res;
-  unsigned i;
-  for(i = 0; i < that->buffers.length; i++){  
+  int i;
+  for(i = 0; i < (int)that->buffers.length; i++){  
     res = pthread_spin_destroy(&that->buffers_to_read_lock[i]);
     assert(!res);
   }

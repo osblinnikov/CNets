@@ -18,14 +18,14 @@ int com_github_airutech_cnets_selector_addSelector(bufferKernelParams *params, v
 void com_github_airutech_cnets_selector_onCreate(com_github_airutech_cnets_selector *that);
 void com_github_airutech_cnets_selector_onDestroy(com_github_airutech_cnets_selector *that);
 
-reader com_github_airutech_cnets_selector_getReader(com_github_airutech_cnets_selector *that, void* container, int grid_id){
-  bufferKernelParams_create(params, that, grid_id, container,com_github_airutech_cnets_selector_)
+reader com_github_airutech_cnets_selector_getReader(com_github_airutech_cnets_selector *that, void* container, int gridId){
+  bufferKernelParams_create(params, that, gridId, container,com_github_airutech_cnets_selector_)
   reader_create(res,params)
   return res;
 }
 
-writer com_github_airutech_cnets_selector_getWriter(com_github_airutech_cnets_selector *that, void* container, int grid_id){
-  bufferKernelParams_create(params, that, grid_id, container,com_github_airutech_cnets_selector_)
+writer com_github_airutech_cnets_selector_getWriter(com_github_airutech_cnets_selector *that, void* container, int gridId){
+  bufferKernelParams_create(params, that, gridId, container,com_github_airutech_cnets_selector_)
   writer_create(res,params)
   return res;
 }
@@ -37,7 +37,7 @@ void com_github_airutech_cnets_selector_initialize(com_github_airutech_cnets_sel
 void com_github_airutech_cnets_selector_deinitialize(struct com_github_airutech_cnets_selector *that){
   com_github_airutech_cnets_selector_onDestroy(that);
 }
-/*[[[end]]] (checksum: 2bb5516a654a383d2fb2aafeb5129d66) */
+/*[[[end]]] (checksum: 150173e19f1ff97a45ede3dbd6d1cf50) */
 
 #include <assert.h>
 
@@ -52,7 +52,7 @@ void com_github_airutech_cnets_selector_onCreate(com_github_airutech_cnets_selec
   res = pthread_cond_init (&that->switch_cv, NULL);
   assert(!res);
   --that->timeout_milisec;
-  for(i=0; i<that->reducableReaders.length; i++){
+  for(i=0; i<(int)that->reducableReaders.length; i++){
     that->writesToContainers[i] = 0;
     reader* rdReaderItem = (reader*)&((char*)that->reducableReaders.array)[i * that->reducableReaders.itemSize];
     if(rdReaderItem == NULL){
@@ -64,7 +64,7 @@ void com_github_airutech_cnets_selector_onCreate(com_github_airutech_cnets_selec
     if(0!=rdReaderItem->addSelector(rdReaderItem,&that->allContainers[i]) ) {
       printf("ERROR: com_github_airutech_cnets_selector_onCreate addSelector failed\n");
     }
-    if(that->timeout_milisec > rdReaderItem->timeout(rdReaderItem)){
+    if((int)that->timeout_milisec > rdReaderItem->timeout(rdReaderItem)){
       that->timeout_milisec = rdReaderItem->timeout(rdReaderItem);
     }
   }
@@ -73,7 +73,7 @@ void com_github_airutech_cnets_selector_onCreate(com_github_airutech_cnets_selec
 
 void com_github_airutech_cnets_selector_onDestroy(com_github_airutech_cnets_selector *that){
   int i;
-  for(i=0; i<that->reducableReaders.length; i++){
+  for(i=0; i<(int)that->reducableReaders.length; i++){
     if(that->allContainers[i].add != NULL) {
       that->allContainers[i].remove(&that->allContainers[i]);
     }
@@ -128,7 +128,7 @@ bufferReadData com_github_airutech_cnets_selector_readNextWithMeta(bufferKernelP
   }
   do{
     ++that->lastReadId;
-    if(that->lastReadId >= that->reducableReaders.length){that->lastReadId = 0;}
+    if(that->lastReadId >= (int)that->reducableReaders.length){that->lastReadId = 0;}
   }while(that->writesToContainers[that->lastReadId] == 0);
   that->sumWrites--;
   that->writesToContainers[that->lastReadId]--;
@@ -157,7 +157,7 @@ int com_github_airutech_cnets_selector_readFinished(bufferKernelParams *params) 
     return res;
   }
   com_github_airutech_cnets_selector_container *container = (com_github_airutech_cnets_selector_container *)params->additionalData;
-  if(container != NULL && container->bufferId >=0 && container->bufferId < that->reducableReaders.length){
+  if(container != NULL && container->bufferId >=0 && container->bufferId < (int)that->reducableReaders.length){
     reader* rdReaderItem = (reader*)&((char*)that->reducableReaders.array)[container->bufferId * that->reducableReaders.itemSize];
     res = rdReaderItem->readFinished(rdReaderItem);
     container->bufferId = -1;
@@ -211,7 +211,7 @@ int com_github_airutech_cnets_selector_size(bufferKernelParams *params){
     return -1;
   };
   com_github_airutech_cnets_selector_container *container = (com_github_airutech_cnets_selector_container *)params->additionalData;
-  if(container == NULL || container->bufferId <0 || container->bufferId >= that->reducableReaders.length){
+  if(container == NULL || container->bufferId <0 || container->bufferId >= (int)that->reducableReaders.length){
     return -1;
   }
   reader* rdReaderItem = (reader*)&((char*)that->reducableReaders.array)[container->bufferId * that->reducableReaders.itemSize];

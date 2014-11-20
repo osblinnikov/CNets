@@ -49,7 +49,8 @@ typedef struct com_github_airutech_cnets_readerWriter{
 
 }com_github_airutech_cnets_readerWriter;
 
-#include "./reader.h"
 #include "./writer.h"
+#include "./statsCollectorStatic.h"
+#include "./reader.h"
 
 #endif /* com_github_airutech_cnets_readerWriter_H */
