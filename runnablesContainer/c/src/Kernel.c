@@ -18,6 +18,11 @@ void *com_github_airutech_cnets_runnablesContainer_Kernel_run(void* inTarget){
   pthread_spin_lock(&that->isRunningLock);
   that->isRunning = FALSE;
   pthread_spin_unlock(&that->isRunningLock);
+
+  pthread_mutex_lock(&that->isRunning_cv_mutex);
+  pthread_cond_broadcast(&that->isRunning_cv);
+  pthread_mutex_unlock(&that->isRunning_cv_mutex);
+
   return NULL;
 }
 
@@ -41,6 +46,11 @@ void com_github_airutech_cnets_runnablesContainer_Kernel_launch(
   if(!that->isRunning){
     that->isRunning = TRUE;
     pthread_spin_unlock(&that->isRunningLock);
+
+    pthread_mutex_lock(&that->isRunning_cv_mutex);
+    pthread_cond_broadcast(&that->isRunning_cv);
+    pthread_mutex_unlock(&that->isRunning_cv_mutex);
+
     that->objectToRun = objectToRun;
     that->objectToRun.onStart(that->objectToRun.target);
     if(lockLaunch){
@@ -79,13 +89,21 @@ void com_github_airutech_cnets_runnablesContainer_Kernel_stopThread(
   //    this.interrupt();
   // }
   pthread_spin_lock(&that->isRunningLock);
+
+  struct timespec wait_timespec = getTimespecDelay((uint64_t)1000*(uint64_t)1000000);
+
   while(that->isRunning){
     pthread_spin_unlock(&that->isRunningLock);
     /*make sure that nobody will start the kernel before we finish the waiting*/
     pthread_spin_lock(&that->stopFlagLock);
     that->stopFlag = TRUE;
     pthread_spin_unlock(&that->stopFlagLock);
-    taskDelay(1000000L);
+    //taskDelay(1000000L);
+    pthread_mutex_lock(&that->isRunning_cv_mutex);
+    if(ETIMEDOUT == pthread_cond_timedwait(&that->isRunning_cv, &that->isRunning_cv_mutex, &wait_timespec)){
+      printf("ERROR: com_github_airutech_cnets_runnablesContainer_Kernel_stopThread: wait timeout\n");
+    }
+    pthread_mutex_unlock(&that->isRunning_cv_mutex);
     pthread_spin_lock(&that->isRunningLock);
   }
   pthread_spin_unlock(&that->isRunningLock);
@@ -112,6 +130,11 @@ void com_github_airutech_cnets_runnablesContainer_Kernel_create(
   that->stopFlag = FALSE;
   res = pthread_spin_init(&that->stopFlagLock, 0);
   assert(!res);
+  res = pthread_mutex_init(&that->isRunning_cv_mutex, 0);
+  assert(!res);
+  res = pthread_cond_init(&that->isRunning_cv, 0);
+  assert(!res);
+
   that->launch = com_github_airutech_cnets_runnablesContainer_Kernel_launch;
   that->stopThread = com_github_airutech_cnets_runnablesContainer_Kernel_stopThread;
   return;
@@ -127,5 +150,9 @@ void com_github_airutech_cnets_runnablesContainer_Kernel_destroy(
   int res = pthread_spin_destroy(&that->isRunningLock);
   assert(!res);
   res = pthread_spin_destroy(&that->stopFlagLock);
+  assert(!res);
+  res = pthread_mutex_destroy(&that->isRunning_cv_mutex);
+  assert(!res);
+  res = pthread_cond_destroy(&that->isRunning_cv);
   assert(!res);
 }

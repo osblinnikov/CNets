@@ -24,6 +24,10 @@ typedef struct com_github_airutech_cnets_runnablesContainer_Kernel{
   BOOL stopFlag;
   pthread_spinlock_t stopFlagLock;
   pthread_t kernelThread;
+
+  pthread_mutex_t     isRunning_cv_mutex;
+  pthread_cond_t      isRunning_cv;
+
   void (*launch)(struct com_github_airutech_cnets_runnablesContainer_Kernel* that, RunnableStoppable objectToRun, BOOL lockLaunch);
   void (*stopThread)(struct com_github_airutech_cnets_runnablesContainer_Kernel* that);
 }com_github_airutech_cnets_runnablesContainer_Kernel;
