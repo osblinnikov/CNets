@@ -5,10 +5,10 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 
 #include "../include/mapBuffer.h"
 
-void* com_github_airutech_cnets_mapBuffer_readNext(bufferKernelParams *params, BOOL make_timeout);
-bufferReadData com_github_airutech_cnets_mapBuffer_readNextWithMeta(bufferKernelParams *params, BOOL make_timeout);
+void* com_github_airutech_cnets_mapBuffer_readNext(bufferKernelParams *params, int waitThreshold);
+bufferReadData com_github_airutech_cnets_mapBuffer_readNextWithMeta(bufferKernelParams *params, int waitThreshold);
 int com_github_airutech_cnets_mapBuffer_readFinished(bufferKernelParams *params);
-void* com_github_airutech_cnets_mapBuffer_writeNext(bufferKernelParams *params, BOOL make_timeout);
+void* com_github_airutech_cnets_mapBuffer_writeNext(bufferKernelParams *params, int waitThreshold);
 int com_github_airutech_cnets_mapBuffer_writeFinished(bufferKernelParams *params);
 int com_github_airutech_cnets_mapBuffer_size(bufferKernelParams *params);
 int com_github_airutech_cnets_mapBuffer_timeout(bufferKernelParams *params);
@@ -73,6 +73,8 @@ void com_github_airutech_cnets_mapBuffer_onCreate(com_github_airutech_cnets_mapB
   assert(!res);
 
   that->uniqueId = statsCollectorStatic_getNextLocalId();
+
+  that->selectorContainers = NULL;
   return;
 }
 
@@ -108,12 +110,12 @@ void com_github_airutech_cnets_mapBuffer_onDestroy(com_github_airutech_cnets_map
   return;
 }
 
-void* com_github_airutech_cnets_mapBuffer_readNext(bufferKernelParams *params, BOOL make_timeout) {
-  bufferReadData res = com_github_airutech_cnets_mapBuffer_readNextWithMeta(params, make_timeout);
+void* com_github_airutech_cnets_mapBuffer_readNext(bufferKernelParams *params, int waitThreshold) {
+  bufferReadData res = com_github_airutech_cnets_mapBuffer_readNextWithMeta(params, waitThreshold);
   return res.data;
 }
 
-bufferReadData com_github_airutech_cnets_mapBuffer_readNextWithMeta(bufferKernelParams *params, BOOL make_timeout) {
+bufferReadData com_github_airutech_cnets_mapBuffer_readNextWithMeta(bufferKernelParams *params, int waitThreshold) {
   bufferReadData res;
   res.data = NULL;
   if(params == NULL){
@@ -125,12 +127,9 @@ bufferReadData com_github_airutech_cnets_mapBuffer_readNextWithMeta(bufferKernel
     printf("ERROR: com_github_airutech_cnets_mapBuffer readNextWithMeta: Some Input parameters are wrong\n");
     return res;
   }
-  uint64_t nanosec = 0;
+  uint64_t nanosec = waitThreshold < 0? (uint64_t)that->timeout_milisec : (uint64_t)waitThreshold;
   struct timespec wait_timespec;
-  if(make_timeout){
-    nanosec = (uint64_t)that->timeout_milisec*(uint64_t)1000000L;
-  }
-  wait_timespec = getTimespecDelay(nanosec);
+  wait_timespec = getTimespecDelay(nanosec*(uint64_t)1000000L);
   /*find the reader's queue*/
   com_github_airutech_cnets_queue *grid_queue = &that->grid[params->grid_id];
   pthread_spinlock_t              *grid_mutex = &that->grid_mutex[params->grid_id];
@@ -147,7 +146,7 @@ bufferReadData com_github_airutech_cnets_mapBuffer_readNextWithMeta(bufferKernel
       do{
         pthread_spin_unlock(grid_mutex);
         if(ETIMEDOUT == pthread_cond_timedwait(&that->switch_cv, &that->switch_cv_mutex, &wait_timespec)){
-          printf("ERROR: com_github_airutech_cnets_mapBuffer_readNextWithMeta: wait timeout, params->grid_id='%d'\n",params->grid_id);
+          printf("WARN: com_github_airutech_cnets_mapBuffer_readNextWithMeta: wait timeout, params->grid_id='%d'\n",params->grid_id);
         }
         pthread_spin_lock(grid_mutex);
         if(!grid_queue->isEmpty(grid_queue)){
@@ -191,7 +190,7 @@ int com_github_airutech_cnets_mapBuffer_readFinished(bufferKernelParams *params)
   if(btr){return 0;}
   /*here, we are only in case if read everything*/
   pthread_mutex_lock(&that->free_buffers_cv_mutex);
-  if(that->free_buffers.enqueue(&that->free_buffers, params->internalId)){
+  if(!that->free_buffers.enqueue(&that->free_buffers, params->internalId)){
     printf("ERROR: com_github_airutech_cnets_mapBuffer_readFinished: enqueue %d failed\n", params->internalId);
   }
   pthread_cond_signal(&that->free_buffers_cv);
@@ -199,7 +198,7 @@ int com_github_airutech_cnets_mapBuffer_readFinished(bufferKernelParams *params)
   return 0;
 }
 
-void* com_github_airutech_cnets_mapBuffer_writeNext(bufferKernelParams *params, BOOL make_timeout) {
+void* com_github_airutech_cnets_mapBuffer_writeNext(bufferKernelParams *params, int waitThreshold) {
   if(params == NULL){
     printf("ERROR: com_github_airutech_cnets_mapBuffer writeNext: params is NULL\n");
     return NULL;
@@ -210,19 +209,16 @@ void* com_github_airutech_cnets_mapBuffer_writeNext(bufferKernelParams *params, 
     printf("ERROR: com_github_airutech_cnets_mapBuffer writeNext: Some Input parameters are wrong\n");
     return res;
   }
-  uint64_t nanosec = 0;
+  uint64_t nanosec = waitThreshold < 0? (uint64_t)that->timeout_milisec : (uint64_t)waitThreshold;
   struct timespec wait_timespec;
-  if(make_timeout){
-    nanosec = (uint64_t)that->timeout_milisec*(uint64_t)1000000;
-  }
-  wait_timespec = getTimespecDelay(nanosec);
+  wait_timespec = getTimespecDelay(nanosec*(uint64_t)1000000L);
   pthread_mutex_lock(&that->free_buffers_cv_ow_mutex);
   pthread_mutex_lock(&that->free_buffers_cv_mutex);
   if(nanosec && that->free_buffers.isEmpty(&that->free_buffers)){
     /*Lock uniq Publisher - only one Publisher will wait for condition variable
     wait until cond variable of free buffer with "Lock `free` stack" mutex*/
     if(ETIMEDOUT == pthread_cond_timedwait(&that->free_buffers_cv, &that->free_buffers_cv_mutex, &wait_timespec)){
-      printf("ERROR: com_github_airutech_cnets_mapBuffer_writeNext: wait timeout, params->grid_id='%d'\n",params->grid_id);
+      printf("WARN: com_github_airutech_cnets_mapBuffer_writeNext: wait timeout, params->grid_id='%d'\n",params->grid_id);
     }
   }
   if(!that->free_buffers.isEmpty(&that->free_buffers)){
@@ -261,12 +257,13 @@ int com_github_airutech_cnets_mapBuffer_writeFinished(bufferKernelParams *params
   /*foreach reader push new buffer id*/
   for(i=0; i<(int)that->readers_grid_size; ++i){
     pthread_spin_lock( &that->grid_mutex[i] );
-    if(that->grid[i].enqueue(&that->grid[i], params->internalId)){
+    if(!that->grid[i].enqueue(&that->grid[i], params->internalId)){
       printf("ERROR: com_github_airutech_cnets_mapBuffer_writeFinished: enqueue %d failed\n", params->internalId);
     }
     that->buffers_grid_ids[params->internalId] = params->grid_id;
     pthread_spin_unlock(&that->grid_mutex[i]);
   }
+
   pthread_mutex_lock(&that->switch_cv_mutex);
     pthread_cond_broadcast(&that->switch_cv);
   pthread_mutex_unlock(&that->switch_cv_mutex);

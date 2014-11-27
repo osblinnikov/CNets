@@ -8,8 +8,8 @@ typedef struct reader{
   uint64_t statsTime;
   struct bufferKernelParams statsWriterParams;
   struct bufferKernelParams params;
-  bufferReadData (*readNextWithMeta)(struct reader *that, BOOL make_timeout);
-  void* (*readNext)(struct reader *that, BOOL make_timeout);
+  bufferReadData (*readNextWithMeta)(struct reader *that, int waitThreshold);
+  void* (*readNext)(struct reader *that, int waitThreshold);
   int (*readFinished)(struct reader *that);
   int (*size)(struct reader *that);
   int (*timeout)(struct reader *that);

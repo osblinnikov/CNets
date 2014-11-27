@@ -20,41 +20,41 @@ BOOL com_github_airutech_cnets_queue_isEmpty(com_github_airutech_cnets_queue *th
 }
 
 BOOL com_github_airutech_cnets_queue_isFull(com_github_airutech_cnets_queue *that) {
-  long headMin = that->tail - (long)that->capacity;
+  int64_t headMin = (int64_t)that->tail - (int64_t)that->capacity;
   if(headMin < 0){
     headMin = that->maxIndex + headMin;
   }
-  return (headMin == (long)that->head);
+  return (headMin == (int64_t)that->head);
 }
 
-BOOL com_github_airutech_cnets_queue_enqueue(com_github_airutech_cnets_queue *that,unsigned obj){
+BOOL com_github_airutech_cnets_queue_enqueue(com_github_airutech_cnets_queue *that,uint32_t obj){
   if(com_github_airutech_cnets_queue_isFull(that)){
     return FALSE;
   }else{
     that->tail++;
     if(that->tail >= that->maxIndex){that->tail = 0;}
-    ((unsigned*)that->data.array)[(int)(that->tail % that->capacity)] = obj;
+    ((uint32_t*)that->data.array)[(uint32_t)(that->tail % that->capacity)] = obj;
     return TRUE;
   }
 }
 
-BOOL com_github_airutech_cnets_queue_dequeue(com_github_airutech_cnets_queue *that,unsigned *obj){
+BOOL com_github_airutech_cnets_queue_dequeue(com_github_airutech_cnets_queue *that,uint32_t *obj){
   if(com_github_airutech_cnets_queue_isEmpty(that)){
     return FALSE;
   }else{
     that->head++;
     if(that->head >= that->maxIndex){that->head = 0;}
-    *obj = ((unsigned*)that->data.array)[(int)(that->head % that->capacity)];
+    *obj = ((uint32_t*)that->data.array)[(uint32_t)(that->head % that->capacity)];
     return TRUE;
   }
 }
 
-int com_github_airutech_cnets_queue_length(com_github_airutech_cnets_queue *that){
-  int res;
+uint32_t com_github_airutech_cnets_queue_length(com_github_airutech_cnets_queue *that){
+  uint32_t res;
   if(that->head <= that->tail){
-    return (int)(that->tail - that->head);
+    return (uint32_t)(that->tail - that->head);
   }else{
-    res = (int)(that->maxIndex - that->head);
+    res = (uint32_t)(that->maxIndex - that->head);
     res += that->tail;
     return res;
   }
@@ -64,10 +64,10 @@ void com_github_airutech_cnets_queue_clear(com_github_airutech_cnets_queue *that
 }
 
 void com_github_airutech_cnets_queue_onCreate(com_github_airutech_cnets_queue *that){
-  unsigned maxInteger = 0;
+  uint32_t maxInteger = 0;
   maxInteger--;
   if(that->capacity > 0){
-    that->maxIndex = (unsigned)(maxInteger/(unsigned)that->capacity)*(unsigned)that->capacity;
+    that->maxIndex = (uint32_t)(maxInteger/(uint32_t)that->capacity)*(uint32_t)that->capacity;
   }else{
     that->maxIndex = 5;
   }

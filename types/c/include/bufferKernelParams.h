@@ -25,10 +25,10 @@ typedef struct bufferKernelParams{
   unsigned grid_id;
   unsigned internalId;
   void* target;
-  bufferReadData (*readNextWithMeta)(struct bufferKernelParams *params, BOOL make_timeout);
-  void* (*readNext)(struct bufferKernelParams *params, BOOL make_timeout);
+  bufferReadData (*readNextWithMeta)(struct bufferKernelParams *params, int waitThreshold);
+  void* (*readNext)(struct bufferKernelParams *params, int waitThreshold);
   int (*readFinished)(struct bufferKernelParams *params);
-  void* (*writeNext)(struct bufferKernelParams *params, BOOL make_timeout);
+  void* (*writeNext)(struct bufferKernelParams *params, int waitThreshold);
   int (*writeFinished)(struct bufferKernelParams *params);
   int (*size)(struct bufferKernelParams *params);
   int (*timeout)(struct bufferKernelParams *params);

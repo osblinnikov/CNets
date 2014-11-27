@@ -6,7 +6,7 @@ typedef struct writer{
   uint64_t statsTime;
   struct bufferKernelParams statsWriterParams;
   struct bufferKernelParams params;
-  void* (*writeNext)(struct writer *that, BOOL make_timeout);
+  void* (*writeNext)(struct writer *that, int waitThreshold);
   int (*writeFinished)(struct writer *that);
   int (*size)(struct writer *that);
   int (*timeout)(struct writer *that);

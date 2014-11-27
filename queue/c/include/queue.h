@@ -39,7 +39,7 @@ void com_github_airutech_cnets_queue_onKernels(struct com_github_airutech_cnets_
     com_github_airutech_cnets_queue _NAME_;\
     _NAME_.capacity = _capacity;\
     com_github_airutech_cnets_queue_onCreateMacro(_NAME_)\
-    arrayObject_create(_NAME_##_data_, unsigned, _capacity)\
+    arrayObject_create(_NAME_##_data_, uint32_t, _capacity)\
     _NAME_.data = _NAME_##_data_;\
     com_github_airutech_cnets_queue_initialize(&_NAME_);\
     com_github_airutech_cnets_queue_onKernels(&_NAME_);
@@ -49,25 +49,25 @@ typedef struct com_github_airutech_cnets_queue{
 
   
   void (*run)(void *that);
-/*[[[end]]] (checksum: 1b4c94dee4ba7b9ef76c765624818953)*/
+/*[[[end]]] (checksum: 9943437232b3695222991abeee961a0d)*/
   BOOL (*isEmpty)(struct com_github_airutech_cnets_queue *that);
   BOOL (*isFull)(struct com_github_airutech_cnets_queue *that);
-  BOOL (*dequeue)(struct com_github_airutech_cnets_queue *that,unsigned *obj);
-  BOOL (*enqueue)(struct com_github_airutech_cnets_queue *that,unsigned obj);
-  int (*length)(struct com_github_airutech_cnets_queue *that);
+  BOOL (*dequeue)(struct com_github_airutech_cnets_queue *that,uint32_t *obj);
+  BOOL (*enqueue)(struct com_github_airutech_cnets_queue *that,uint32_t obj);
+  uint32_t (*length)(struct com_github_airutech_cnets_queue *that);
   void (*clear)(struct com_github_airutech_cnets_queue *that);
 }com_github_airutech_cnets_queue;
 
 
 #define com_github_airutech_cnets_queue_createGrid(_NAME_,_count,_capacity)\
   com_github_airutech_cnets_queue _NAME_[_count];\
-  arrayObject_create(_NAME_##_data_, unsigned, _count*_capacity)\
+  arrayObject_create(_NAME_##_data_, uint32_t, _count*_capacity)\
   int _NAME_##i;\
   for(_NAME_##i=0;_NAME_##i<_count;_NAME_##i++){\
     _NAME_[_NAME_##i].capacity = _capacity;\
-    _NAME_[_NAME_##i].data.array = (void*)&((unsigned*)_NAME_##_data_.array)[_capacity * _NAME_##i];\
+    _NAME_[_NAME_##i].data.array = (void*)&((uint32_t*)_NAME_##_data_.array)[_capacity * _NAME_##i];\
     _NAME_[_NAME_##i].data.length = _capacity;\
-    _NAME_[_NAME_##i].data.itemSize = sizeof(unsigned);\
+    _NAME_[_NAME_##i].data.itemSize = sizeof(uint32_t);\
     com_github_airutech_cnets_queue_initialize(&_NAME_[_NAME_##i]);\
     com_github_airutech_cnets_queue_onKernels(&_NAME_[_NAME_##i]);\
   }

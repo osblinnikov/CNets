@@ -38,10 +38,10 @@ writer writerNULL(){
   return r;
 }
 
-void* com_github_airutech_cnets_readerWriter_writeNext(writer *that, BOOL make_timeout) {
+void* com_github_airutech_cnets_readerWriter_writeNext(writer *that, int waitThreshold) {
   if(that == NULL || that->params.target == NULL){return 0;}
   /*todo: add here special code for debuging data flow*/
-  return that->params.writeNext(&that->params, make_timeout);
+  return that->params.writeNext(&that->params, waitThreshold);
 }
 
 int com_github_airutech_cnets_readerWriter_writeFinished(writer *that) {
@@ -111,18 +111,18 @@ reader readerNULL(){
   return r;
 }
 
-bufferReadData com_github_airutech_cnets_readerWriter_readNextWithMeta(reader *that, BOOL make_timeout) {
+bufferReadData com_github_airutech_cnets_readerWriter_readNextWithMeta(reader *that, int waitThreshold) {
   bufferReadData res;
   res.data = NULL;
   if(that == NULL || that->params.target == NULL){return res;}
   /*todo: add here special code for debuging data flow*/
-  return that->params.readNextWithMeta(&that->params, make_timeout);
+  return that->params.readNextWithMeta(&that->params, waitThreshold);
 }
 
-void* com_github_airutech_cnets_readerWriter_readNext(reader *that, BOOL make_timeout) {
+void* com_github_airutech_cnets_readerWriter_readNext(reader *that, int waitThreshold) {
   if(that == NULL || that->params.target == NULL){return 0;}
   /*todo: add here special code for debuging data flow*/
-  return that->params.readNext(&that->params, make_timeout);
+  return that->params.readNext(&that->params, waitThreshold);
 }
 
 int com_github_airutech_cnets_readerWriter_readFinished(reader *that) {
