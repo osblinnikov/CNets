@@ -45,7 +45,7 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 
 
 #undef com_github_airutech_cnets_types_EXPORT_API
-#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(com_github_airutech_cnets_types_STATIC)
+#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(COM_GITHUB_AIRUTECH_CNETS_TYPES_STATIC)
   #ifdef com_github_airutech_cnets_types_EXPORT
     #define com_github_airutech_cnets_types_EXPORT_API __declspec(dllexport)
   #else
@@ -79,7 +79,7 @@ typedef struct com_github_airutech_cnets_types{
   
   
   void (*run)(void *that);
-/*[[[end]]] (checksum: c432b8bb5cd1a9186fbceab080fe8872) */
+/*[[[end]]] (checksum: e8f3f714af13c7223c1b4836de7907f6) */
 
 }com_github_airutech_cnets_types;
 

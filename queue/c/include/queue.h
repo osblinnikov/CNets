@@ -11,7 +11,7 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 #include "github.com/airutech/cnets/types/c/include/types.h"
 
 #undef com_github_airutech_cnets_queue_EXPORT_API
-#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(com_github_airutech_cnets_queue_STATIC)
+#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(COM_GITHUB_AIRUTECH_CNETS_QUEUE_STATIC)
   #ifdef com_github_airutech_cnets_queue_EXPORT
     #define com_github_airutech_cnets_queue_EXPORT_API __declspec(dllexport)
   #else
@@ -49,7 +49,7 @@ typedef struct com_github_airutech_cnets_queue{
 
   
   void (*run)(void *that);
-/*[[[end]]] (checksum: 23ebdc90a7a3cdb465882a41fbec2718)*/
+/*[[[end]]] (checksum: 1b4c94dee4ba7b9ef76c765624818953)*/
   BOOL (*isEmpty)(struct com_github_airutech_cnets_queue *that);
   BOOL (*isFull)(struct com_github_airutech_cnets_queue *that);
   BOOL (*dequeue)(struct com_github_airutech_cnets_queue *that,unsigned *obj);

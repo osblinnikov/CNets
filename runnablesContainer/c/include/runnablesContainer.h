@@ -14,7 +14,7 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 #include "github.com/airutech/cnets/types/c/include/types.h"
 
 #undef com_github_airutech_cnets_runnablesContainer_EXPORT_API
-#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(com_github_airutech_cnets_runnablesContainer_STATIC)
+#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(COM_GITHUB_AIRUTECH_CNETS_RUNNABLESCONTAINER_STATIC)
   #ifdef com_github_airutech_cnets_runnablesContainer_EXPORT
     #define com_github_airutech_cnets_runnablesContainer_EXPORT_API __declspec(dllexport)
   #else
@@ -48,7 +48,7 @@ typedef struct com_github_airutech_cnets_runnablesContainer{
   
   
   void (*run)(void *that);
-/*[[[end]]] (checksum: 0de4fc6614973ceb52a3ee7dcbe72cf9)*/
+/*[[[end]]] (checksum: acad9c1373418ff87ede0fd9fd1e6d9a)*/
   struct com_github_airutech_cnets_runnablesContainer_Kernel kernel;
   struct com_github_airutech_cnets_runnablesContainer *containers;
   int containers_size;

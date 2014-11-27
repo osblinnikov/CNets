@@ -11,7 +11,7 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 #include "github.com/airutech/cnets/types/c/include/types.h"
 
 #undef com_github_airutech_cnets_readerWriter_EXPORT_API
-#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(com_github_airutech_cnets_readerWriter_STATIC)
+#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(COM_GITHUB_AIRUTECH_CNETS_READERWRITER_STATIC)
   #ifdef com_github_airutech_cnets_readerWriter_EXPORT
     #define com_github_airutech_cnets_readerWriter_EXPORT_API __declspec(dllexport)
   #else
@@ -45,7 +45,7 @@ typedef struct com_github_airutech_cnets_readerWriter{
   
   
   void (*run)(void *that);
-/*[[[end]]] (checksum: d06279c7b167311eed502120810b2c58)*/
+/*[[[end]]] (checksum: 2e9094ef91abfbf76fe7ccfd8e9e189c)*/
 
 }com_github_airutech_cnets_readerWriter;
 

@@ -1,5 +1,5 @@
-#ifndef CNETS_TIMEUTILS_H_
-#define CNETS_TIMEUTILS_H_
+#ifndef com_github_airutech_cnets_types_TIMEUTILS_H
+#define com_github_airutech_cnets_types_TIMEUTILS_H
 
 #if !defined __MINGW32__ && defined _WIN32
     struct timezone{
@@ -47,4 +47,4 @@ com_github_airutech_cnets_types_EXPORT_API
 } /* only need to export C interface if used by C++ source code*/
 #endif
 
-#endif /*CNETS_TIMEUTILS_H_*/
+#endif /*com_github_airutech_cnets_types_TIMEUTILS_H*/

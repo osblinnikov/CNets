@@ -15,7 +15,7 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 #include "github.com/airutech/cnets/queue/c/include/queue.h"
 
 #undef com_github_airutech_cnets_mapBuffer_EXPORT_API
-#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(com_github_airutech_cnets_mapBuffer_STATIC)
+#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(COM_GITHUB_AIRUTECH_CNETS_MAPBUFFER_STATIC)
   #ifdef com_github_airutech_cnets_mapBuffer_EXPORT
     #define com_github_airutech_cnets_mapBuffer_EXPORT_API __declspec(dllexport)
   #else
@@ -65,7 +65,7 @@ typedef struct com_github_airutech_cnets_mapBuffer{
     arrayObject buffers;int64_t timeout_milisec;int32_t readers_grid_size;
 
   
-/*[[[end]]] (checksum: ed075c1740359aaeae56144742361bcc)*/
+/*[[[end]]] (checksum: eec6ce3f684ccd63bb8e663efc616e6d)*/
   int                                       uniqueId;
   unsigned                                  *buffers_grid_ids;/*required for storing ids of writers*/
   int                                       *buffers_to_read;

@@ -15,7 +15,7 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 #include "github.com/airutech/cnets/runnablesContainer/c/include/runnablesContainer.h"
 
 #undef com_github_airutech_cnets_selector_EXPORT_API
-#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(com_github_airutech_cnets_selector_STATIC)
+#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(COM_GITHUB_AIRUTECH_CNETS_SELECTOR_STATIC)
   #ifdef com_github_airutech_cnets_selector_EXPORT
     #define com_github_airutech_cnets_selector_EXPORT_API __declspec(dllexport)
   #else
@@ -70,7 +70,7 @@ typedef struct com_github_airutech_cnets_selector{
     arrayObject reducableReaders;
 
   
-/*[[[end]]] (checksum: 5a5ad31369ebb4aa75d65c8cae97971b) */
+/*[[[end]]] (checksum: cf5327bc5122e80aa72c0a66351ce661) */
     linkedContainer *allContainers;
     unsigned        *writesToContainers;
     unsigned        timeout_milisec;
