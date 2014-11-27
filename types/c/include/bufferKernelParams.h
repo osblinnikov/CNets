@@ -31,7 +31,7 @@ typedef struct bufferKernelParams{
   void* (*writeNext)(struct bufferKernelParams *params, int waitThreshold);
   int (*writeFinished)(struct bufferKernelParams *params);
   int (*size)(struct bufferKernelParams *params);
-  int (*timeout)(struct bufferKernelParams *params);
+  int64_t (*timeout)(struct bufferKernelParams *params);
   int (*gridSize)(struct bufferKernelParams *params);
   int (*uniqueId)(struct bufferKernelParams *params);
   int (*addSelector)(struct bufferKernelParams *params, void* selectorContainer);

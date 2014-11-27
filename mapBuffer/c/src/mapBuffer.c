@@ -11,7 +11,7 @@ int com_github_airutech_cnets_mapBuffer_readFinished(bufferKernelParams *params)
 void* com_github_airutech_cnets_mapBuffer_writeNext(bufferKernelParams *params, int waitThreshold);
 int com_github_airutech_cnets_mapBuffer_writeFinished(bufferKernelParams *params);
 int com_github_airutech_cnets_mapBuffer_size(bufferKernelParams *params);
-int com_github_airutech_cnets_mapBuffer_timeout(bufferKernelParams *params);
+int64_t com_github_airutech_cnets_mapBuffer_timeout(bufferKernelParams *params);
 int com_github_airutech_cnets_mapBuffer_gridSize(bufferKernelParams *params);
 int com_github_airutech_cnets_mapBuffer_uniqueId(bufferKernelParams *params);
 int com_github_airutech_cnets_mapBuffer_addSelector(bufferKernelParams *params, void* selectorContainer);
@@ -289,7 +289,7 @@ int com_github_airutech_cnets_mapBuffer_size(bufferKernelParams *params){
   return that->buffers.length;
 }
 
-int com_github_airutech_cnets_mapBuffer_timeout(bufferKernelParams *params){
+int64_t com_github_airutech_cnets_mapBuffer_timeout(bufferKernelParams *params){
   if(params == NULL){
     printf("ERROR: com_github_airutech_cnets_mapBuffer_timeout: params is NULL\n");
     return -1;

@@ -72,10 +72,10 @@ typedef struct com_github_airutech_cnets_selector{
   
 /*[[[end]]] (checksum: cf5327bc5122e80aa72c0a66351ce661) */
     linkedContainer *allContainers;
-    unsigned        *writesToContainers;
-    unsigned        timeout_milisec;
-    int             lastReadId;
-    int             sumWrites;
+    uint32_t        *writesToContainers;
+    int64_t         timeout_milisec;
+    int32_t         lastReadId;
+    int32_t         sumWrites;
     pthread_mutex_t switch_cv_lock;
     pthread_cond_t  switch_cv;
 }com_github_airutech_cnets_selector;
@@ -86,7 +86,7 @@ typedef struct com_github_airutech_cnets_selector{
     linkedContainer _NAME_##_allContainers_[_NAME_.reducableReaders.length]; \
     _NAME_.allContainers = _NAME_##_allContainers_;\
     /* _writesToContainers_ */\
-    unsigned _NAME_##_writesToContainers_[_NAME_.reducableReaders.length]; \
+    uint32_t _NAME_##_writesToContainers_[_NAME_.reducableReaders.length]; \
     _NAME_.writesToContainers = _NAME_##_writesToContainers_;
 
 #endif /* com_github_airutech_cnets_selector_H */

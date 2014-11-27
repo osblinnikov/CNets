@@ -5,13 +5,13 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 
 #include "../include/selector.h"
 
-void* com_github_airutech_cnets_selector_readNext(bufferKernelParams *params, BOOL make_timeout);
-bufferReadData com_github_airutech_cnets_selector_readNextWithMeta(bufferKernelParams *params, BOOL make_timeout);
+void* com_github_airutech_cnets_selector_readNext(bufferKernelParams *params, int waitThreshold);
+bufferReadData com_github_airutech_cnets_selector_readNextWithMeta(bufferKernelParams *params, int waitThreshold);
 int com_github_airutech_cnets_selector_readFinished(bufferKernelParams *params);
-void* com_github_airutech_cnets_selector_writeNext(bufferKernelParams *params, BOOL make_timeout);
+void* com_github_airutech_cnets_selector_writeNext(bufferKernelParams *params, int waitThreshold);
 int com_github_airutech_cnets_selector_writeFinished(bufferKernelParams *params);
 int com_github_airutech_cnets_selector_size(bufferKernelParams *params);
-int com_github_airutech_cnets_selector_timeout(bufferKernelParams *params);
+int64_t com_github_airutech_cnets_selector_timeout(bufferKernelParams *params);
 int com_github_airutech_cnets_selector_gridSize(bufferKernelParams *params);
 int com_github_airutech_cnets_selector_uniqueId(bufferKernelParams *params);
 int com_github_airutech_cnets_selector_addSelector(bufferKernelParams *params, void* selectorContainer);
@@ -42,7 +42,7 @@ void com_github_airutech_cnets_selector_deinitialize(struct com_github_airutech_
 #include <assert.h>
 
 void com_github_airutech_cnets_selector_onCreate(com_github_airutech_cnets_selector *that){
-  that->timeout_milisec = 0;
+  that->timeout_milisec = -1;
   that->lastReadId = -1;
   that->sumWrites = 0;
   int res;
@@ -51,7 +51,6 @@ void com_github_airutech_cnets_selector_onCreate(com_github_airutech_cnets_selec
   assert(!res);
   res = pthread_cond_init (&that->switch_cv, NULL);
   assert(!res);
-  --that->timeout_milisec;
   for(i=0; i<(int)that->reducableReaders.length; i++){
     that->writesToContainers[i] = 0;
     reader* rdReaderItem = (reader*)&((char*)that->reducableReaders.array)[i * that->reducableReaders.itemSize];
@@ -64,8 +63,9 @@ void com_github_airutech_cnets_selector_onCreate(com_github_airutech_cnets_selec
     if(0!=rdReaderItem->addSelector(rdReaderItem,&that->allContainers[i]) ) {
       printf("ERROR: com_github_airutech_cnets_selector_onCreate addSelector failed\n");
     }
-    if((int)that->timeout_milisec > rdReaderItem->timeout(rdReaderItem)){
-      that->timeout_milisec = rdReaderItem->timeout(rdReaderItem);
+    int64_t to = rdReaderItem->timeout(rdReaderItem);
+    if( to >= 0 && (that->timeout_milisec < 0 || that->timeout_milisec > to) ){
+      that->timeout_milisec = to;
     }
   }
   return;
@@ -87,12 +87,12 @@ void com_github_airutech_cnets_selector_onDestroy(com_github_airutech_cnets_sele
   return;
 }
 
-void* com_github_airutech_cnets_selector_readNext(bufferKernelParams *params, BOOL make_timeout) {
-  bufferReadData res = com_github_airutech_cnets_selector_readNextWithMeta(params, make_timeout);
+void* com_github_airutech_cnets_selector_readNext(bufferKernelParams *params, int waitThreshold) {
+  bufferReadData res = com_github_airutech_cnets_selector_readNextWithMeta(params, waitThreshold);
   return res.data;
 }
 
-bufferReadData com_github_airutech_cnets_selector_readNextWithMeta(bufferKernelParams *params, BOOL make_timeout) {
+bufferReadData com_github_airutech_cnets_selector_readNextWithMeta(bufferKernelParams *params, int waitThreshold) {
   bufferReadData res;
   res.data = NULL;
   if(params == NULL){
@@ -104,13 +104,10 @@ bufferReadData com_github_airutech_cnets_selector_readNextWithMeta(bufferKernelP
     printf("ERROR: com_github_airutech_cnets_selector readNextWithMeta: Some Input parameters are wrong\n");
     return res;
   }
-  uint64_t nanosec = 0;
   BOOL r = FALSE;
+  uint64_t nanosec = waitThreshold < 0? (uint64_t)that->timeout_milisec : (uint64_t)waitThreshold;
   struct timespec wait_timespec;
-  if(make_timeout){
-    nanosec = (uint64_t)that->timeout_milisec*(uint64_t)1000000L;
-  }
-  wait_timespec = getTimespecDelay(nanosec);
+  wait_timespec = getTimespecDelay(nanosec*(uint64_t)1000000L);
 
   pthread_mutex_lock(&that->switch_cv_lock);
   if(that->sumWrites <= 0 && nanosec > 0){
@@ -167,7 +164,7 @@ int com_github_airutech_cnets_selector_readFinished(bufferKernelParams *params) 
   return res;
 }
 
-void* com_github_airutech_cnets_selector_writeNext(bufferKernelParams *params, BOOL make_timeout) {
+void* com_github_airutech_cnets_selector_writeNext(bufferKernelParams *params, int waitThreshold) {
   if(params == NULL){
     printf("ERROR: com_github_airutech_cnets_selector writeNext: params is NULL\n");
     return NULL;
@@ -218,7 +215,7 @@ int com_github_airutech_cnets_selector_size(bufferKernelParams *params){
   return rdReaderItem->size(rdReaderItem);
 }
 
-int com_github_airutech_cnets_selector_timeout(bufferKernelParams *params){
+int64_t com_github_airutech_cnets_selector_timeout(bufferKernelParams *params){
   if(params == NULL){
     printf("ERROR: com_github_airutech_cnets_selector timeout: params is NULL\n");
     return -1;
