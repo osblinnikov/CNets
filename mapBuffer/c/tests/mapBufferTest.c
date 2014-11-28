@@ -28,6 +28,38 @@ int testRead(reader* r){
   }
 }
 
+void *writeKernel(void* inTarget){
+  int cnt = 0;
+  uint64_t nextTime = 0;
+  while(TRUE){
+    uint64_t curTime = curTimeMilisec();
+    if(curTime>nextTime){
+      printf("writer: %d\n",cnt);
+      cnt = 0;
+      nextTime = curTime + 1000L;
+    }
+    testWrite((writer*)inTarget);
+    ++cnt;
+  }
+  return NULL;
+}
+
+void *readKernel(void* inTarget){
+  int cnt = 0;
+  uint64_t nextTime = 0;
+  while(TRUE){
+    uint64_t curTime = curTimeMilisec();
+    if(curTime>nextTime){
+      printf("reader: %d\n",cnt);
+      cnt = 0;
+      nextTime = curTime + 1000L;
+    }
+    testRead((reader*)inTarget);
+    ++cnt;
+  }
+  return NULL;
+}
+
 int main(int argc, char* argv[]){
   arrayObject_create(arrBufs,unsigned,100)
   com_github_airutech_cnets_mapBuffer_create(classObj,arrBufs,1000,2)
@@ -81,6 +113,13 @@ int main(int argc, char* argv[]){
   }
   printf("testRead 5\n");
 
-  com_github_airutech_cnets_mapBuffer_deinitialize(&classObj);
+  pthread_t threadW0, threadW1, threadR0, threadR1;
+  pthread_create(&threadW0, NULL, writeKernel, (void *)&classObjW0);
+  pthread_create(&threadW1, NULL, writeKernel, (void *)&classObjW1);
+  pthread_create(&threadR0, NULL, readKernel, (void *)&classObjR0);
+  pthread_create(&threadR1, NULL, readKernel, (void *)&classObjR1);
+  taskDelay(5000000000L);
+
+  // com_github_airutech_cnets_mapBuffer_deinitialize(&classObj);
   return 0;
 }
