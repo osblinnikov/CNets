@@ -16,10 +16,11 @@ def add_dependencies(env, args):
 
 c = {}
 c['PROG_NAME'] = 'com_github_airutech_cnets_queue'
-c['sourceFiles'] = ['queue.c']
+c['sourceFiles'] = ['queue.c','lfds611.c']
 c['testFiles'] = ['queueTest.c']
 c['runFiles'] = ['main.c']
 c['defines'] = []
+c['paths'] = [join(args['SNOCSCRIPT_PATH'],'src','lfds611')]
 c['inclDepsDynamic'] = add_dependencies
 c['inclDepsStatic'] = add_dependencies
 DefaultLibraryConfig(c, env, args)
