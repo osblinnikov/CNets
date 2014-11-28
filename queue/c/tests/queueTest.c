@@ -9,17 +9,17 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 
 int testQueue(com_github_airutech_cnets_queue *classObj){
   unsigned obj = 1;
-  if(!classObj->enqueue(classObj,obj)){
-    printf("!classObj->enqueue(classObj,obj)\n");
+  if(!classObj->enqueue(classObj,obj,1000, 100)){
+    printf("!classObj->enqueue(classObj,obj,1000)\n");
     return -1;
   }
-  if(classObj->enqueue(classObj,obj)){
-    printf("classObj->enqueue(classObj,obj), should be false\n");
+  if(classObj->enqueue(classObj,obj,1000, 100)){
+    printf("classObj->enqueue(classObj,obj,1000), should be false\n");
     return -1;
   }
   obj = 0;
-  if(!classObj->dequeue(classObj,&obj) || obj != 1){
-    printf("!classObj->dequeue(classObj,&obj)\n");
+  if(!classObj->dequeue(classObj,&obj,1000, 100) || obj != 1){
+    printf("!classObj->dequeue(classObj,&obj,1000)\n");
     return -1;
   }
   return 0;

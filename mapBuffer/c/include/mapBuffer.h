@@ -69,18 +69,11 @@ typedef struct com_github_airutech_cnets_mapBuffer{
   int                                       uniqueId;
   unsigned                                  *buffers_grid_ids;/*required for storing ids of writers*/
   int                                       *buffers_to_read;
-  pthread_spinlock_t                        *buffers_to_read_lock;
+  pthread_rwlock_t                          *buffers_to_read_lock;
+  pthread_rwlock_t    rwLock;
   com_github_airutech_cnets_queue           free_buffers;/*only one queue actually*/
   com_github_airutech_cnets_queue           *grid;
-  pthread_spinlock_t                        *grid_mutex;  
-
-  pthread_mutex_t     switch_cv_ow_mutex;
-  pthread_mutex_t     switch_cv_mutex;
-  pthread_cond_t      switch_cv;
-  pthread_mutex_t     free_buffers_cv_ow_mutex;
-  pthread_mutex_t     free_buffers_cv_mutex;
-  pthread_cond_t      free_buffers_cv;
-  pthread_rwlock_t    rwLock;
+  
   linkedContainer     *selectorContainers;
 }com_github_airutech_cnets_mapBuffer;
 
@@ -94,14 +87,11 @@ typedef struct com_github_airutech_cnets_mapBuffer{
     int _NAME_##_buffers_to_read_[_NAME_.buffers.length]; \
     _NAME_.buffers_to_read = _NAME_##_buffers_to_read_; \
     /* _buffers_to_read_lock_ */\
-    pthread_spinlock_t _NAME_##_buffers_to_read_lock_[_NAME_.buffers.length]; \
+    pthread_rwlock_t _NAME_##_buffers_to_read_lock_[_NAME_.buffers.length]; \
     _NAME_.buffers_to_read_lock = _NAME_##_buffers_to_read_lock_; \
     /* _grid_ */\
     com_github_airutech_cnets_queue_createGrid(_NAME_##_grid_, _NAME_.readers_grid_size, _NAME_.buffers.length)\
     _NAME_.grid = _NAME_##_grid_; \
-    /* _grid_mutex_ */\
-    pthread_spinlock_t _NAME_##_grid_mutex_[_NAME_.readers_grid_size]; \
-    _NAME_.grid_mutex = _NAME_##_grid_mutex_;\
     /* _free_buffers_ */\
     com_github_airutech_cnets_queue_create(_NAME_##_free_buffers_,_NAME_.buffers.length)\
     _NAME_.free_buffers = _NAME_##_free_buffers_;

@@ -23,7 +23,7 @@
 typedef struct bufferKernelParams{
   void* additionalData;
   unsigned grid_id;
-  unsigned internalId;
+  uint32_t internalId;
   void* target;
   bufferReadData (*readNextWithMeta)(struct bufferKernelParams *params, int waitThreshold);
   void* (*readNext)(struct bufferKernelParams *params, int waitThreshold);

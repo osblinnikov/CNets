@@ -3,6 +3,8 @@
 #ifndef com_github_airutech_cnets_queue_H
 #define com_github_airutech_cnets_queue_H
 
+#include "liblfds611QUEUE.h"
+#include <pthread.h>
 /*[[[cog
 import cogging as c
 c.tpl(cog,templateFile,c.a(prefix=configFile))
@@ -50,24 +52,20 @@ typedef struct com_github_airutech_cnets_queue{
   
   void (*run)(void *that);
 /*[[[end]]] (checksum: 9943437232b3695222991abeee961a0d)*/
-  BOOL (*isEmpty)(struct com_github_airutech_cnets_queue *that);
-  BOOL (*isFull)(struct com_github_airutech_cnets_queue *that);
-  BOOL (*dequeue)(struct com_github_airutech_cnets_queue *that,uint32_t *obj);
-  BOOL (*enqueue)(struct com_github_airutech_cnets_queue *that,uint32_t obj);
-  uint32_t (*length)(struct com_github_airutech_cnets_queue *that);
+  struct lfds611QUEUE_queue_state *qs;
+  pthread_mutex_t     switch_cv_write_mutex, switch_cv_read_mutex;
+  pthread_cond_t      switch_cv_write, switch_cv_read;
+  BOOL (*dequeue)(struct com_github_airutech_cnets_queue *that,uint32_t *obj, uint32_t timeout_milisec, int spinCount);
+  BOOL (*enqueue)(struct com_github_airutech_cnets_queue *that,uint32_t obj, uint32_t timeout_milisec, int spinCount);
   void (*clear)(struct com_github_airutech_cnets_queue *that);
 }com_github_airutech_cnets_queue;
 
 
 #define com_github_airutech_cnets_queue_createGrid(_NAME_,_count,_capacity)\
   com_github_airutech_cnets_queue _NAME_[_count];\
-  arrayObject_create(_NAME_##_data_, uint32_t, _count*_capacity)\
   int _NAME_##i;\
   for(_NAME_##i=0;_NAME_##i<_count;_NAME_##i++){\
     _NAME_[_NAME_##i].capacity = _capacity;\
-    _NAME_[_NAME_##i].data.array = (void*)&((uint32_t*)_NAME_##_data_.array)[_capacity * _NAME_##i];\
-    _NAME_[_NAME_##i].data.length = _capacity;\
-    _NAME_[_NAME_##i].data.itemSize = sizeof(uint32_t);\
     com_github_airutech_cnets_queue_initialize(&_NAME_[_NAME_##i]);\
     com_github_airutech_cnets_queue_onKernels(&_NAME_[_NAME_##i]);\
   }

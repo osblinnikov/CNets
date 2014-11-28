@@ -112,13 +112,23 @@ int main(int argc, char* argv[]){
     return -1;
   }
   printf("testRead 5\n");
-
   pthread_t threadW0, threadW1, threadR0, threadR1;
   pthread_create(&threadW0, NULL, writeKernel, (void *)&classObjW0);
   pthread_create(&threadW1, NULL, writeKernel, (void *)&classObjW1);
   pthread_create(&threadR0, NULL, readKernel, (void *)&classObjR0);
   pthread_create(&threadR1, NULL, readKernel, (void *)&classObjR1);
   taskDelay(5000000000L);
+  printf("test OK 6\n");
+
+  // com_github_airutech_cnets_mapBuffer_create(classObj_test2,arrBufs,1000,1)
+  // com_github_airutech_cnets_mapBuffer_createReader(classObj_test2R0,&classObj_test2,0)
+  // com_github_airutech_cnets_mapBuffer_createWriter(classObj_test2W0,&classObj_test2,0)
+
+  // pthread_t threadW0, threadR0;
+  // pthread_create(&threadW0, NULL, writeKernel, (void *)&classObj_test2W0);
+  // pthread_create(&threadR0, NULL, readKernel, (void *)&classObj_test2R0);
+  // taskDelay(5000000000L);
+  // printf("test OK 6\n");
 
   // com_github_airutech_cnets_mapBuffer_deinitialize(&classObj);
   return 0;
