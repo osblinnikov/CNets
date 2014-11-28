@@ -1,5 +1,5 @@
 /***** public prototypes *****/
-#include "liblfds611.h"
+#include "liblfds611QUEUE.h"
 
 /***** defines *****/
 #define and &&
@@ -22,4 +22,3 @@ static LFDS611QUEUE_INLINE lfds611QUEUE_atom_t lfds611QUEUE_abstraction_incremen
 #include "lfds611_abstraction/lfds611_abstraction_cas.c"
 #include "lfds611_abstraction/lfds611_abstraction_dcas.c"
 #include "lfds611_abstraction/lfds611_abstraction_increment.c"
-

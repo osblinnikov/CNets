@@ -49,7 +49,7 @@ int lfds611QUEUE_queue_new( struct lfds611QUEUE_queue_state **qs, lfds611QUEUE_a
 
 
 /****************************************************************************/
-#pragma warning( disable : 4100 )
+/*#pragma warning( disable : 4100 )*/
 
 void lfds611QUEUE_queue_use( struct lfds611QUEUE_queue_state *qs )
 {
@@ -60,14 +60,14 @@ void lfds611QUEUE_queue_use( struct lfds611QUEUE_queue_state *qs )
   return;
 }
 
-#pragma warning( default : 4100 )
+/*#pragma warning( default : 4100 )*/
 
 
 
 
 
 /****************************************************************************/
-#pragma warning( disable : 4100 )
+/*#pragma warning( disable : 4100 )*/
 
 int lfds611QUEUE_queue_internal_freelist_init_function( void **user_data, void *user_state )
 {
@@ -85,7 +85,7 @@ int lfds611QUEUE_queue_internal_freelist_init_function( void **user_data, void *
   return( rv );
 }
 
-#pragma warning( default : 4100 )
+/*#pragma warning( default : 4100 )*/
 
 
 

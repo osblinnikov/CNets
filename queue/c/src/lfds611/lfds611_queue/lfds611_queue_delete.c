@@ -41,7 +41,7 @@ void lfds611QUEUE_queue_delete( struct lfds611QUEUE_queue_state *qs, void (*user
 
 
 /****************************************************************************/
-#pragma warning( disable : 4100 )
+/*#pragma warning( disable : 4100 )*/
 
 void lfds611QUEUE_queue_internal_freelist_delete_function( void *user_data, void *user_state )
 {
@@ -53,5 +53,5 @@ void lfds611QUEUE_queue_internal_freelist_delete_function( void *user_data, void
   return;
 }
 
-#pragma warning( default : 4100 )
+/*#pragma warning( default : 4100 )*/
 

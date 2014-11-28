@@ -1,6 +1,0 @@
-#include "lfds611/lfds611_abstraction/lfds611_abstraction_free.c"
-#include "lfds611/lfds611_abstraction/lfds611_abstraction_malloc.c"
-#include "lfds611/lfds611_queue/lfds611_queue_delete.c"
-#include "lfds611/lfds611_queue/lfds611_queue_new.c"
-#include "lfds611/lfds611_queue/lfds611_queue_query.c"
-#include "lfds611/lfds611_queue/lfds611_queue_queue.c"

@@ -173,6 +173,38 @@
   void *lfds611QUEUE_abstraction_malloc( size_t size );
   void lfds611QUEUE_abstraction_free( void *memory );
 
+/***** lfds611QUEUE_freelist *****/
+
+  /***** enums *****/
+  enum lfds611QUEUE_freelist_query_type
+  {
+    LFDS611QUEUE_FREELIST_QUERY_ELEMENT_COUNT,
+    LFDS611QUEUE_FREELIST_QUERY_VALIDATE
+  };
+
+  /***** incomplete types *****/
+  struct lfds611QUEUE_freelist_state;
+  struct lfds611QUEUE_freelist_element;
+
+  /***** public prototypes *****/
+  int lfds611QUEUE_freelist_new( struct lfds611QUEUE_freelist_state **fs, lfds611QUEUE_atom_t number_elements, int (*user_data_init_function)(void **user_data, void *user_state), void *user_state );
+  void lfds611QUEUE_freelist_use( struct lfds611QUEUE_freelist_state *fs );
+  void lfds611QUEUE_freelist_delete( struct lfds611QUEUE_freelist_state *fs, void (*user_data_delete_function)(void *user_data, void *user_state), void *user_state );
+
+  lfds611QUEUE_atom_t lfds611QUEUE_freelist_new_elements( struct lfds611QUEUE_freelist_state *fs, lfds611QUEUE_atom_t number_elements );
+
+  struct lfds611QUEUE_freelist_element *lfds611QUEUE_freelist_pop( struct lfds611QUEUE_freelist_state *fs, struct lfds611QUEUE_freelist_element **fe );
+  struct lfds611QUEUE_freelist_element *lfds611QUEUE_freelist_guaranteed_pop( struct lfds611QUEUE_freelist_state *fs, struct lfds611QUEUE_freelist_element **fe );
+  void lfds611QUEUE_freelist_push( struct lfds611QUEUE_freelist_state *fs, struct lfds611QUEUE_freelist_element *fe );
+
+  void *lfds611QUEUE_freelist_get_user_data_from_element( struct lfds611QUEUE_freelist_element *fe, void **user_data );
+  void lfds611QUEUE_freelist_set_user_data_in_element( struct lfds611QUEUE_freelist_element *fe, void *user_data );
+
+  void lfds611QUEUE_freelist_query( struct lfds611QUEUE_freelist_state *fs, enum lfds611QUEUE_freelist_query_type query_type, void *query_input, void *query_output );
+
+
+
+
   /***** lfds611QUEUE_liblfds *****/
 
   /***** public prototypes *****/
