@@ -6,6 +6,8 @@ public class bufferKernelParams {
     private int internalId = 0;
     private readerWriterInterface target;
 
+    public bufferKernelParams(){}
+
     public bufferKernelParams(readerWriterInterface target, long grid_id, Object additionalData) {
         this.target = target;
         this.grid_id = grid_id;

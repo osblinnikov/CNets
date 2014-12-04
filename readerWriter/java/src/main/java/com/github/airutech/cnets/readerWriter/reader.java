@@ -13,6 +13,8 @@ public class reader {
   private int bytesCounter = 0;
   private long statsTime = System.currentTimeMillis();
 
+  public reader(){buffer = new bufferKernelParams();}
+
   public reader(bufferKernelParams buffer){
     this.buffer = buffer;
   }

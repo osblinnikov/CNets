@@ -9,6 +9,8 @@ public class writer {
   private int packetsCounter = 0;
   private int bytesCounter = 0;
 
+  public writer(){buffer = new bufferKernelParams();}
+
   public writer(bufferKernelParams buffer){
     this.buffer = buffer;
   }
