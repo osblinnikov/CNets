@@ -2,7 +2,7 @@
 #define com_github_airutech_cnets_runnablesContainer_Kernel_H
 
 #undef com_github_airutech_cnets_runnablesContainer_EXPORT_API
-#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(com_github_airutech_cnets_runnablesContainer_STATIC)
+#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(COM_GITHUB_AIRUTECH_CNETS_RUNNABLESCONTAINER_STATIC)
   #ifdef com_github_airutech_cnets_runnablesContainer_EXPORT
     #define com_github_airutech_cnets_runnablesContainer_EXPORT_API __declspec(dllexport)
   #else

@@ -17,7 +17,7 @@ int testWrite(writer* w){
   }
 }
 
-int testRead(reader* r, int expectedBufferId, int expectedWriterId){
+int testRead(reader* r, unsigned expectedBufferId, unsigned expectedWriterId){
   bufferReadData res = r->readNextWithMeta(r, -1);
   if(res.data != NULL){
     BOOL rs = *(unsigned*)res.data == 1 

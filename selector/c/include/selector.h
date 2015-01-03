@@ -83,10 +83,10 @@ typedef struct com_github_airutech_cnets_selector{
 #undef com_github_airutech_cnets_selector_onCreateMacro
 #define com_github_airutech_cnets_selector_onCreateMacro(_NAME_)\
     /* _allContainers_ */\
-    linkedContainer _NAME_##_allContainers_[_NAME_.reducableReaders.length]; \
+    linkedContainer* _NAME_##_allContainers_ = (linkedContainer*)salloca(sizeof(linkedContainer)*_NAME_.reducableReaders.length); \
     _NAME_.allContainers = _NAME_##_allContainers_;\
     /* _writesToContainers_ */\
-    uint32_t _NAME_##_writesToContainers_[_NAME_.reducableReaders.length]; \
+    uint32_t* _NAME_##_writesToContainers_ = (uint32_t*)salloca(sizeof(uint32_t)*_NAME_.reducableReaders.length); \
     _NAME_.writesToContainers = _NAME_##_writesToContainers_;
 
 #endif /* com_github_airutech_cnets_selector_H */

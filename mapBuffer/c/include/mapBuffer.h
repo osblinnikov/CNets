@@ -88,19 +88,19 @@ typedef struct com_github_airutech_cnets_mapBuffer{
 #undef com_github_airutech_cnets_mapBuffer_onCreateMacro
 #define com_github_airutech_cnets_mapBuffer_onCreateMacro(_NAME_)\
     /* _buffers_grid_ids_ */\
-    unsigned _NAME_##_buffers_grid_ids_[_NAME_.buffers.length]; \
+    unsigned* _NAME_##_buffers_grid_ids_ = (unsigned*)salloca(sizeof(unsigned)*_NAME_.buffers.length); \
     _NAME_.buffers_grid_ids = _NAME_##_buffers_grid_ids_; \
     /* _buffers_to_read_ */\
-    int _NAME_##_buffers_to_read_[_NAME_.buffers.length]; \
+    int* _NAME_##_buffers_to_read_ = (int*)salloca(sizeof(int)* _NAME_.buffers.length); \
     _NAME_.buffers_to_read = _NAME_##_buffers_to_read_; \
     /* _buffers_to_read_lock_ */\
-    pthread_spinlock_t _NAME_##_buffers_to_read_lock_[_NAME_.buffers.length]; \
+    pthread_spinlock_t* _NAME_##_buffers_to_read_lock_  = (pthread_spinlock_t*)salloca(sizeof(pthread_spinlock_t)*_NAME_.buffers.length); \
     _NAME_.buffers_to_read_lock = _NAME_##_buffers_to_read_lock_; \
     /* _grid_ */\
     com_github_airutech_cnets_queue_createGrid(_NAME_##_grid_, _NAME_.readers_grid_size, _NAME_.buffers.length)\
     _NAME_.grid = _NAME_##_grid_; \
     /* _grid_mutex_ */\
-    pthread_spinlock_t _NAME_##_grid_mutex_[_NAME_.readers_grid_size]; \
+    pthread_spinlock_t* _NAME_##_grid_mutex_ = (pthread_spinlock_t*)salloca(sizeof(pthread_spinlock_t)*_NAME_.readers_grid_size); \
     _NAME_.grid_mutex = _NAME_##_grid_mutex_;\
     /* _free_buffers_ */\
     com_github_airutech_cnets_queue_create(_NAME_##_free_buffers_,_NAME_.buffers.length)\

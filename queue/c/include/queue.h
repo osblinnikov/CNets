@@ -60,7 +60,7 @@ typedef struct com_github_airutech_cnets_queue{
 
 
 #define com_github_airutech_cnets_queue_createGrid(_NAME_,_count,_capacity)\
-  com_github_airutech_cnets_queue _NAME_[_count];\
+  com_github_airutech_cnets_queue* _NAME_ = (com_github_airutech_cnets_queue*)salloca(sizeof(com_github_airutech_cnets_queue)*_count);\
   arrayObject_create(_NAME_##_data_, uint32_t, _count*_capacity)\
   int _NAME_##i;\
   for(_NAME_##i=0;_NAME_##i<_count;_NAME_##i++){\

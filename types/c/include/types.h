@@ -38,6 +38,16 @@
     #include <inttypes.h>
 #endif
 
+#if defined(WIN32) && !defined(CYGWIN)&& !defined(__MINGW32__)
+    #include <malloc.h>
+    #define salloca _malloca
+#else
+    #include <alloca.h>
+    #define salloca alloca
+#endif
+
+
+
 /*[[[cog
 import cogging as c
 c.tpl(cog,templateFile,c.a(prefix=configFile))

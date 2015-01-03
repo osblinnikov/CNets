@@ -14,6 +14,7 @@ int testWrite(writer* w){
     *(unsigned*)res = 1;
     return w->writeFinished(w);
   }else{
+    printf("writeNext is NULL\n");
     return -1;
   }
 }
