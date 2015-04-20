@@ -5,13 +5,13 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 
 #include "../include/selector.h"
 
-void* com_github_osblinnikov_cnets_selector_readNext(bufferKernelParams *params, BOOL make_timeout);
-bufferReadData com_github_osblinnikov_cnets_selector_readNextWithMeta(bufferKernelParams *params, BOOL make_timeout);
+void* com_github_osblinnikov_cnets_selector_readNext(bufferKernelParams *params, int waitThreshold);
+bufferReadData com_github_osblinnikov_cnets_selector_readNextWithMeta(bufferKernelParams *params, int waitThreshold);
 int com_github_osblinnikov_cnets_selector_readFinished(bufferKernelParams *params);
-void* com_github_osblinnikov_cnets_selector_writeNext(bufferKernelParams *params, BOOL make_timeout);
+void* com_github_osblinnikov_cnets_selector_writeNext(bufferKernelParams *params, int waitThreshold);
 int com_github_osblinnikov_cnets_selector_writeFinished(bufferKernelParams *params);
 int com_github_osblinnikov_cnets_selector_size(bufferKernelParams *params);
-int com_github_osblinnikov_cnets_selector_timeout(bufferKernelParams *params);
+int64_t com_github_osblinnikov_cnets_selector_timeout(bufferKernelParams *params);
 int com_github_osblinnikov_cnets_selector_gridSize(bufferKernelParams *params);
 int com_github_osblinnikov_cnets_selector_uniqueId(bufferKernelParams *params);
 int com_github_osblinnikov_cnets_selector_addSelector(bufferKernelParams *params, void* selectorContainer);
@@ -37,7 +37,7 @@ void com_github_osblinnikov_cnets_selector_initialize(com_github_osblinnikov_cne
 void com_github_osblinnikov_cnets_selector_deinitialize(struct com_github_osblinnikov_cnets_selector *that){
   com_github_osblinnikov_cnets_selector_onDestroy(that);
 }
-/*[[[end]]] (checksum: 91486a3dfc81208487ff66a14daa5a67) (150173e19f1ff97a45ede3dbd6d1cf50) */
+/*[[[end]]] (checksum: a75d7b2ed9996f066d393f4228ce9bc1) (150173e19f1ff97a45ede3dbd6d1cf50) */
 
 #include <assert.h>
 

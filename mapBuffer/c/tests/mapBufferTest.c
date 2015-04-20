@@ -7,6 +7,11 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 #include "../include/mapBuffer.h"
 /*[[[end]]] (checksum: c8758e660135eca590d877f4dbe24d53) (c8758e660135eca590d877f4dbe24d53)*/
 
+const int countToSend = 3000000;
+
+BOOL checkTotal(int total){
+  return total >= countToSend;
+}
 
 int testWrite(writer* w){
   void* res = w->writeNext(w, -1);
@@ -31,32 +36,41 @@ int testRead(reader* r){
 
 void *writeKernel(void* inTarget){
   int cnt = 0;
+  int total = 0;
   uint64_t nextTime = 0;
   while(TRUE){
     uint64_t curTime = curTimeMilisec();
     if(curTime>nextTime){
-      printf("writer: %d\n",cnt);
+      printf("writer: %d %d\n",cnt, total);
       cnt = 0;
       nextTime = curTime + 1000L;
     }
-    testWrite((writer*)inTarget);
-    ++cnt;
+    if(0<=testWrite((writer*)inTarget)){
+      ++cnt;
+      ++total;//it's because we actually have 2 writers
+      if (checkTotal(++total))
+        break;
+    }
   }
   return NULL;
 }
 
 void *readKernel(void* inTarget){
+  int total = 0;
   int cnt = 0;
   uint64_t nextTime = 0;
   while(TRUE){
     uint64_t curTime = curTimeMilisec();
     if(curTime>nextTime){
-      printf("reader: %d\n",cnt);
+      printf("reader: %d %d\n",cnt, total);
       cnt = 0;
       nextTime = curTime + 1000L;
     }
-    testRead((reader*)inTarget);
-    ++cnt;
+    if(0<=testRead((reader*)inTarget)){
+      ++cnt;
+      if (checkTotal(++total))
+        break;
+    }
   }
   return NULL;
 }
@@ -119,7 +133,9 @@ int main(int argc, char* argv[]){
   pthread_create(&threadW1, NULL, writeKernel, (void *)&classObjW1);
   pthread_create(&threadR0, NULL, readKernel, (void *)&classObjR0);
   pthread_create(&threadR1, NULL, readKernel, (void *)&classObjR1);
-  taskDelay(5000000000L);
+  // readKernel((void *)&classObjR1);
+  // taskDelay(5000000000L);
+  pthread_join(threadW0, NULL);pthread_join(threadW1, NULL);pthread_join(threadR0, NULL);pthread_join(threadR1, NULL);
 
   // com_github_osblinnikov_cnets_mapBuffer_deinitialize(&classObj);
   return 0;

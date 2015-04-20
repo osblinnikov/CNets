@@ -5,13 +5,13 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 
 #include "../include/mapBuffer.h"
 
-void* com_github_osblinnikov_cnets_mapBuffer_readNext(bufferKernelParams *params, BOOL make_timeout);
-bufferReadData com_github_osblinnikov_cnets_mapBuffer_readNextWithMeta(bufferKernelParams *params, BOOL make_timeout);
+void* com_github_osblinnikov_cnets_mapBuffer_readNext(bufferKernelParams *params, int waitThreshold);
+bufferReadData com_github_osblinnikov_cnets_mapBuffer_readNextWithMeta(bufferKernelParams *params, int waitThreshold);
 int com_github_osblinnikov_cnets_mapBuffer_readFinished(bufferKernelParams *params);
-void* com_github_osblinnikov_cnets_mapBuffer_writeNext(bufferKernelParams *params, BOOL make_timeout);
+void* com_github_osblinnikov_cnets_mapBuffer_writeNext(bufferKernelParams *params, int waitThreshold);
 int com_github_osblinnikov_cnets_mapBuffer_writeFinished(bufferKernelParams *params);
 int com_github_osblinnikov_cnets_mapBuffer_size(bufferKernelParams *params);
-int com_github_osblinnikov_cnets_mapBuffer_timeout(bufferKernelParams *params);
+int64_t com_github_osblinnikov_cnets_mapBuffer_timeout(bufferKernelParams *params);
 int com_github_osblinnikov_cnets_mapBuffer_gridSize(bufferKernelParams *params);
 int com_github_osblinnikov_cnets_mapBuffer_uniqueId(bufferKernelParams *params);
 int com_github_osblinnikov_cnets_mapBuffer_addSelector(bufferKernelParams *params, void* selectorContainer);
@@ -37,7 +37,7 @@ void com_github_osblinnikov_cnets_mapBuffer_initialize(com_github_osblinnikov_cn
 void com_github_osblinnikov_cnets_mapBuffer_deinitialize(struct com_github_osblinnikov_cnets_mapBuffer *that){
   com_github_osblinnikov_cnets_mapBuffer_onDestroy(that);
 }
-/*[[[end]]] (checksum: f0647399b5b94cddbdf45e814760281c) (8bc4baab7ebd65a97dcd5dd7dc03af56)*/
+/*[[[end]]] (checksum: 6a19e8ecd3ceb45db56d38a8286a8110) (8bc4baab7ebd65a97dcd5dd7dc03af56)*/
 
 #include <assert.h>
 
