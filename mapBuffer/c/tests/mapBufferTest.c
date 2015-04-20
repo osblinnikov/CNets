@@ -5,7 +5,7 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
 #include "../include/mapBuffer.h"
-/*[[[end]]] (checksum: c8758e660135eca590d877f4dbe24d53)*/
+/*[[[end]]] (checksum: c8758e660135eca590d877f4dbe24d53) (c8758e660135eca590d877f4dbe24d53)*/
 
 
 int testWrite(writer* w){
@@ -63,11 +63,11 @@ void *readKernel(void* inTarget){
 
 int main(int argc, char* argv[]){
   arrayObject_create(arrBufs,unsigned,100)
-  com_github_airutech_cnets_mapBuffer_create(classObj,arrBufs,1000,2)
-  com_github_airutech_cnets_mapBuffer_createReader(classObjR0,&classObj,0)
-  com_github_airutech_cnets_mapBuffer_createReader(classObjR1,&classObj,1)
-  com_github_airutech_cnets_mapBuffer_createWriter(classObjW0,&classObj,0)
-  com_github_airutech_cnets_mapBuffer_createWriter(classObjW1,&classObj,1)
+  com_github_osblinnikov_cnets_mapBuffer_create(classObj,arrBufs,1000,2)
+  com_github_osblinnikov_cnets_mapBuffer_createReader(classObjR0,&classObj,0)
+  com_github_osblinnikov_cnets_mapBuffer_createReader(classObjR1,&classObj,1)
+  com_github_osblinnikov_cnets_mapBuffer_createWriter(classObjW0,&classObj,0)
+  com_github_osblinnikov_cnets_mapBuffer_createWriter(classObjW1,&classObj,1)
 
   if(testWrite(&classObjW0) < 0){
     printf("testWrite: res < 0 should be 0\n");
@@ -121,6 +121,6 @@ int main(int argc, char* argv[]){
   pthread_create(&threadR1, NULL, readKernel, (void *)&classObjR1);
   taskDelay(5000000000L);
 
-  // com_github_airutech_cnets_mapBuffer_deinitialize(&classObj);
+  // com_github_osblinnikov_cnets_mapBuffer_deinitialize(&classObj);
   return 0;
 }

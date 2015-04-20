@@ -17,10 +17,10 @@ Dependencies for JavaScript: `npm, grulp`
 #Getting started
 
     cd $FAVORITE_PROJECTS_DIR
-    mkdir -p github.com/airutech
-    cd github.com/airutech
+    mkdir -p github.com/osblinnikov
+    cd github.com/osblinnikov
 
-    git clone --recursive https://github.com/airutech/cnets.git
+    git clone --recursive https://github.com/osblinnikov/cnets.git
     cd cnets
 
 To build and run tests type:

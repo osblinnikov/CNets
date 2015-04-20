@@ -1,29 +1,28 @@
 
 from helper import *
 #           Environment
-Import( 'env', 'args' )
+Import( 'env' )
 
-def add_dependencies(env, args):
+def add_dependencies(env):
   '''[[[cog
   import cogging as c
   c.tpl(cog,templateFile,c.a(prefix=configFile))
   ]]]'''
 
-  AddDependency(args,'com_github_airutech_cnets_types',join(args['PROJECTS_ROOT_PATH'],'src/github.com/airutech/cnets/types/c'))
-  AddDependency(args,'com_github_airutech_cnets_readerWriter',join(args['PROJECTS_ROOT_PATH'],'src/github.com/airutech/cnets/readerWriter/c'))
-  AddDependency(args,'com_github_airutech_cnets_queue',join(args['PROJECTS_ROOT_PATH'],'src/github.com/airutech/cnets/queue/c'))
-  AddDependency(args,'com_github_airutech_cnets_mapBuffer',join(args['PROJECTS_ROOT_PATH'],'src/github.com/airutech/cnets/mapBuffer/c'))
-  AddDependency(args,'com_github_airutech_cnets_runnablesContainer',join(args['PROJECTS_ROOT_PATH'],'src/github.com/airutech/cnets/runnablesContainer/c'))
-  '''[[[end]]] (checksum: 512eb8bcfea6d0e55d8e44d7fc61b2ea)'''
-  AddPthreads(env, args)
-  # AddNetwork(args) 
+  AddDependency(env,'com_github_osblinnikov_cnets_types','github.com/osblinnikov/cnets/types/c')
+  AddDependency(env,'com_github_osblinnikov_cnets_readerWriter','github.com/osblinnikov/cnets/readerWriter/c')
+  AddDependency(env,'com_github_osblinnikov_cnets_queue','github.com/osblinnikov/cnets/queue/c')
+  AddDependency(env,'com_github_osblinnikov_cnets_mapBuffer','github.com/osblinnikov/cnets/mapBuffer/c')
+  AddDependency(env,'com_github_osblinnikov_cnets_runnablesContainer','github.com/osblinnikov/cnets/runnablesContainer/c')
+  '''[[[end]]] (checksum: f8df05a95babf1d6c46ff46603042819) (512eb8bcfea6d0e55d8e44d7fc61b2ea)'''
+  AddPthreads(env)
+  # AddNetwork(env) 
 
 c = {}
-c['PROG_NAME'] = 'com_github_airutech_cnets_selector'
+c['PROG_NAME'] = 'com_github_osblinnikov_cnets_selector'
 c['sourceFiles'] = ['selector.c']
 c['testFiles'] = ['selectorTest.c']
 c['runFiles'] = ['main.c']
 c['defines'] = []
-c['inclDepsDynamic'] = add_dependencies
-c['inclDepsStatic'] = add_dependencies
-DefaultLibraryConfig(c, env, args)
+c['inclDeps'] = add_dependencies
+DefaultLibraryConfig(env, c)

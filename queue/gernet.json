@@ -1,7 +1,6 @@
 {
-"path":"com.github.airutech.cnets.queue",
-"ver":"0.0.0",
-"type":"com.github.airutech.gernet.plugins.library",
+"path":"com.github.osblinnikov.cnets.queue",
+"gen":["com.github.osblinnikov.gernet.plugins.library","com.github.osblinnikov.gernet.plugins.build"],
 "args": [{
   "name": "capacity",
   "type": "int",
@@ -21,13 +20,7 @@
   "name":"tail",
   "type":"unsigned"
 }],
-"blocks":[],
 "depends":[{
-  "path":"com.github.airutech.cnets.types",
-  "ver": "[0.0.0,)"
-}],
-"connection":{
-  "writeTo": [],
-  "readFrom": []
-}
+  "path":"com.github.osblinnikov.cnets.types"
+}]
 }

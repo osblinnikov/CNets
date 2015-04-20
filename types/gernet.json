@@ -1,12 +1,4 @@
 {
-"path":"com.github.airutech.cnets.types",
-"ver":"0.0.0",
-"type":"com.github.airutech.gernet.plugins.library",
-"args": [],
-"blocks":[],
-"depends":[],
-"connection":{
-  "writeTo": [],
-  "readFrom": []
-}
+"path":"com.github.osblinnikov.cnets.types",
+"gen":["com.github.osblinnikov.gernet.plugins.library","com.github.osblinnikov.gernet.plugins.build"]
 }

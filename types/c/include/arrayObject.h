@@ -1,5 +1,5 @@
-#ifndef com_github_airutech_cnets_types_arrayObject_H
-#define com_github_airutech_cnets_types_arrayObject_H
+#ifndef com_github_osblinnikov_cnets_types_arrayObject_H
+#define com_github_osblinnikov_cnets_types_arrayObject_H
 
 #include "./types.h"
 
@@ -16,7 +16,7 @@ typedef struct arrayObject{
     _NAME_.length = _capacity;\
     _NAME_.itemSize = sizeof(_type);
 
-com_github_airutech_cnets_types_EXPORT_API
+com_github_osblinnikov_cnets_types_EXPORT_API
 struct arrayObject arrayObjectNULL();
 
-#endif /* com_github_airutech_cnets_types_arrayObject_H */
+#endif /* com_github_osblinnikov_cnets_types_arrayObject_H */

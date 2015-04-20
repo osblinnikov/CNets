@@ -1,5 +1,5 @@
-#ifndef com_github_airutech_cnets_types_TIMEUTILS_H
-#define com_github_airutech_cnets_types_TIMEUTILS_H
+#ifndef com_github_osblinnikov_cnets_types_TIMEUTILS_H
+#define com_github_osblinnikov_cnets_types_TIMEUTILS_H
 
 #if !defined __MINGW32__ && defined _WIN32
     struct timezone{
@@ -29,22 +29,22 @@
 #ifdef __cplusplus
 extern "C" {  /* only need to export C interface if used by C++ source code*/
 #endif
-com_github_airutech_cnets_types_EXPORT_API
+com_github_osblinnikov_cnets_types_EXPORT_API
     uint64_t curTimeMilisec();
-com_github_airutech_cnets_types_EXPORT_API
+com_github_osblinnikov_cnets_types_EXPORT_API
     struct timespec getTimespecDelay(uint64_t nanosec);
-com_github_airutech_cnets_types_EXPORT_API
+com_github_osblinnikov_cnets_types_EXPORT_API
     int compareTimespec(struct timespec *timeSpec);
-com_github_airutech_cnets_types_EXPORT_API
+com_github_osblinnikov_cnets_types_EXPORT_API
     int compareTwoTimespecs(struct timespec *lTimeSpec,struct timespec *rTimeSpec);
-com_github_airutech_cnets_types_EXPORT_API
+com_github_osblinnikov_cnets_types_EXPORT_API
     int taskDelayTill(struct timespec *end,  void* mutex, void* condition_variable);
-com_github_airutech_cnets_types_EXPORT_API
+com_github_osblinnikov_cnets_types_EXPORT_API
     void taskDelay(uint64_t nanosec);
-com_github_airutech_cnets_types_EXPORT_API
+com_github_osblinnikov_cnets_types_EXPORT_API
     unsigned diffTwoTimespecs(struct timespec *lTimeSpec,struct timespec *rTimeSpec);
 #ifdef __cplusplus
 } /* only need to export C interface if used by C++ source code*/
 #endif
 
-#endif /*com_github_airutech_cnets_types_TIMEUTILS_H*/
+#endif /*com_github_osblinnikov_cnets_types_TIMEUTILS_H*/

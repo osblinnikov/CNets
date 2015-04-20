@@ -1,25 +1,24 @@
 
 from helper import *
 #           Environment
-Import( 'env', 'args' )
+Import( 'env')
 
-def add_dependencies(env, args):
+def add_dependencies(env):
   '''[[[cog
   import cogging as c
   c.tpl(cog,templateFile,c.a(prefix=configFile))
   ]]]'''
 
-  AddDependency(args,'com_github_airutech_cnets_types',join(args['PROJECTS_ROOT_PATH'],'src/github.com/airutech/cnets/types/c'))
-  '''[[[end]]] (checksum: fadfcc0286d5ede2436d06ea30ca4283)'''
-  AddPthreads(env, args)
-  # AddNetwork(args) 
+  AddDependency(env,'com_github_osblinnikov_cnets_types','github.com/osblinnikov/cnets/types/c')
+  '''[[[end]]] (checksum: 30bde1195b17873988c98dec85e34f78) (fadfcc0286d5ede2436d06ea30ca4283)'''
+  AddPthreads(env)
+  # AddNetwork(env) 
 
 c = {}
-c['PROG_NAME'] = 'com_github_airutech_cnets_readerWriter'
+c['PROG_NAME'] = 'com_github_osblinnikov_cnets_readerWriter'
 c['sourceFiles'] = ['readerWriter.c','statsCollectorStatic.c']
 c['testFiles'] = ['readerWriterTest.c']
 c['runFiles'] = ['main.c']
 c['defines'] = []
-c['inclDepsDynamic'] = add_dependencies
-c['inclDepsStatic'] = add_dependencies
-DefaultLibraryConfig(c, env, args)
+c['inclDeps'] = add_dependencies
+DefaultLibraryConfig(env, c)

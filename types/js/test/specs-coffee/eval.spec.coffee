@@ -1,13 +1,13 @@
 isNode = typeof module isnt "undefined" and module.exports
 if isNode
   s = {}
-  s.com_github_airutech_cnets_types = require(__dirname + "/../../dist/com_github_airutech_cnets_types/types.js")
+  s.com_github_osblinnikov_cnets_types = require(__dirname + "/../../dist/com_github_osblinnikov_cnets_types/types.js")
 else
   s = self
 
 describe "eval.js", ->
   it "should eval the given code", ->
-    wrk = new s.com_github_airutech_cnets_types.Worker("/test/specs/eval.js")
+    wrk = new s.com_github_osblinnikov_cnets_types.Worker("/test/specs/eval.js")
     result = null
     done = false
     runs ->

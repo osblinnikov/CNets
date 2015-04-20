@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.github.airutech.cnets</groupId>
+    <groupId>com.github.osblinnikov.cnets</groupId>
     <artifactId>selector</artifactId>
     <version>0.0.0</version>
     <packaging>jar</packaging>
@@ -11,7 +11,7 @@
 
     <name>selector</name>
     <description>selector</description>
-    <url>http://github.com/airutech/cnets/selector</url>
+    <url>http://github.com/osblinnikov/cnets/selector</url>
 
     <licenses>
         <license>
@@ -22,8 +22,8 @@
     </licenses>
 
     <scm>
-        <url>http://github.com/airutech/cnets/selector</url>
-        <connection>scm:git:https://github.com/airutech/cnets/selector.git</connection>
+        <url>http://github.com/osblinnikov/cnets/selector</url>
+        <connection>scm:git:https://github.com/osblinnikov/cnets/selector.git</connection>
     </scm>
     <developers>
         <developer>
@@ -54,36 +54,36 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 
 
 <dependency>
-    <groupId>com.github.airutech.cnets</groupId>
-    <artifactId>queue</artifactId>
-    <version>[0.0.0,)</version>
-    <scope>compile</scope>
-</dependency>
-<dependency>
-    <groupId>com.github.airutech.cnets</groupId>
+    <groupId>com.github.osblinnikov.cnets</groupId>
     <artifactId>types</artifactId>
     <version>[0.0.0,)</version>
     <scope>compile</scope>
 </dependency>
 <dependency>
-    <groupId>com.github.airutech.cnets</groupId>
+    <groupId>com.github.osblinnikov.cnets</groupId>
+    <artifactId>runnablesContainer</artifactId>
+    <version>[0.0.0,)</version>
+    <scope>compile</scope>
+</dependency>
+<dependency>
+    <groupId>com.github.osblinnikov.cnets</groupId>
+    <artifactId>queue</artifactId>
+    <version>[0.0.0,)</version>
+    <scope>compile</scope>
+</dependency>
+<dependency>
+    <groupId>com.github.osblinnikov.cnets</groupId>
     <artifactId>readerWriter</artifactId>
     <version>[0.0.0,)</version>
     <scope>compile</scope>
 </dependency>
 <dependency>
-    <groupId>com.github.airutech.cnets</groupId>
+    <groupId>com.github.osblinnikov.cnets</groupId>
     <artifactId>mapBuffer</artifactId>
     <version>[0.0.0,)</version>
     <scope>compile</scope>
 </dependency>
-<dependency>
-    <groupId>com.github.airutech.cnets</groupId>
-    <artifactId>runnablesContainer</artifactId>
-    <version>[0.0.0,)</version>
-    <scope>compile</scope>
-</dependency>
-<!--[[[end]]] (checksum: b9c16d6f254a665a13bce1aa375827a8)-->
+<!--[[[end]]] (checksum: e05cdedfb13fb0f2c8ac40388a4e66b9) (b9c16d6f254a665a13bce1aa375827a8)-->
     </dependencies>
 
     <build>

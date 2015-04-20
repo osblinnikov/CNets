@@ -1,7 +1,7 @@
 importScripts(
-  '/dist/com_github_airutech_cnets_readerWriter/readerWriter.js',
-  '/dist/com_github_airutech_cnets_types/types.js',
-  '/dist/com_github_airutech_cnets_mapBuffer/mapBuffer.js'
+  '/dist/com_github_osblinnikov_cnets_readerWriter/readerWriter.js',
+  '/dist/com_github_osblinnikov_cnets_types/types.js',
+  '/dist/com_github_osblinnikov_cnets_mapBuffer/mapBuffer.js'
 )
 
 onRun =

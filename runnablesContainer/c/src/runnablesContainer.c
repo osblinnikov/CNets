@@ -4,34 +4,34 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
 #include "../include/runnablesContainer.h"
-void com_github_airutech_cnets_runnablesContainer_onCreate(com_github_airutech_cnets_runnablesContainer *that);
-void com_github_airutech_cnets_runnablesContainer_onDestroy(com_github_airutech_cnets_runnablesContainer *that);
-void com_github_airutech_cnets_runnablesContainer_initialize(com_github_airutech_cnets_runnablesContainer *that){
-  com_github_airutech_cnets_runnablesContainer_onCreate(that);
+void com_github_osblinnikov_cnets_runnablesContainer_onCreate(com_github_osblinnikov_cnets_runnablesContainer *that);
+void com_github_osblinnikov_cnets_runnablesContainer_onDestroy(com_github_osblinnikov_cnets_runnablesContainer *that);
+void com_github_osblinnikov_cnets_runnablesContainer_initialize(com_github_osblinnikov_cnets_runnablesContainer *that){
+  com_github_osblinnikov_cnets_runnablesContainer_onCreate(that);
 }
 
-void com_github_airutech_cnets_runnablesContainer_deinitialize(struct com_github_airutech_cnets_runnablesContainer *that){
-  com_github_airutech_cnets_runnablesContainer_onDestroy(that);
+void com_github_osblinnikov_cnets_runnablesContainer_deinitialize(struct com_github_osblinnikov_cnets_runnablesContainer *that){
+  com_github_osblinnikov_cnets_runnablesContainer_onDestroy(that);
 }
-/*[[[end]]] (checksum: 451c3cc5739926ae03ed7689ce57110e)*/
+/*[[[end]]] (checksum: 3c4374f32b86990a7951426083c5c433) (451c3cc5739926ae03ed7689ce57110e)*/
 
-void com_github_airutech_cnets_runnablesContainer_setContainers(
-  struct com_github_airutech_cnets_runnablesContainer *that,
+void com_github_osblinnikov_cnets_runnablesContainer_setContainers(
+  struct com_github_osblinnikov_cnets_runnablesContainer *that,
   arrayObject containers
 ){
-  that->containers = (com_github_airutech_cnets_runnablesContainer *)containers.array;
+  that->containers = (com_github_osblinnikov_cnets_runnablesContainer *)containers.array;
   that->containers_size = containers.length;
 }
 
-void com_github_airutech_cnets_runnablesContainer_setCore(
-  struct com_github_airutech_cnets_runnablesContainer *that, 
+void com_github_osblinnikov_cnets_runnablesContainer_setCore(
+  struct com_github_osblinnikov_cnets_runnablesContainer *that, 
   RunnableStoppable target
 ){
   that->target = target;
 }
 
-void com_github_airutech_cnets_runnablesContainer_launch(
-  struct com_github_airutech_cnets_runnablesContainer *that, 
+void com_github_osblinnikov_cnets_runnablesContainer_launch(
+  struct com_github_osblinnikov_cnets_runnablesContainer *that, 
   BOOL lockLastElement
 ){
   if(that->target.target != NULL){
@@ -46,8 +46,8 @@ void com_github_airutech_cnets_runnablesContainer_launch(
   }
 }
 
-void com_github_airutech_cnets_runnablesContainer_stop(
-  struct com_github_airutech_cnets_runnablesContainer *that
+void com_github_osblinnikov_cnets_runnablesContainer_stop(
+  struct com_github_osblinnikov_cnets_runnablesContainer *that
 ){
   if(that->target.target != NULL){
     that->kernel.stopThread(&that->kernel);
@@ -59,25 +59,25 @@ void com_github_airutech_cnets_runnablesContainer_stop(
   }
 }
 
-void com_github_airutech_cnets_runnablesContainer_onCreate(com_github_airutech_cnets_runnablesContainer *that){
-  com_github_airutech_cnets_runnablesContainer_Kernel_create(&that->kernel);
+void com_github_osblinnikov_cnets_runnablesContainer_onCreate(com_github_osblinnikov_cnets_runnablesContainer *that){
+  com_github_osblinnikov_cnets_runnablesContainer_Kernel_create(&that->kernel);
   that->containers = NULL;
   that->containers_size = 0;
   that->target.target = NULL;
-  that->setContainers = com_github_airutech_cnets_runnablesContainer_setContainers;
-  that->setCore = com_github_airutech_cnets_runnablesContainer_setCore;
-  that->launch = com_github_airutech_cnets_runnablesContainer_launch;
-  that->stop = com_github_airutech_cnets_runnablesContainer_stop;
+  that->setContainers = com_github_osblinnikov_cnets_runnablesContainer_setContainers;
+  that->setCore = com_github_osblinnikov_cnets_runnablesContainer_setCore;
+  that->launch = com_github_osblinnikov_cnets_runnablesContainer_launch;
+  that->stop = com_github_osblinnikov_cnets_runnablesContainer_stop;
   return;
 }
 
-void com_github_airutech_cnets_runnablesContainer_onDestroy(com_github_airutech_cnets_runnablesContainer *that){
-  com_github_airutech_cnets_runnablesContainer_stop(that);
-  com_github_airutech_cnets_runnablesContainer_Kernel_destroy(&that->kernel);
+void com_github_osblinnikov_cnets_runnablesContainer_onDestroy(com_github_osblinnikov_cnets_runnablesContainer *that){
+  com_github_osblinnikov_cnets_runnablesContainer_stop(that);
+  com_github_osblinnikov_cnets_runnablesContainer_Kernel_destroy(&that->kernel);
   return;
 }
 
-void com_github_airutech_cnets_runnablesContainer_onKernels(com_github_airutech_cnets_runnablesContainer *that){
+void com_github_osblinnikov_cnets_runnablesContainer_onKernels(com_github_osblinnikov_cnets_runnablesContainer *that){
   
   return;
 }

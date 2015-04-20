@@ -1,5 +1,5 @@
-#ifndef com_github_airutech_cnets_types_bufferKernelParams_H
-#define com_github_airutech_cnets_types_bufferKernelParams_H
+#ifndef com_github_osblinnikov_cnets_types_bufferKernelParams_H
+#define com_github_osblinnikov_cnets_types_bufferKernelParams_H
 
 #include "./bufferReadData.h"
 
@@ -37,4 +37,4 @@ typedef struct bufferKernelParams{
   int (*addSelector)(struct bufferKernelParams *params, void* selectorContainer);
 }bufferKernelParams;
 
-#endif /* com_github_airutech_cnets_types_bufferKernelParams_H */
+#endif /* com_github_osblinnikov_cnets_types_bufferKernelParams_H */

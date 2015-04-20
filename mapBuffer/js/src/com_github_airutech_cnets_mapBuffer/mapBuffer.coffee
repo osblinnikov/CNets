@@ -12,23 +12,23 @@ else
   s = self
 
 if isNode
-  s.queue = s.com_github_airutech_cnets_queue = require(__dirname + "/../../dist/com_github_airutech_cnets_queue/queue.js")
-  s.types = s.com_github_airutech_cnets_types = require(__dirname + "/../../dist/com_github_airutech_cnets_types/types.js")
-  s.readerWriter = s.com_github_airutech_cnets_readerWriter = require(__dirname + "/../../dist/com_github_airutech_cnets_readerWriter/readerWriter.js")
+  s.queue = s.com_github_osblinnikov_cnets_queue = require(__dirname + "/../../dist/com_github_osblinnikov_cnets_queue/queue.js")
+  s.types = s.com_github_osblinnikov_cnets_types = require(__dirname + "/../../dist/com_github_osblinnikov_cnets_types/types.js")
+  s.readerWriter = s.com_github_osblinnikov_cnets_readerWriter = require(__dirname + "/../../dist/com_github_osblinnikov_cnets_readerWriter/readerWriter.js")
 
-s.com_github_airutech_cnets_mapBuffer =
+s.com_github_osblinnikov_cnets_mapBuffer =
   create: (buffers,timeout_milisec,readers_grid_size)->
     that = this
     that.buffers = buffers
     that.timeout_milisec = timeout_milisec
     that.readers_grid_size = readers_grid_size
     #dummy
-#[[[end]]] (checksum: cf74bbd4cfd26296ed286165ec2898ba)
+#[[[end]]] (cf74bbd4cfd26296ed286165ec2898ba)
 
 #IMPLEMENTATION GOES HERE
 mapBuffer = {}
 s.mapBuffer = {}
-mapBuffer.create = s.mapBuffer.create = s.com_github_airutech_cnets_mapBuffer.create = (buffers, timeout_milisec, readers_grid_size)->
+mapBuffer.create = s.mapBuffer.create = s.com_github_osblinnikov_cnets_mapBuffer.create = (buffers, timeout_milisec, readers_grid_size)->
   self = this
   self.setDispatcher = (curBufId, dispatcherForAddingBuffer)->
     self.curBufId = curBufId
@@ -78,7 +78,7 @@ mapBuffer.create = s.mapBuffer.create = s.com_github_airutech_cnets_mapBuffer.cr
       self.free_buffers.push(i)
       self.buffers_grid_ids.push(-1)
     if unique_id < 0
-      unique_id = s.com_github_airutech_cnets_readerWriter.statsCollectorStatic.getNextLocalId()
+      unique_id = s.com_github_osblinnikov_cnets_readerWriter.statsCollectorStatic.getNextLocalId()
     self.unique_id = unique_id
     self.readers_grid_size = readers_grid_size
 
@@ -148,7 +148,7 @@ mapBuffer.create = s.mapBuffer.create = s.com_github_airutech_cnets_mapBuffer.cr
           #console.error self.amIdestination+" "+self.amIsource+" "+self.unique_id+" read msg.portId "+msg.portId
           return null
         msg.data.additionalData.portId = msg.portId
-        params = new s.com_github_airutech_cnets_types.bufferKernelParams(self, -1, msg.data.additionalData)
+        params = new s.com_github_osblinnikov_cnets_types.bufferKernelParams(self, -1, msg.data.additionalData)
         params.internalId = msg.data.internalId
         # console.log "mapBuffer "+self.unique_id+" read!"
         self.readFinished(params)
@@ -161,7 +161,7 @@ mapBuffer.create = s.mapBuffer.create = s.com_github_airutech_cnets_mapBuffer.cr
 
   writeLocally = ->
     while self.faultyWriteQueue.length > 0
-      params = new s.com_github_airutech_cnets_types.bufferKernelParams(self, self.faultyWriteQueue[0].grid_id, self.faultyWriteQueue[0].additionalData)
+      params = new s.com_github_osblinnikov_cnets_types.bufferKernelParams(self, self.faultyWriteQueue[0].grid_id, self.faultyWriteQueue[0].additionalData)
       # console.log "mapBuffer "+self.unique_id+" writeNext: params.additionalData.portId "+params.additionalData.portId
       r = self.writeNext(params)
       if r != null
@@ -179,7 +179,7 @@ mapBuffer.create = s.mapBuffer.create = s.com_github_airutech_cnets_mapBuffer.cr
     container = {}
     if typeof callbackObj == 'object' and typeof callbackObj.callback == 'function'
       self.callbacksOnWrite.push(callbackObj)
-    return new s.com_github_airutech_cnets_readerWriter.reader(new s.com_github_airutech_cnets_types.bufferKernelParams(self,undefined,container))
+    return new s.com_github_osblinnikov_cnets_readerWriter.reader(new s.com_github_osblinnikov_cnets_types.bufferKernelParams(self,undefined,container))
 
   self.getWriter = (callbackObj)->
     if self.amIdestination
@@ -189,13 +189,13 @@ mapBuffer.create = s.mapBuffer.create = s.com_github_airutech_cnets_mapBuffer.cr
     container = {}
     if typeof callbackObj == 'object' and typeof callbackObj.callback == 'function'
       self.callbacksOnRead.push(callbackObj)
-    return new s.com_github_airutech_cnets_readerWriter.writer(new s.com_github_airutech_cnets_types.bufferKernelParams(self,-1,container))
+    return new s.com_github_osblinnikov_cnets_readerWriter.writer(new s.com_github_osblinnikov_cnets_types.bufferKernelParams(self,-1,container))
 
   self.readNext = (params)->
     return self.readNextWithMeta(params).data
 
   self.readNextWithMeta = (params)->
-    res = new s.com_github_airutech_cnets_types.bufferReadData()
+    res = new s.com_github_osblinnikov_cnets_types.bufferReadData()
     if self != params.target
       return res
     m = params.target
@@ -388,7 +388,7 @@ mapBuffer.create = s.mapBuffer.create = s.com_github_airutech_cnets_mapBuffer.cr
     #console.log "addConnection:"+srcWrk+" "+srcWrkPin+" "+srcWrkIdInRWGrid+" "+dstWrk+" "+dstWrkPin+" "+dstWrkIdInRWGrid
     if srcWrk and dstWrk
       #we have source and destination workers
-      ch = new s.com_github_airutech_cnets_types.MessageChannel()
+      ch = new s.com_github_osblinnikov_cnets_types.MessageChannel()
       self.channels.push ch
       #console.log "addConnection interconnection"
       addWorker(true,srcWrkIdInRWGrid,srcWrk,srcWrkPin,ch.port1)
@@ -493,4 +493,4 @@ mapBuffer.create = s.mapBuffer.create = s.com_github_airutech_cnets_mapBuffer.cr
   true
 
 if isNode
-  module.exports = s.com_github_airutech_cnets_mapBuffer
+  module.exports = s.com_github_osblinnikov_cnets_mapBuffer

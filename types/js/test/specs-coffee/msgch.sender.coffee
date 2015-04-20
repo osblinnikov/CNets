@@ -1,7 +1,7 @@
 isNode = typeof module isnt "undefined" and module.exports
 
 #JUST FOR SIMULATION OF OPENING NESTED CHANNEL AND WORKER
-importScripts( '/dist/com_github_airutech_cnets_types/types.js')
+importScripts( '/dist/com_github_osblinnikov_cnets_types/types.js')
 
 chan = new MessageChannel()
 wrk1 = new Worker("/test/specs/msgch.receiver.js")

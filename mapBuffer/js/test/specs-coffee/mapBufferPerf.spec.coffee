@@ -1,17 +1,17 @@
 isNode = typeof module isnt "undefined" and module.exports
 if isNode
   s = {}
-  s.mapBuffer = s.com_github_airutech_cnets_mapBuffer = require(__dirname + "/../../dist/com_github_airutech_cnets_mapBuffer/mapBuffer.js")
-  s.types = s.com_github_airutech_cnets_types = require(__dirname + "/../../dist/com_github_airutech_cnets_types/types.js")
+  s.mapBuffer = s.com_github_osblinnikov_cnets_mapBuffer = require(__dirname + "/../../dist/com_github_osblinnikov_cnets_mapBuffer/mapBuffer.js")
+  s.types = s.com_github_osblinnikov_cnets_types = require(__dirname + "/../../dist/com_github_osblinnikov_cnets_types/types.js")
 else
   s = self
 
 describe "mapBuffer-send-receive-perf", ->
   it "should send many messages during 3 seconds", ->
     expect(s.mapBuffer.create).toEqual jasmine.any(Function)
-    expect(s.com_github_airutech_cnets_types.Worker).toEqual jasmine.any(Function)
+    expect(s.com_github_osblinnikov_cnets_types.Worker).toEqual jasmine.any(Function)
 
-    wrk0 = new s.com_github_airutech_cnets_types.Worker('/test/specs/mapBufferPerf.sender.js')
+    wrk0 = new s.com_github_osblinnikov_cnets_types.Worker('/test/specs/mapBufferPerf.sender.js')
 
     buffers = []
     buffers.length = 200

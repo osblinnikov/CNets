@@ -1,7 +1,7 @@
 
 
-#ifndef com_github_airutech_cnets_types_H
-#define com_github_airutech_cnets_types_H
+#ifndef com_github_osblinnikov_cnets_types_H
+#define com_github_osblinnikov_cnets_types_H
 
 #include <stdio.h>
 #include <errno.h>
@@ -54,44 +54,44 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
 
-#undef com_github_airutech_cnets_types_EXPORT_API
-#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(COM_GITHUB_AIRUTECH_CNETS_TYPES_STATIC)
-  #ifdef com_github_airutech_cnets_types_EXPORT
-    #define com_github_airutech_cnets_types_EXPORT_API __declspec(dllexport)
+#undef com_github_osblinnikov_cnets_types_EXPORT_API
+#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(COM_GITHUB_OSBLINNIKOV_CNETS_TYPES_STATIC)
+  #ifdef com_github_osblinnikov_cnets_types_EXPORT
+    #define com_github_osblinnikov_cnets_types_EXPORT_API __declspec(dllexport)
   #else
-    #define com_github_airutech_cnets_types_EXPORT_API __declspec(dllimport)
+    #define com_github_osblinnikov_cnets_types_EXPORT_API __declspec(dllimport)
   #endif
 #else
-  #define com_github_airutech_cnets_types_EXPORT_API extern
+  #define com_github_osblinnikov_cnets_types_EXPORT_API extern
 #endif
 
-struct com_github_airutech_cnets_types;
+struct com_github_osblinnikov_cnets_types;
 
-com_github_airutech_cnets_types_EXPORT_API
-void com_github_airutech_cnets_types_initialize(struct com_github_airutech_cnets_types *that);
+com_github_osblinnikov_cnets_types_EXPORT_API
+void com_github_osblinnikov_cnets_types_initialize(struct com_github_osblinnikov_cnets_types *that);
 
-com_github_airutech_cnets_types_EXPORT_API
-void com_github_airutech_cnets_types_deinitialize(struct com_github_airutech_cnets_types *that);
+com_github_osblinnikov_cnets_types_EXPORT_API
+void com_github_osblinnikov_cnets_types_deinitialize(struct com_github_osblinnikov_cnets_types *that);
 
-com_github_airutech_cnets_types_EXPORT_API
-void com_github_airutech_cnets_types_onKernels(struct com_github_airutech_cnets_types *that);
+com_github_osblinnikov_cnets_types_EXPORT_API
+void com_github_osblinnikov_cnets_types_onKernels(struct com_github_osblinnikov_cnets_types *that);
 
-#undef com_github_airutech_cnets_types_onCreateMacro
-#define com_github_airutech_cnets_types_onCreateMacro(_NAME_) /**/
+#undef com_github_osblinnikov_cnets_types_onCreateMacro
+#define com_github_osblinnikov_cnets_types_onCreateMacro(_NAME_) /**/
 
-#define com_github_airutech_cnets_types_create(_NAME_)\
-    com_github_airutech_cnets_types _NAME_;\
-    com_github_airutech_cnets_types_onCreateMacro(_NAME_)\
-    com_github_airutech_cnets_types_initialize(&_NAME_);\
-    com_github_airutech_cnets_types_onKernels(&_NAME_);
+#define com_github_osblinnikov_cnets_types_create(_NAME_)\
+    com_github_osblinnikov_cnets_types _NAME_;\
+    com_github_osblinnikov_cnets_types_onCreateMacro(_NAME_)\
+    com_github_osblinnikov_cnets_types_initialize(&_NAME_);\
+    com_github_osblinnikov_cnets_types_onKernels(&_NAME_);
 
-typedef struct com_github_airutech_cnets_types{
+typedef struct com_github_osblinnikov_cnets_types{
   
   
   void (*run)(void *that);
-/*[[[end]]] (checksum: e8f3f714af13c7223c1b4836de7907f6) */
+/*[[[end]]] (checksum: a27892eb8114e8a8b9a4d09b8492047f) (e8f3f714af13c7223c1b4836de7907f6) */
 
-}com_github_airutech_cnets_types;
+}com_github_osblinnikov_cnets_types;
 
 #include "./binary.h"
 #include "./arrayObject.h"
@@ -100,4 +100,4 @@ typedef struct com_github_airutech_cnets_types{
 #include "./timeUtils.h"
 #include "./statsLocalProtocol.h"
 
-#endif /* com_github_airutech_cnets_types_H */
+#endif /* com_github_osblinnikov_cnets_types_H */

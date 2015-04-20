@@ -12,6 +12,6 @@ else
   s = self
 
 if isNode
-  s.types = s.com_github_airutech_cnets_types = require(__dirname + "/../../dist/com_github_airutech_cnets_types/types.js")
-  s.readerWriter = s.com_github_airutech_cnets_readerWriter = require(__dirname + "/../../dist/com_github_airutech_cnets_readerWriter/readerWriter.js")
-#[[[end]]] (checksum: 2cbe5e7e53fc23b1d0ee20ae96ff0635)
+  s.types = s.com_github_osblinnikov_cnets_types = require(__dirname + "/../../dist/com_github_osblinnikov_cnets_types/types.js")
+  s.readerWriter = s.com_github_osblinnikov_cnets_readerWriter = require(__dirname + "/../../dist/com_github_osblinnikov_cnets_readerWriter/readerWriter.js")
+#[[[end]]] (checksum: cf4498f1ff2f804a94a0a4b4e6a908ae) (2cbe5e7e53fc23b1d0ee20ae96ff0635)

@@ -1,7 +1,7 @@
-#ifndef com_github_airutech_cnets_runnablesContainer_RunnableStoppable_H
-#define com_github_airutech_cnets_runnablesContainer_RunnableStoppable_H
+#ifndef com_github_osblinnikov_cnets_runnablesContainer_RunnableStoppable_H
+#define com_github_osblinnikov_cnets_runnablesContainer_RunnableStoppable_H
 
-#include "github.com/airutech/cnets/types/c/include/types.h"
+#include "github.com/osblinnikov/cnets/types/c/include/types.h"
 
 typedef struct RunnableStoppable{
   void *target;
@@ -17,4 +17,4 @@ typedef struct RunnableStoppable{
     _NAME_.run = fullName_##run;\
     _NAME_.onStop = fullName_##onStop;
 
-#endif /* com_github_airutech_cnets_runnablesContainer_RunnableStoppable_H */
+#endif /* com_github_osblinnikov_cnets_runnablesContainer_RunnableStoppable_H */
