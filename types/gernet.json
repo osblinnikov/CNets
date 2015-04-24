@@ -1,4 +1,4 @@
 {
-"path":"com.github.osblinnikov.cnets.types",
-"gen":["com.github.osblinnikov.gernet.plugins.library","com.github.osblinnikov.gernet.plugins.build"]
+"name":"github.com/osblinnikov/cnets/types",
+"gen":["github.com/osblinnikov/gernet/plugins/library","github.com/osblinnikov/gernet/plugins/build"]
 }

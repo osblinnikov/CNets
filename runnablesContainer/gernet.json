@@ -1,7 +1,7 @@
 {
-"path":"com.github.osblinnikov.cnets.runnablesContainer",
-"gen":["com.github.osblinnikov.gernet.plugins.library","com.github.osblinnikov.gernet.plugins.build"],
+"name":"github.com/osblinnikov/cnets/runnablesContainer",
+"gen":["github.com/osblinnikov/gernet/plugins/library","github.com/osblinnikov/gernet/plugins/build"],
 "depends":[{
-  "path":"com.github.osblinnikov.cnets.types"
+  "name":"github.com/osblinnikov/cnets/types"
 }]
 }

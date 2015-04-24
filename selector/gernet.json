@@ -1,6 +1,6 @@
 {
-"path":"com.github.osblinnikov.cnets.selector",
-"gen":["com.github.osblinnikov.gernet.plugins.buffer","com.github.osblinnikov.gernet.plugins.build"],
+"name":"github.com/osblinnikov/cnets/selector",
+"gen":["github.com/osblinnikov/gernet/plugins/buffer","github.com/osblinnikov/gernet/plugins/build"],
 "rwArgs":[{
   "name": "bufferId",
   "type": "int"
@@ -10,14 +10,14 @@
   "type": "reader[]"
 }],
 "depends":[{
-  "path":"com.github.osblinnikov.cnets.types"
+  "name":"github.com/osblinnikov/cnets/types"
 },{
-  "path":"com.github.osblinnikov.cnets.readerWriter"
+  "name":"github.com/osblinnikov/cnets/readerWriter"
 },{
-  "path":"com.github.osblinnikov.cnets.queue"
+  "name":"github.com/osblinnikov/cnets/queue"
 },{
-  "path":"com.github.osblinnikov.cnets.mapBuffer"
+  "name":"github.com/osblinnikov/cnets/mapBuffer"
 },{
-  "path":"com.github.osblinnikov.cnets.runnablesContainer"
+  "name":"github.com/osblinnikov/cnets/runnablesContainer"
 }]
 }

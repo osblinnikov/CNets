@@ -1,6 +1,6 @@
 {
-"path":"com.github.osblinnikov.cnets.queue",
-"gen":["com.github.osblinnikov.gernet.plugins.library","com.github.osblinnikov.gernet.plugins.build"],
+"name":"github.com/osblinnikov/cnets/queue",
+"gen":["github.com/osblinnikov/gernet/plugins/library","github.com/osblinnikov/gernet/plugins/build"],
 "args": [{
   "name": "capacity",
   "type": "int",
@@ -21,6 +21,6 @@
   "type":"unsigned"
 }],
 "depends":[{
-  "path":"com.github.osblinnikov.cnets.types"
+  "name":"github.com/osblinnikov/cnets/types"
 }]
 }
