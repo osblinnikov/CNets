@@ -6,14 +6,16 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 #include "../include/runnablesContainer.h"
 void com_github_osblinnikov_cnets_runnablesContainer_onCreate(com_github_osblinnikov_cnets_runnablesContainer *that);
 void com_github_osblinnikov_cnets_runnablesContainer_onDestroy(com_github_osblinnikov_cnets_runnablesContainer *that);
-void com_github_osblinnikov_cnets_runnablesContainer_initialize(com_github_osblinnikov_cnets_runnablesContainer *that){
+void com_github_osblinnikov_cnets_runnablesContainer_init(struct com_github_osblinnikov_cnets_runnablesContainer *that){
+  
+  com_github_osblinnikov_cnets_runnablesContainer_onKernels(that);
   com_github_osblinnikov_cnets_runnablesContainer_onCreate(that);
 }
 
-void com_github_osblinnikov_cnets_runnablesContainer_deinitialize(struct com_github_osblinnikov_cnets_runnablesContainer *that){
+void com_github_osblinnikov_cnets_runnablesContainer_deinit(struct com_github_osblinnikov_cnets_runnablesContainer *that){
   com_github_osblinnikov_cnets_runnablesContainer_onDestroy(that);
 }
-/*[[[end]]] (checksum: 3c4374f32b86990a7951426083c5c433) (451c3cc5739926ae03ed7689ce57110e)*/
+/*[[[end]]] (checksum: 78f41246454b2956a57ce0c15321b732) (451c3cc5739926ae03ed7689ce57110e)*/
 
 void com_github_osblinnikov_cnets_runnablesContainer_setContainers(
   struct com_github_osblinnikov_cnets_runnablesContainer *that,

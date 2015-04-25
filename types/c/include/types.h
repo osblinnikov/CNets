@@ -68,28 +68,15 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 struct com_github_osblinnikov_cnets_types;
 
 com_github_osblinnikov_cnets_types_EXPORT_API
-void com_github_osblinnikov_cnets_types_initialize(struct com_github_osblinnikov_cnets_types *that);
+void com_github_osblinnikov_cnets_types_init(struct com_github_osblinnikov_cnets_types *that);
 
 com_github_osblinnikov_cnets_types_EXPORT_API
-void com_github_osblinnikov_cnets_types_deinitialize(struct com_github_osblinnikov_cnets_types *that);
-
-com_github_osblinnikov_cnets_types_EXPORT_API
-void com_github_osblinnikov_cnets_types_onKernels(struct com_github_osblinnikov_cnets_types *that);
-
-#undef com_github_osblinnikov_cnets_types_onCreateMacro
-#define com_github_osblinnikov_cnets_types_onCreateMacro(_NAME_) /**/
-
-#define com_github_osblinnikov_cnets_types_create(_NAME_)\
-    com_github_osblinnikov_cnets_types _NAME_;\
-    com_github_osblinnikov_cnets_types_onCreateMacro(_NAME_)\
-    com_github_osblinnikov_cnets_types_initialize(&_NAME_);\
-    com_github_osblinnikov_cnets_types_onKernels(&_NAME_);
+void com_github_osblinnikov_cnets_types_deinit(struct com_github_osblinnikov_cnets_types *that);
 
 typedef struct com_github_osblinnikov_cnets_types{
   
   
-  void (*run)(void *that);
-/*[[[end]]] (checksum: a27892eb8114e8a8b9a4d09b8492047f) (e8f3f714af13c7223c1b4836de7907f6) */
+/*[[[end]]] (checksum: 6d553314bc383a5b21d70b73caad7b07) (e8f3f714af13c7223c1b4836de7907f6) */
 
 }com_github_osblinnikov_cnets_types;
 

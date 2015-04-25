@@ -28,44 +28,29 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 struct com_github_osblinnikov_cnets_mapBuffer;
 
 com_github_osblinnikov_cnets_mapBuffer_EXPORT_API
-reader com_github_osblinnikov_cnets_mapBuffer_getReader(struct com_github_osblinnikov_cnets_mapBuffer *that, void* container, int gridId);
+void com_github_osblinnikov_cnets_mapBuffer_init(struct com_github_osblinnikov_cnets_mapBuffer *that,
+    Object[] _buffers,
+    long _timeout_milisec,
+    int _readers_grid_size);
 
 com_github_osblinnikov_cnets_mapBuffer_EXPORT_API
-writer com_github_osblinnikov_cnets_mapBuffer_getWriter(struct com_github_osblinnikov_cnets_mapBuffer *that, void* container, int gridId);
+void com_github_osblinnikov_cnets_mapBuffer_deinit(struct com_github_osblinnikov_cnets_mapBuffer *that);
 
 com_github_osblinnikov_cnets_mapBuffer_EXPORT_API
-void com_github_osblinnikov_cnets_mapBuffer_initialize(struct com_github_osblinnikov_cnets_mapBuffer *that);
+reader com_github_osblinnikov_cnets_mapBuffer_createReader(struct com_github_osblinnikov_cnets_mapBuffer *that, int gridId);
 
 com_github_osblinnikov_cnets_mapBuffer_EXPORT_API
-void com_github_osblinnikov_cnets_mapBuffer_deinitialize(struct com_github_osblinnikov_cnets_mapBuffer *that);
-
-com_github_osblinnikov_cnets_mapBuffer_EXPORT_API
-void com_github_osblinnikov_cnets_mapBuffer_onKernels(struct com_github_osblinnikov_cnets_mapBuffer *that);
-
-#undef com_github_osblinnikov_cnets_mapBuffer_onCreateMacro
-#define com_github_osblinnikov_cnets_mapBuffer_onCreateMacro(_NAME_) /**/
+writer com_github_osblinnikov_cnets_mapBuffer_createWriter(struct com_github_osblinnikov_cnets_mapBuffer *that, int gridId);
 
 
-#define com_github_osblinnikov_cnets_mapBuffer_createReader(_NAME_,_that,_gridId)\
-  reader _NAME_ = com_github_osblinnikov_cnets_mapBuffer_getReader(_that,NULL,_gridId);
-
-#define com_github_osblinnikov_cnets_mapBuffer_createWriter(_NAME_,_that,_gridId)\
-  writer _NAME_ = com_github_osblinnikov_cnets_mapBuffer_getWriter(_that,NULL,_gridId);
-
-#define com_github_osblinnikov_cnets_mapBuffer_create(_NAME_,_buffers,_timeout_milisec,_readers_grid_size)\
-    com_github_osblinnikov_cnets_mapBuffer _NAME_;\
-    _NAME_.buffers = _buffers;\
-    _NAME_.timeout_milisec = _timeout_milisec;\
-    _NAME_.readers_grid_size = _readers_grid_size;\
-    com_github_osblinnikov_cnets_mapBuffer_onCreateMacro(_NAME_)\
-    com_github_osblinnikov_cnets_mapBuffer_initialize(&_NAME_);\
-    com_github_osblinnikov_cnets_mapBuffer_onKernels(&_NAME_);
 
 typedef struct com_github_osblinnikov_cnets_mapBuffer{
-    arrayObject buffers;int64_t timeout_milisec;int32_t readers_grid_size;
+    arrayObject buffers;
+  int64_t timeout_milisec;
+  int32_t readers_grid_size;
 
   
-/*[[[end]]] (checksum: f1a486371d930e05c91f30c3ce2ff50f) (eec6ce3f684ccd63bb8e663efc616e6d)*/
+/*[[[end]]] (checksum: 3b3dfa69fd5d639c5c0821b58a151c3a) (eec6ce3f684ccd63bb8e663efc616e6d)*/
   int                                       uniqueId;
   unsigned                                  *buffers_grid_ids;/*required for storing ids of writers*/
   int                                       *buffers_to_read;
@@ -83,28 +68,5 @@ typedef struct com_github_osblinnikov_cnets_mapBuffer{
   pthread_rwlock_t    rwLock;
   linkedContainer     *selectorContainers;
 }com_github_osblinnikov_cnets_mapBuffer;
-
-/*USER DEFINED INITIALIZATION: Initialization of arrays dependent on buffers.length, and readers_grid_size*/
-#undef com_github_osblinnikov_cnets_mapBuffer_onCreateMacro
-#define com_github_osblinnikov_cnets_mapBuffer_onCreateMacro(_NAME_)\
-    /* _buffers_grid_ids_ */\
-    unsigned* _NAME_##_buffers_grid_ids_ = (unsigned*)salloca(sizeof(unsigned)*_NAME_.buffers.length); \
-    _NAME_.buffers_grid_ids = _NAME_##_buffers_grid_ids_; \
-    /* _buffers_to_read_ */\
-    int* _NAME_##_buffers_to_read_ = (int*)salloca(sizeof(int)* _NAME_.buffers.length); \
-    _NAME_.buffers_to_read = _NAME_##_buffers_to_read_; \
-    /* _buffers_to_read_lock_ */\
-    pthread_spinlock_t* _NAME_##_buffers_to_read_lock_  = (pthread_spinlock_t*)salloca(sizeof(pthread_spinlock_t)*_NAME_.buffers.length); \
-    _NAME_.buffers_to_read_lock = _NAME_##_buffers_to_read_lock_; \
-    /* _grid_ */\
-    com_github_osblinnikov_cnets_queue_createGrid(_NAME_##_grid_, _NAME_.readers_grid_size, _NAME_.buffers.length)\
-    _NAME_.grid = _NAME_##_grid_; \
-    /* _grid_mutex_ */\
-    pthread_spinlock_t* _NAME_##_grid_mutex_ = (pthread_spinlock_t*)salloca(sizeof(pthread_spinlock_t)*_NAME_.readers_grid_size); \
-    _NAME_.grid_mutex = _NAME_##_grid_mutex_;\
-    /* _free_buffers_ */\
-    com_github_osblinnikov_cnets_queue_create(_NAME_##_free_buffers_,_NAME_.buffers.length)\
-    _NAME_.free_buffers = _NAME_##_free_buffers_;
-
 
 #endif /* com_github_osblinnikov_cnets_mapBuffer_H */

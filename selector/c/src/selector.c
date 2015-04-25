@@ -18,30 +18,47 @@ int com_github_osblinnikov_cnets_selector_addSelector(bufferKernelParams *params
 void com_github_osblinnikov_cnets_selector_onCreate(com_github_osblinnikov_cnets_selector *that);
 void com_github_osblinnikov_cnets_selector_onDestroy(com_github_osblinnikov_cnets_selector *that);
 
-reader com_github_osblinnikov_cnets_selector_getReader(com_github_osblinnikov_cnets_selector *that, void* container, int gridId){
-  bufferKernelParams_create(params, that, gridId, container,com_github_osblinnikov_cnets_selector_)
+reader com_github_osblinnikov_cnets_selector_createReader(com_github_osblinnikov_cnets_selector *that, int gridId){
+  bufferKernelParams_create(params, that, gridId, NULL,com_github_osblinnikov_cnets_selector_)
   reader_create(res,params)
   return res;
 }
 
-writer com_github_osblinnikov_cnets_selector_getWriter(com_github_osblinnikov_cnets_selector *that, void* container, int gridId){
-  bufferKernelParams_create(params, that, gridId, container,com_github_osblinnikov_cnets_selector_)
+writer com_github_osblinnikov_cnets_selector_createWriter(com_github_osblinnikov_cnets_selector *that, int gridId){
+  bufferKernelParams_create(params, that, gridId, NULL,com_github_osblinnikov_cnets_selector_)
   writer_create(res,params)
   return res;
 }
 
-void com_github_osblinnikov_cnets_selector_initialize(com_github_osblinnikov_cnets_selector *that){
+void com_github_osblinnikov_cnets_selector_init(struct com_github_osblinnikov_cnets_selector *that,
+    reader[] _reducableReaders){
+  
+  that->reducableReaders = _reducableReaders;
+  com_github_osblinnikov_cnets_selector_onKernels(that);
   com_github_osblinnikov_cnets_selector_onCreate(that);
 }
+}
 
-void com_github_osblinnikov_cnets_selector_deinitialize(struct com_github_osblinnikov_cnets_selector *that){
+void com_github_osblinnikov_cnets_selector_deinit(struct com_github_osblinnikov_cnets_selector *that){
   com_github_osblinnikov_cnets_selector_onDestroy(that);
 }
-/*[[[end]]] (checksum: a75d7b2ed9996f066d393f4228ce9bc1) (150173e19f1ff97a45ede3dbd6d1cf50) */
+/*[[[end]]] (checksum: 759426895c278668c02344a9ff3527c8) (150173e19f1ff97a45ede3dbd6d1cf50) */
 
 #include <assert.h>
 
 void com_github_osblinnikov_cnets_selector_onCreate(com_github_osblinnikov_cnets_selector *that){
+
+
+#undef com_github_osblinnikov_cnets_selector_onCreateMacro
+#define com_github_osblinnikov_cnets_selector_onCreateMacro(_NAME_)\
+    /* _allContainers_ */\
+    linkedContainer* _NAME_##_allContainers_ = (linkedContainer*)salloca(sizeof(linkedContainer)*_NAME_.reducableReaders.length); \
+    _NAME_.allContainers = _NAME_##_allContainers_;\
+    /* _writesToContainers_ */\
+    uint32_t* _NAME_##_writesToContainers_ = (uint32_t*)salloca(sizeof(uint32_t)*_NAME_.reducableReaders.length); \
+    _NAME_.writesToContainers = _NAME_##_writesToContainers_;
+
+  
   that->timeout_milisec = -1;
   that->lastReadId = -1;
   that->sumWrites = 0;

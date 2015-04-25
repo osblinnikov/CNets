@@ -6,14 +6,19 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 #include "../include/queue.h"
 void com_github_osblinnikov_cnets_queue_onCreate(com_github_osblinnikov_cnets_queue *that);
 void com_github_osblinnikov_cnets_queue_onDestroy(com_github_osblinnikov_cnets_queue *that);
-void com_github_osblinnikov_cnets_queue_initialize(com_github_osblinnikov_cnets_queue *that){
+void com_github_osblinnikov_cnets_queue_init(struct com_github_osblinnikov_cnets_queue *that,
+    int _capacity){
+  
+  that->capacity = _capacity;
+  that->data = arrayObject_init_dynamic(sizeof(uint32_t), that->capacity);
+  com_github_osblinnikov_cnets_queue_onKernels(that);
   com_github_osblinnikov_cnets_queue_onCreate(that);
 }
 
-void com_github_osblinnikov_cnets_queue_deinitialize(struct com_github_osblinnikov_cnets_queue *that){
+void com_github_osblinnikov_cnets_queue_deinit(struct com_github_osblinnikov_cnets_queue *that){
   com_github_osblinnikov_cnets_queue_onDestroy(that);
 }
-/*[[[end]]] (checksum: f10eb5ef3ecc92d32dc55d279c2d35d4) (cd2c58ec7c94a8d384711e7ccb284a23)*/
+/*[[[end]]] (checksum: f92a71cdb77b79091e16d271b40f9d6f) (cd2c58ec7c94a8d384711e7ccb284a23)*/
 
 BOOL com_github_osblinnikov_cnets_queue_isEmpty(com_github_osblinnikov_cnets_queue *that) {
   return that->tail == that->head;

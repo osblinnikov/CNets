@@ -27,28 +27,15 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 struct com_github_osblinnikov_cnets_runnablesContainer;
 
 com_github_osblinnikov_cnets_runnablesContainer_EXPORT_API
-void com_github_osblinnikov_cnets_runnablesContainer_initialize(struct com_github_osblinnikov_cnets_runnablesContainer *that);
+void com_github_osblinnikov_cnets_runnablesContainer_init(struct com_github_osblinnikov_cnets_runnablesContainer *that);
 
 com_github_osblinnikov_cnets_runnablesContainer_EXPORT_API
-void com_github_osblinnikov_cnets_runnablesContainer_deinitialize(struct com_github_osblinnikov_cnets_runnablesContainer *that);
-
-com_github_osblinnikov_cnets_runnablesContainer_EXPORT_API
-void com_github_osblinnikov_cnets_runnablesContainer_onKernels(struct com_github_osblinnikov_cnets_runnablesContainer *that);
-
-#undef com_github_osblinnikov_cnets_runnablesContainer_onCreateMacro
-#define com_github_osblinnikov_cnets_runnablesContainer_onCreateMacro(_NAME_) /**/
-
-#define com_github_osblinnikov_cnets_runnablesContainer_create(_NAME_)\
-    com_github_osblinnikov_cnets_runnablesContainer _NAME_;\
-    com_github_osblinnikov_cnets_runnablesContainer_onCreateMacro(_NAME_)\
-    com_github_osblinnikov_cnets_runnablesContainer_initialize(&_NAME_);\
-    com_github_osblinnikov_cnets_runnablesContainer_onKernels(&_NAME_);
+void com_github_osblinnikov_cnets_runnablesContainer_deinit(struct com_github_osblinnikov_cnets_runnablesContainer *that);
 
 typedef struct com_github_osblinnikov_cnets_runnablesContainer{
   
   
-  void (*run)(void *that);
-/*[[[end]]] (checksum: 1a39a905456e4d34e632534c683a2492) (acad9c1373418ff87ede0fd9fd1e6d9a)*/
+/*[[[end]]] (checksum: 8c192ea6145c4d5abd8b74d6a5f32d6d) (acad9c1373418ff87ede0fd9fd1e6d9a)*/
   struct com_github_osblinnikov_cnets_runnablesContainer_Kernel kernel;
   struct com_github_osblinnikov_cnets_runnablesContainer *containers;
   int containers_size;
@@ -58,10 +45,5 @@ typedef struct com_github_osblinnikov_cnets_runnablesContainer{
   void (*launch)(struct com_github_osblinnikov_cnets_runnablesContainer *that, BOOL lockLastElement);
   void (*stop)(struct com_github_osblinnikov_cnets_runnablesContainer *that);
 }com_github_osblinnikov_cnets_runnablesContainer;
-
-
-
-#undef com_github_osblinnikov_cnets_runnablesContainer_onCreateMacro
-#define com_github_osblinnikov_cnets_runnablesContainer_onCreateMacro(_NAME_) /**/
 
 #endif /* com_github_osblinnikov_cnets_runnablesContainer_H */

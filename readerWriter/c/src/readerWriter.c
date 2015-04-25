@@ -6,14 +6,16 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 #include "../include/readerWriter.h"
 void com_github_osblinnikov_cnets_readerWriter_onCreate(com_github_osblinnikov_cnets_readerWriter *that);
 void com_github_osblinnikov_cnets_readerWriter_onDestroy(com_github_osblinnikov_cnets_readerWriter *that);
-void com_github_osblinnikov_cnets_readerWriter_initialize(com_github_osblinnikov_cnets_readerWriter *that){
+void com_github_osblinnikov_cnets_readerWriter_init(struct com_github_osblinnikov_cnets_readerWriter *that){
+  
+  com_github_osblinnikov_cnets_readerWriter_onKernels(that);
   com_github_osblinnikov_cnets_readerWriter_onCreate(that);
 }
 
-void com_github_osblinnikov_cnets_readerWriter_deinitialize(struct com_github_osblinnikov_cnets_readerWriter *that){
+void com_github_osblinnikov_cnets_readerWriter_deinit(struct com_github_osblinnikov_cnets_readerWriter *that){
   com_github_osblinnikov_cnets_readerWriter_onDestroy(that);
 }
-/*[[[end]]] (checksum: 68d99789aa777093bd6bb77ec632fb6d) (ab7daffd3cfb8978936159bd8c620083)*/
+/*[[[end]]] (checksum: 3e689d1fff18609eb74d3c1a11af0650) (ab7daffd3cfb8978936159bd8c620083)*/
 
 void com_github_osblinnikov_cnets_readerWriter_onCreate(com_github_osblinnikov_cnets_readerWriter *that){
   
