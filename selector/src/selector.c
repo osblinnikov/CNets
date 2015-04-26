@@ -42,7 +42,7 @@ void com_github_osblinnikov_cnets_selector_init(struct com_github_osblinnikov_cn
 void com_github_osblinnikov_cnets_selector_deinit(struct com_github_osblinnikov_cnets_selector *that){
   com_github_osblinnikov_cnets_selector_onDestroy(that);
 }
-/*[[[end]]] (checksum: 759426895c278668c02344a9ff3527c8) (150173e19f1ff97a45ede3dbd6d1cf50) */
+/*[[[end]]] (759426895c278668c02344a9ff3527c8) (150173e19f1ff97a45ede3dbd6d1cf50) */
 
 #include <assert.h>
 

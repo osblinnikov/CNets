@@ -45,7 +45,7 @@ void com_github_osblinnikov_cnets_mapBuffer_init(struct com_github_osblinnikov_c
 void com_github_osblinnikov_cnets_mapBuffer_deinit(struct com_github_osblinnikov_cnets_mapBuffer *that){
   com_github_osblinnikov_cnets_mapBuffer_onDestroy(that);
 }
-/*[[[end]]] (checksum: 50fe8d2e6d91b31c90c87c1e39b261b4)*/
+/*[[[end]]] (50fe8d2e6d91b31c90c87c1e39b261b4)*/
 
 #include <assert.h>
 

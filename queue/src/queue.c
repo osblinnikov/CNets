@@ -18,7 +18,7 @@ void com_github_osblinnikov_cnets_queue_init(struct com_github_osblinnikov_cnets
 void com_github_osblinnikov_cnets_queue_deinit(struct com_github_osblinnikov_cnets_queue *that){
   com_github_osblinnikov_cnets_queue_onDestroy(that);
 }
-/*[[[end]]] (checksum: f92a71cdb77b79091e16d271b40f9d6f) (cd2c58ec7c94a8d384711e7ccb284a23)*/
+/*[[[end]]] (f92a71cdb77b79091e16d271b40f9d6f) (cd2c58ec7c94a8d384711e7ccb284a23)*/
 
 BOOL com_github_osblinnikov_cnets_queue_isEmpty(com_github_osblinnikov_cnets_queue *that) {
   return that->tail == that->head;

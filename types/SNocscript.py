@@ -9,7 +9,7 @@ def add_dependencies(env):
   c.tpl(cog,templateFile,c.a(prefix=configFile))
   ]]]'''
 
-  '''[[[end]]] (checksum: 68b329da9893e34099c7d8ad5cb9c940) (68b329da9893e34099c7d8ad5cb9c940)'''
+  '''[[[end]]] (68b329da9893e34099c7d8ad5cb9c940) (68b329da9893e34099c7d8ad5cb9c940)'''
   AddPthreads(env)
   # AddNetwork(env)
 

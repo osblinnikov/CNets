@@ -32,7 +32,7 @@ void com_github_osblinnikov_cnets_readerWriter_deinit(struct com_github_osblinni
 typedef struct com_github_osblinnikov_cnets_readerWriter{
   
   
-/*[[[end]]] (checksum: 42e8e6abb9603470d3c32fc387a4ae7e) (2e9094ef91abfbf76fe7ccfd8e9e189c)*/
+/*[[[end]]] (42e8e6abb9603470d3c32fc387a4ae7e) (2e9094ef91abfbf76fe7ccfd8e9e189c)*/
 
 }com_github_osblinnikov_cnets_readerWriter;
 

@@ -50,7 +50,7 @@ typedef struct com_github_osblinnikov_cnets_mapBuffer{
   int32_t readers_grid_size;
 
   
-/*[[[end]]] (checksum: a8c312edae6a942d73ed2dad010488eb) (eec6ce3f684ccd63bb8e663efc616e6d)*/
+/*[[[end]]] (a8c312edae6a942d73ed2dad010488eb) (eec6ce3f684ccd63bb8e663efc616e6d)*/
   int                                       uniqueId;
   unsigned                                  *buffers_grid_ids;/*required for storing ids of writers*/
   int                                       *buffers_to_read;

@@ -46,7 +46,7 @@ typedef struct com_github_osblinnikov_cnets_selector{
     arrayObject reducableReaders;
 
   
-/*[[[end]]] (checksum: 2835b78274aaf433310984e04193101f) (cf5327bc5122e80aa72c0a66351ce661) */
+/*[[[end]]] (2835b78274aaf433310984e04193101f) (cf5327bc5122e80aa72c0a66351ce661) */
     linkedContainer *allContainers;
     uint32_t        *writesToContainers;
     int64_t         timeout_milisec;

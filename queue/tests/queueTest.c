@@ -5,7 +5,7 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
 #include "../queue.h"
-/*[[[end]]] (checksum: 2ba1e92af3ca8c0c65c29ed3201f817b) (2ba1e92af3ca8c0c65c29ed3201f817b)*/
+/*[[[end]]] (2ba1e92af3ca8c0c65c29ed3201f817b) (2ba1e92af3ca8c0c65c29ed3201f817b)*/
 
 int testQueue(com_github_osblinnikov_cnets_queue *classObj){
   unsigned obj = 1;

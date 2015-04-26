@@ -5,7 +5,7 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
 #include "../mapBuffer.h"
-/*[[[end]]] (checksum: c8758e660135eca590d877f4dbe24d53) (c8758e660135eca590d877f4dbe24d53)*/
+/*[[[end]]] (c8758e660135eca590d877f4dbe24d53) (c8758e660135eca590d877f4dbe24d53)*/
 
 const int countToSend = 3000000;
 

@@ -38,7 +38,7 @@ typedef struct com_github_osblinnikov_cnets_queue{
   uint32_t tail;
 
   
-/*[[[end]]] (checksum: 1b8263f2732094ea3d32274693df0af8) (9943437232b3695222991abeee961a0d)*/
+/*[[[end]]] (1b8263f2732094ea3d32274693df0af8) (9943437232b3695222991abeee961a0d)*/
   BOOL (*isEmpty)(struct com_github_osblinnikov_cnets_queue *that);
   BOOL (*isFull)(struct com_github_osblinnikov_cnets_queue *that);
   BOOL (*dequeue)(struct com_github_osblinnikov_cnets_queue *that,uint32_t *obj);

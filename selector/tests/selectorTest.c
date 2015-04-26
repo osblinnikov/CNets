@@ -5,7 +5,7 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
 #include "../selector.h"
-/*[[[end]]] (checksum: cd59c4015188742c1e7808ded68d3506) (cd59c4015188742c1e7808ded68d3506)*/
+/*[[[end]]] (cd59c4015188742c1e7808ded68d3506) (cd59c4015188742c1e7808ded68d3506)*/
 
 int testWrite(writer* w){
   void* res = w->writeNext(w, -1);

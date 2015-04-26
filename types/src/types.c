@@ -15,7 +15,7 @@ void com_github_osblinnikov_cnets_types_init(struct com_github_osblinnikov_cnets
 void com_github_osblinnikov_cnets_types_deinit(struct com_github_osblinnikov_cnets_types *that){
   com_github_osblinnikov_cnets_types_onDestroy(that);
 }
-/*[[[end]]] (checksum: e20117ea76f34832a75cb111c3e9e273) (71c5424b19c94ae035119a62d5086f81)*/
+/*[[[end]]] (e20117ea76f34832a75cb111c3e9e273) (71c5424b19c94ae035119a62d5086f81)*/
 
 void com_github_osblinnikov_cnets_types_onCreate(com_github_osblinnikov_cnets_types *that){
   

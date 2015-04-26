@@ -76,7 +76,7 @@ void com_github_osblinnikov_cnets_types_deinit(struct com_github_osblinnikov_cne
 typedef struct com_github_osblinnikov_cnets_types{
   
   
-/*[[[end]]] (checksum: 6d553314bc383a5b21d70b73caad7b07) (e8f3f714af13c7223c1b4836de7907f6) */
+/*[[[end]]] (6d553314bc383a5b21d70b73caad7b07) (e8f3f714af13c7223c1b4836de7907f6) */
 
 }com_github_osblinnikov_cnets_types;
 

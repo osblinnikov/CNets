@@ -9,12 +9,12 @@ def add_dependencies(env):
   c.tpl(cog,templateFile,c.a(prefix=configFile))
   ]]]'''
 
-  AddDependency(env,'com_github_osblinnikov_cnets_types','github.com/osblinnikov/cnets/types/c')
-  AddDependency(env,'com_github_osblinnikov_cnets_readerWriter','github.com/osblinnikov/cnets/readerWriter/c')
-  AddDependency(env,'com_github_osblinnikov_cnets_queue','github.com/osblinnikov/cnets/queue/c')
-  AddDependency(env,'com_github_osblinnikov_cnets_mapBuffer','github.com/osblinnikov/cnets/mapBuffer/c')
-  AddDependency(env,'com_github_osblinnikov_cnets_runnablesContainer','github.com/osblinnikov/cnets/runnablesContainer/c')
-  '''[[[end]]] (checksum: f8df05a95babf1d6c46ff46603042819) (512eb8bcfea6d0e55d8e44d7fc61b2ea)'''
+  AddDependency(env,'com_github_osblinnikov_cnets_types','github.com/osblinnikov/cnets/types')
+  AddDependency(env,'com_github_osblinnikov_cnets_readerWriter','github.com/osblinnikov/cnets/readerWriter')
+  AddDependency(env,'com_github_osblinnikov_cnets_queue','github.com/osblinnikov/cnets/queue')
+  AddDependency(env,'com_github_osblinnikov_cnets_mapBuffer','github.com/osblinnikov/cnets/mapBuffer')
+  AddDependency(env,'com_github_osblinnikov_cnets_runnablesContainer','github.com/osblinnikov/cnets/runnablesContainer')
+  '''[[[end]]] (f8df05a95babf1d6c46ff46603042819) (512eb8bcfea6d0e55d8e44d7fc61b2ea)'''
   AddPthreads(env)
   # AddNetwork(env) 
 
