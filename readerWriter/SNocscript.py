@@ -1,7 +1,6 @@
-
 from helper import *
 #           Environment
-Import( 'env')
+Import( 'env' )
 
 def add_dependencies(env):
   '''[[[cog
@@ -16,9 +15,9 @@ def add_dependencies(env):
 
 c = {}
 c['PROG_NAME'] = 'readerWriter_cnets_osblinnikov_github_com'
-c['sourceFiles'] = ['readerWriter.c','statsCollectorStatic.c']
+# c['sourceFiles'] = ['readerWriter.c']
 c['testFiles'] = ['readerWriterTest.c']
-c['runFiles'] = ['main.c']
-c['defines'] = []
+# c['runFiles'] = ['main.c']
+# c['defines'] = []
 c['inclDeps'] = add_dependencies
 DefaultLibraryConfig(env, c)

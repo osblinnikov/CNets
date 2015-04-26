@@ -1,7 +1,6 @@
-
 from helper import *
 #           Environment
-Import( 'env')
+Import( 'env' )
 
 def add_dependencies(env):
   '''[[[cog
@@ -18,8 +17,9 @@ def add_dependencies(env):
 
 c = {}
 c['PROG_NAME'] = 'mapBuffer_cnets_osblinnikov_github_com'
-c['sourceFiles'] = ['mapBuffer.c']
+# c['sourceFiles'] = ['mapBuffer.c']
 c['testFiles'] = ['mapBufferTest.c']
 # c['runFiles'] = ['main.c']
+# c['defines'] = []
 c['inclDeps'] = add_dependencies
 DefaultLibraryConfig(env, c)

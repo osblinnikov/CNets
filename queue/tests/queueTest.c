@@ -26,11 +26,14 @@ int testQueue(queue_cnets_osblinnikov_github_com *classObj){
 }
 
 int main(int argc, char* argv[]){
-  queue_cnets_osblinnikov_github_com_create(classObj,1);
+  queue_cnets_osblinnikov_github_com classObj;
+  queue_cnets_osblinnikov_github_com_init(&classObj,1);
   if(testQueue(&classObj)<0){return -1;}
+  queue_cnets_osblinnikov_github_com_deinit(&classObj);
 
-  queue_cnets_osblinnikov_github_com_createGrid(classObjGrid,10,1);
+  queue_cnets_osblinnikov_github_com *classObjGrid = queue_cnets_osblinnikov_github_com_createGrid_dynamic(10,1);
   if(testQueue(&classObjGrid[0])<0){return -1;}
   if(testQueue(&classObjGrid[9])<0){return -1;}
+  queue_cnets_osblinnikov_github_com_freeGrid_dynamic(classObjGrid, 10);
   return 0;
 }

@@ -19,13 +19,13 @@ void mapBuffer_cnets_osblinnikov_github_com_onCreate(mapBuffer_cnets_osblinnikov
 void mapBuffer_cnets_osblinnikov_github_com_onDestroy(mapBuffer_cnets_osblinnikov_github_com *that);
 
 reader mapBuffer_cnets_osblinnikov_github_com_createReader(mapBuffer_cnets_osblinnikov_github_com *that, int gridId){
-  bufferKernelParams_create(params, that, gridId, NULL,mapBuffer_cnets_osblinnikov_github_com_)
+  bufferKernelParams_create(params, that, gridId, mapBuffer_cnets_osblinnikov_github_com_)
   reader_create(res,params)
   return res;
 }
 
 writer mapBuffer_cnets_osblinnikov_github_com_createWriter(mapBuffer_cnets_osblinnikov_github_com *that, int gridId){
-  bufferKernelParams_create(params, that, gridId, NULL,mapBuffer_cnets_osblinnikov_github_com_)
+  bufferKernelParams_create(params, that, gridId, mapBuffer_cnets_osblinnikov_github_com_)
   writer_create(res,params)
   return res;
 }
@@ -40,13 +40,12 @@ void mapBuffer_cnets_osblinnikov_github_com_init(struct mapBuffer_cnets_osblinni
   that->readers_grid_size = _readers_grid_size;
   mapBuffer_cnets_osblinnikov_github_com_onCreate(that);
 }
-}
 
 void mapBuffer_cnets_osblinnikov_github_com_deinit(struct mapBuffer_cnets_osblinnikov_github_com *that){
   mapBuffer_cnets_osblinnikov_github_com_onDestroy(that);
   
 }
-/*[[[end]]] (checksum: f7c505dd7650e99bad0641249b8077e1)*/
+/*[[[end]]] (checksum: 4589e7f84eb8649b23c0092b8f663d63)*/
 
 #include <assert.h>
 
@@ -96,11 +95,11 @@ void mapBuffer_cnets_osblinnikov_github_com_onCreate(mapBuffer_cnets_osblinnikov
 }
 
 void mapBuffer_cnets_osblinnikov_github_com_onDestroy(mapBuffer_cnets_osblinnikov_github_com *that){
-  free(that->buffers_grid_ids);/* = (unsigned*)malloc(sizeof(unsigned)*that->buffers.length);*/
-  free(that->buffers_to_read);/* = (int*)malloc(sizeof(int)* that->buffers.length);*/
-  free(that->buffers_to_read_lock);/* = (pthread_spinlock_t*)malloc(sizeof(pthread_spinlock_t)*that->buffers.length);*/
+  free((void*)that->buffers_grid_ids);/* = (unsigned*)malloc(sizeof(unsigned)*that->buffers.length);*/
+  free((void*)that->buffers_to_read);/* = (int*)malloc(sizeof(int)* that->buffers.length);*/
+  free((void*)that->buffers_to_read_lock);/* = (pthread_spinlock_t*)malloc(sizeof(pthread_spinlock_t)*that->buffers.length);*/
   queue_cnets_osblinnikov_github_com_freeGrid_dynamic(that->grid, that->readers_grid_size);
-  free(that->grid_mutex);/* = (pthread_spinlock_t*)malloc(sizeof(pthread_spinlock_t)*that->readers_grid_size);*/
+  free((void*)that->grid_mutex);/* = (pthread_spinlock_t*)malloc(sizeof(pthread_spinlock_t)*that->readers_grid_size);*/
   queue_cnets_osblinnikov_github_com_free_dynamic(that->free_buffers);
 
 

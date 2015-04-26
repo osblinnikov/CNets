@@ -7,7 +7,7 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 #include "../types.h"
 /*[[[end]]] (checksum: 438fa6bd312d31006a24014a265f6a96)*/
 int main(int argc, char* argv[]){
-  types_cnets_osblinnikov_github_com_create(classObj);
+  // types_cnets_osblinnikov_github_com_create(classObj);
   printf("-- CNets: Time Utils Tests: Test Delay ---\n");
   int i;
   uint64_t lastTime = curTimeMilisec();

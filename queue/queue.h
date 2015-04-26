@@ -47,21 +47,6 @@ typedef struct queue_cnets_osblinnikov_github_com{
   void (*clear)(struct queue_cnets_osblinnikov_github_com *that);
 }queue_cnets_osblinnikov_github_com;
 
-
-#define queue_cnets_osblinnikov_github_com_createGrid(_NAME_,_count,_capacity)\
-  queue_cnets_osblinnikov_github_com* _NAME_ = (queue_cnets_osblinnikov_github_com*)salloca(sizeof(queue_cnets_osblinnikov_github_com)*_count);\
-  arrayObject_create(_NAME_##_data_, uint32_t, _count*_capacity)\
-  int _NAME_##i;\
-  for(_NAME_##i=0;_NAME_##i<_count;_NAME_##i++){\
-    _NAME_[_NAME_##i].capacity = _capacity;\
-    _NAME_[_NAME_##i].data.array = (void*)&((uint32_t*)_NAME_##_data_.array)[_capacity * _NAME_##i];\
-    _NAME_[_NAME_##i].data.length = _capacity;\
-    _NAME_[_NAME_##i].data.itemSize = sizeof(uint32_t);\
-    queue_cnets_osblinnikov_github_com_initialize(&_NAME_[_NAME_##i]);\
-    queue_cnets_osblinnikov_github_com_onKernels(&_NAME_[_NAME_##i]);\
-  }
-
-
 queue_cnets_osblinnikov_github_com_EXPORT_API
 struct queue_cnets_osblinnikov_github_com* queue_cnets_osblinnikov_github_com_createGrid_dynamic(
     int32_t count,

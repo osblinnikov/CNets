@@ -1,4 +1,3 @@
-
 from helper import *
 #           Environment
 Import( 'env' )
@@ -16,9 +15,9 @@ def add_dependencies(env):
 
 c = {}
 c['PROG_NAME'] = 'runnablesContainer_cnets_osblinnikov_github_com'
-c['sourceFiles'] = ['runnablesContainer.c','Kernel.c']
+# c['sourceFiles'] = ['runnablesContainer.c']
 c['testFiles'] = ['runnablesContainerTest.c']
-c['runFiles'] = ['main.c']
-c['defines'] = []
+# c['runFiles'] = ['main.c']
+# c['defines'] = []
 c['inclDeps'] = add_dependencies
 DefaultLibraryConfig(env, c)

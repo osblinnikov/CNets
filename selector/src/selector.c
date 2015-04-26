@@ -19,13 +19,13 @@ void selector_cnets_osblinnikov_github_com_onCreate(selector_cnets_osblinnikov_g
 void selector_cnets_osblinnikov_github_com_onDestroy(selector_cnets_osblinnikov_github_com *that);
 
 reader selector_cnets_osblinnikov_github_com_createReader(selector_cnets_osblinnikov_github_com *that, int gridId){
-  bufferKernelParams_create(params, that, gridId, NULL,selector_cnets_osblinnikov_github_com_)
+  bufferKernelParams_create(params, that, gridId, selector_cnets_osblinnikov_github_com_)
   reader_create(res,params)
   return res;
 }
 
 writer selector_cnets_osblinnikov_github_com_createWriter(selector_cnets_osblinnikov_github_com *that, int gridId){
-  bufferKernelParams_create(params, that, gridId, NULL,selector_cnets_osblinnikov_github_com_)
+  bufferKernelParams_create(params, that, gridId, selector_cnets_osblinnikov_github_com_)
   writer_create(res,params)
   return res;
 }
@@ -36,13 +36,12 @@ void selector_cnets_osblinnikov_github_com_init(struct selector_cnets_osblinniko
   that->reducableReaders = _reducableReaders;
   selector_cnets_osblinnikov_github_com_onCreate(that);
 }
-}
 
 void selector_cnets_osblinnikov_github_com_deinit(struct selector_cnets_osblinnikov_github_com *that){
   selector_cnets_osblinnikov_github_com_onDestroy(that);
   
 }
-/*[[[end]]] (checksum: 13c68033b3827272a91b914e61b1e044)*/
+/*[[[end]]] (checksum: 05a58102077d8054f8341fc124fec0ec)*/
 
 #include <assert.h>
 
@@ -67,7 +66,7 @@ void selector_cnets_osblinnikov_github_com_onCreate(selector_cnets_osblinnikov_g
       that->allContainers[i].add = NULL;
       continue;
     }
-    linkedContainer_create(_linkedContainer_,selector_cnets_osblinnikov_github_com_getWriter(that, NULL, i))
+    linkedContainer_create(_linkedContainer_,selector_cnets_osblinnikov_github_com_createWriter(that, i))
     that->allContainers[i] = _linkedContainer_;
     if(0!=rdReaderItem->addSelector(rdReaderItem,&that->allContainers[i]) ) {
       printf("ERROR: selector_cnets_osblinnikov_github_com_onCreate addSelector failed\n");
@@ -146,10 +145,7 @@ bufferReadData selector_cnets_osblinnikov_github_com_readNextWithMeta(bufferKern
   res = rdReaderItem->readNextWithMeta(rdReaderItem,FALSE);
   if(res.data != NULL){
     res.nested_buffer_id = that->lastReadId;
-    selector_cnets_osblinnikov_github_com_container *container = (selector_cnets_osblinnikov_github_com_container*)params->additionalData;
-    if(container != NULL){
-      container->bufferId = that->lastReadId;
-    }
+    params->bufferId = that->lastReadId;
   }
   return res;
 }
@@ -165,11 +161,10 @@ int selector_cnets_osblinnikov_github_com_readFinished(bufferKernelParams *param
     printf("ERROR: selector_cnets_osblinnikov_github_com readFinished: Some Input parameters are wrong\n");
     return res;
   }
-  selector_cnets_osblinnikov_github_com_container *container = (selector_cnets_osblinnikov_github_com_container *)params->additionalData;
-  if(container != NULL && container->bufferId >=0 && container->bufferId < (int)that->reducableReaders.length){
-    reader* rdReaderItem = (reader*)&((char*)that->reducableReaders.array)[container->bufferId * that->reducableReaders.itemSize];
+  if(params->bufferId >=0 && params->bufferId < (int)that->reducableReaders.length){
+    reader* rdReaderItem = (reader*)&((char*)that->reducableReaders.array)[params->bufferId * that->reducableReaders.itemSize];
     res = rdReaderItem->readFinished(rdReaderItem);
-    container->bufferId = -1;
+    params->bufferId = -1;
   }else{
     printf("ERROR: selector_cnets_osblinnikov_github_com readFinished: some params are wrong\n");
   }
@@ -219,11 +214,10 @@ int selector_cnets_osblinnikov_github_com_size(bufferKernelParams *params){
     printf("ERROR: selector_cnets_osblinnikov_github_com size: Some Input parameters are wrong\n");
     return -1;
   };
-  selector_cnets_osblinnikov_github_com_container *container = (selector_cnets_osblinnikov_github_com_container *)params->additionalData;
-  if(container == NULL || container->bufferId <0 || container->bufferId >= (int)that->reducableReaders.length){
+  if(params->bufferId <0 || params->bufferId >= (int)that->reducableReaders.length){
     return -1;
   }
-  reader* rdReaderItem = (reader*)&((char*)that->reducableReaders.array)[container->bufferId * that->reducableReaders.itemSize];
+  reader* rdReaderItem = (reader*)&((char*)that->reducableReaders.array)[params->bufferId * that->reducableReaders.itemSize];
   return rdReaderItem->size(rdReaderItem);
 }
 
@@ -251,9 +245,4 @@ int selector_cnets_osblinnikov_github_com_uniqueId(bufferKernelParams *params){
 int selector_cnets_osblinnikov_github_com_addSelector(bufferKernelParams *params, void* selectorContainer) {
   printf("ERROR: selector_cnets_osblinnikov_github_com addSelector is not allowed: nested selectors look ambiguous\n");
   return -1;
-}
-
-void selector_cnets_osblinnikov_github_com_onKernels(selector_cnets_osblinnikov_github_com *that){
-  /*do nothing*/
-  return;
 }

@@ -77,11 +77,12 @@ void *readKernel(void* inTarget){
 
 int main(int argc, char* argv[]){
   arrayObject_create(arrBufs,unsigned,100)
-  mapBuffer_cnets_osblinnikov_github_com_create(classObj,arrBufs,1000,2)
-  mapBuffer_cnets_osblinnikov_github_com_createReader(classObjR0,&classObj,0)
-  mapBuffer_cnets_osblinnikov_github_com_createReader(classObjR1,&classObj,1)
-  mapBuffer_cnets_osblinnikov_github_com_createWriter(classObjW0,&classObj,0)
-  mapBuffer_cnets_osblinnikov_github_com_createWriter(classObjW1,&classObj,1)
+  mapBuffer_cnets_osblinnikov_github_com classObj;
+  mapBuffer_cnets_osblinnikov_github_com_init(&classObj, arrBufs,1000,2);
+  reader classObjR0 = mapBuffer_cnets_osblinnikov_github_com_createReader(&classObj,0);
+  reader classObjR1 = mapBuffer_cnets_osblinnikov_github_com_createReader(&classObj,1);
+  writer classObjW0 = mapBuffer_cnets_osblinnikov_github_com_createWriter(&classObj,0);
+  writer classObjW1 = mapBuffer_cnets_osblinnikov_github_com_createWriter(&classObj,1);
 
   if(testWrite(&classObjW0) < 0){
     printf("testWrite: res < 0 should be 0\n");
@@ -137,6 +138,7 @@ int main(int argc, char* argv[]){
   // taskDelay(5000000000L);
   pthread_join(threadW0, NULL);pthread_join(threadW1, NULL);pthread_join(threadR0, NULL);pthread_join(threadR1, NULL);
 
-  // mapBuffer_cnets_osblinnikov_github_com_deinitialize(&classObj);
+  mapBuffer_cnets_osblinnikov_github_com_deinit(&classObj);
+  printf("--- mapBufferTest OK\n");
   return 0;
 }

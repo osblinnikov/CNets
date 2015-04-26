@@ -8,11 +8,11 @@ import cogging as c
 c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
-#include "github.com/osblinnikov/cnets/types/types.h"
+#include "github.com/osblinnikov/cnets/mapBuffer/mapBuffer.h"
 #include "github.com/osblinnikov/cnets/readerWriter/readerWriter.h"
 #include "github.com/osblinnikov/cnets/queue/queue.h"
-#include "github.com/osblinnikov/cnets/mapBuffer/mapBuffer.h"
 #include "github.com/osblinnikov/cnets/runnablesContainer/runnablesContainer.h"
+#include "github.com/osblinnikov/cnets/types/types.h"
 
 #undef selector_cnets_osblinnikov_github_com_EXPORT_API
 #if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(SELECTOR_CNETS_OSBLINNIKOV_GITHUB_COM_STATIC)
@@ -46,7 +46,7 @@ typedef struct selector_cnets_osblinnikov_github_com{
     arrayObject reducableReaders;
 
   
-/*[[[end]]] (checksum: 0ab0ce43e1cac3821799959b2146d36e)*/
+/*[[[end]]] (checksum: 9e08e54a9fe2f10f12ac0dfade10898a)*/
     linkedContainer *allContainers;
     uint32_t        *writesToContainers;
     int64_t         timeout_milisec;
