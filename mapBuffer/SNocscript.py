@@ -9,17 +9,17 @@ def add_dependencies(env):
   c.tpl(cog,templateFile,c.a(prefix=configFile))
   ]]]'''
 
-  AddDependency(env,'com_github_osblinnikov_cnets_types','github.com/osblinnikov/cnets/types')
-  AddDependency(env,'com_github_osblinnikov_cnets_readerWriter','github.com/osblinnikov/cnets/readerWriter')
-  AddDependency(env,'com_github_osblinnikov_cnets_queue','github.com/osblinnikov/cnets/queue')
-  '''[[[end]]] (10043826d96a2528f442a5f4aad04124) (10043826d96a2528f442a5f4aad04124)'''
+  AddDependency(env,'types_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/types')
+  AddDependency(env,'readerWriter_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/readerWriter')
+  AddDependency(env,'queue_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/queue')
+  '''[[[end]]] (checksum: 37d856e3ef2f35e10842006d63160470)'''
   AddPthreads(env)
   # AddNetwork(env) 
 
 c = {}
-c['PROG_NAME'] = 'com_github_osblinnikov_cnets_mapBuffer'
+c['PROG_NAME'] = 'mapBuffer_cnets_osblinnikov_github_com'
 c['sourceFiles'] = ['mapBuffer.c']
 c['testFiles'] = ['mapBufferTest.c']
-c['runFiles'] = ['main.c']
+# c['runFiles'] = ['main.c']
 c['inclDeps'] = add_dependencies
 DefaultLibraryConfig(env, c)

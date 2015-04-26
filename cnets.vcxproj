@@ -37,7 +37,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <NMakeBuildCommandLine>snocs compiler=vc11exp configuration=Debug test testnorun=1</NMakeBuildCommandLine>
-    <NMakeOutput>$(SolutionDir)\mapBuffer\c\$(Configuration)\bin\com_github_osblinnikov_cnets_mapBuffer_static_test_vc11exp_x86.exe</NMakeOutput>
+    <NMakeOutput>$(SolutionDir)\mapBuffer\c\$(Configuration)\bin\mapBuffer_cnets_osblinnikov_github_com_static_test_vc11exp_x86.exe</NMakeOutput>
     <NMakeCleanCommandLine>snocs compiler=vc11exp configuration=Debug test -call testnorun=1</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>snocs compiler=vc11exp configuration=Debug test testnorun=1 -call &amp;&amp; snocs compiler=vc11exp configuration=Debug test testnorun=1</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
@@ -45,7 +45,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <NMakeBuildCommandLine>snocs compiler=vc11exp configuration=Debug test</NMakeBuildCommandLine>
-    <NMakeOutput>$(SolutionDir)\mapBuffer\c\$(Configuration)\bin\com_github_osblinnikov_cnets_mapBuffer_static_test_vc11exp_x86.exe</NMakeOutput>
+    <NMakeOutput>$(SolutionDir)\mapBuffer\c\$(Configuration)\bin\mapBuffer_cnets_osblinnikov_github_com_static_test_vc11exp_x86.exe</NMakeOutput>
     <NMakeCleanCommandLine>snocs compiler=vc11exp configuration=Debug test -call</NMakeCleanCommandLine>
     <NMakeReBuildCommandLine>snocs compiler=vc11exp configuration=Debug test -call &amp;&amp; snocs compiler=vc11exp configuration=Debug test</NMakeReBuildCommandLine>
     <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>

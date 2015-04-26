@@ -1,7 +1,7 @@
 
 
-#ifndef com_github_osblinnikov_cnets_mapBuffer_H
-#define com_github_osblinnikov_cnets_mapBuffer_H
+#ifndef mapBuffer_cnets_osblinnikov_github_com_H
+#define mapBuffer_cnets_osblinnikov_github_com_H
 
 #include <pthread.h>
 
@@ -14,49 +14,49 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 #include "github.com/osblinnikov/cnets/readerWriter/readerWriter.h"
 #include "github.com/osblinnikov/cnets/queue/queue.h"
 
-#undef com_github_osblinnikov_cnets_mapBuffer_EXPORT_API
-#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(COM_GITHUB_OSBLINNIKOV_CNETS_MAPBUFFER_STATIC)
-  #ifdef com_github_osblinnikov_cnets_mapBuffer_EXPORT
-    #define com_github_osblinnikov_cnets_mapBuffer_EXPORT_API __declspec(dllexport)
+#undef mapBuffer_cnets_osblinnikov_github_com_EXPORT_API
+#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(MAPBUFFER_CNETS_OSBLINNIKOV_GITHUB_COM_STATIC)
+  #ifdef mapBuffer_cnets_osblinnikov_github_com_EXPORT
+    #define mapBuffer_cnets_osblinnikov_github_com_EXPORT_API __declspec(dllexport)
   #else
-    #define com_github_osblinnikov_cnets_mapBuffer_EXPORT_API __declspec(dllimport)
+    #define mapBuffer_cnets_osblinnikov_github_com_EXPORT_API __declspec(dllimport)
   #endif
 #else
-  #define com_github_osblinnikov_cnets_mapBuffer_EXPORT_API extern
+  #define mapBuffer_cnets_osblinnikov_github_com_EXPORT_API extern
 #endif
 
-struct com_github_osblinnikov_cnets_mapBuffer;
+struct mapBuffer_cnets_osblinnikov_github_com;
 
-com_github_osblinnikov_cnets_mapBuffer_EXPORT_API
-void com_github_osblinnikov_cnets_mapBuffer_init(struct com_github_osblinnikov_cnets_mapBuffer *that,
+mapBuffer_cnets_osblinnikov_github_com_EXPORT_API
+void mapBuffer_cnets_osblinnikov_github_com_init(struct mapBuffer_cnets_osblinnikov_github_com *that,
     arrayObject _buffers,
     int64_t _timeout_milisec,
     int32_t _readers_grid_size);
 
-com_github_osblinnikov_cnets_mapBuffer_EXPORT_API
-void com_github_osblinnikov_cnets_mapBuffer_deinit(struct com_github_osblinnikov_cnets_mapBuffer *that);
+mapBuffer_cnets_osblinnikov_github_com_EXPORT_API
+void mapBuffer_cnets_osblinnikov_github_com_deinit(struct mapBuffer_cnets_osblinnikov_github_com *that);
 
-com_github_osblinnikov_cnets_mapBuffer_EXPORT_API
-reader com_github_osblinnikov_cnets_mapBuffer_createReader(struct com_github_osblinnikov_cnets_mapBuffer *that, int gridId);
+mapBuffer_cnets_osblinnikov_github_com_EXPORT_API
+reader mapBuffer_cnets_osblinnikov_github_com_createReader(struct mapBuffer_cnets_osblinnikov_github_com *that, int gridId);
 
-com_github_osblinnikov_cnets_mapBuffer_EXPORT_API
-writer com_github_osblinnikov_cnets_mapBuffer_createWriter(struct com_github_osblinnikov_cnets_mapBuffer *that, int gridId);
+mapBuffer_cnets_osblinnikov_github_com_EXPORT_API
+writer mapBuffer_cnets_osblinnikov_github_com_createWriter(struct mapBuffer_cnets_osblinnikov_github_com *that, int gridId);
 
 
 
-typedef struct com_github_osblinnikov_cnets_mapBuffer{
+typedef struct mapBuffer_cnets_osblinnikov_github_com{
     arrayObject buffers;
   int64_t timeout_milisec;
   int32_t readers_grid_size;
 
   
-/*[[[end]]] (a8c312edae6a942d73ed2dad010488eb) (eec6ce3f684ccd63bb8e663efc616e6d)*/
+/*[[[end]]] (checksum: 3424edb402c334f0c586afed6cd24233)*/
   int                                       uniqueId;
   unsigned                                  *buffers_grid_ids;/*required for storing ids of writers*/
   int                                       *buffers_to_read;
   pthread_spinlock_t                        *buffers_to_read_lock;
-  com_github_osblinnikov_cnets_queue           free_buffers;/*only one queue actually*/
-  com_github_osblinnikov_cnets_queue           *grid;
+  queue_cnets_osblinnikov_github_com           free_buffers;/*only one queue actually*/
+  queue_cnets_osblinnikov_github_com           *grid;
   pthread_spinlock_t                        *grid_mutex;  
 
   pthread_mutex_t     switch_cv_ow_mutex;
@@ -67,6 +67,6 @@ typedef struct com_github_osblinnikov_cnets_mapBuffer{
   pthread_cond_t      free_buffers_cv;
   pthread_rwlock_t    rwLock;
   linkedContainer     *selectorContainers;
-}com_github_osblinnikov_cnets_mapBuffer;
+}mapBuffer_cnets_osblinnikov_github_com;
 
-#endif /* com_github_osblinnikov_cnets_mapBuffer_H */
+#endif /* mapBuffer_cnets_osblinnikov_github_com_H */

@@ -5,8 +5,8 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
 #include "../readerWriter.h"
-/*[[[end]]] (724112955220ac70e1628f638fa547dd) (724112955220ac70e1628f638fa547dd)*/
+/*[[[end]]] (checksum: 1abe061d515cb3d1eefd5c1122f0430d)*/
 int main(int argc, char* argv[]){
-  com_github_osblinnikov_cnets_readerWriter_create(classObj);
+  readerWriter_cnets_osblinnikov_github_com_create(classObj);
   return 0;
 }

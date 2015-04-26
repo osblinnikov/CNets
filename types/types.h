@@ -1,7 +1,7 @@
 
 
-#ifndef com_github_osblinnikov_cnets_types_H
-#define com_github_osblinnikov_cnets_types_H
+#ifndef types_cnets_osblinnikov_github_com_H
+#define types_cnets_osblinnikov_github_com_H
 
 #include <stdio.h>
 #include <errno.h>
@@ -54,31 +54,31 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
 
-#undef com_github_osblinnikov_cnets_types_EXPORT_API
-#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(COM_GITHUB_OSBLINNIKOV_CNETS_TYPES_STATIC)
-  #ifdef com_github_osblinnikov_cnets_types_EXPORT
-    #define com_github_osblinnikov_cnets_types_EXPORT_API __declspec(dllexport)
+#undef types_cnets_osblinnikov_github_com_EXPORT_API
+#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(TYPES_CNETS_OSBLINNIKOV_GITHUB_COM_STATIC)
+  #ifdef types_cnets_osblinnikov_github_com_EXPORT
+    #define types_cnets_osblinnikov_github_com_EXPORT_API __declspec(dllexport)
   #else
-    #define com_github_osblinnikov_cnets_types_EXPORT_API __declspec(dllimport)
+    #define types_cnets_osblinnikov_github_com_EXPORT_API __declspec(dllimport)
   #endif
 #else
-  #define com_github_osblinnikov_cnets_types_EXPORT_API extern
+  #define types_cnets_osblinnikov_github_com_EXPORT_API extern
 #endif
 
-struct com_github_osblinnikov_cnets_types;
+struct types_cnets_osblinnikov_github_com;
 
-com_github_osblinnikov_cnets_types_EXPORT_API
-void com_github_osblinnikov_cnets_types_init(struct com_github_osblinnikov_cnets_types *that);
+types_cnets_osblinnikov_github_com_EXPORT_API
+void types_cnets_osblinnikov_github_com_init(struct types_cnets_osblinnikov_github_com *that);
 
-com_github_osblinnikov_cnets_types_EXPORT_API
-void com_github_osblinnikov_cnets_types_deinit(struct com_github_osblinnikov_cnets_types *that);
+types_cnets_osblinnikov_github_com_EXPORT_API
+void types_cnets_osblinnikov_github_com_deinit(struct types_cnets_osblinnikov_github_com *that);
 
-typedef struct com_github_osblinnikov_cnets_types{
+typedef struct types_cnets_osblinnikov_github_com{
   
   
-/*[[[end]]] (6d553314bc383a5b21d70b73caad7b07) (e8f3f714af13c7223c1b4836de7907f6) */
+/*[[[end]]] (checksum: 561141b78b2e1b85cabe92c4c6cf71b9)*/
 
-}com_github_osblinnikov_cnets_types;
+}types_cnets_osblinnikov_github_com;
 
 #include "./binary.h"
 #include "./arrayObject.h"
@@ -87,4 +87,4 @@ typedef struct com_github_osblinnikov_cnets_types{
 #include "./timeUtils.h"
 #include "./statsLocalProtocol.h"
 
-#endif /* com_github_osblinnikov_cnets_types_H */
+#endif /* types_cnets_osblinnikov_github_com_H */

@@ -4,30 +4,29 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
 #include "../readerWriter.h"
-void com_github_osblinnikov_cnets_readerWriter_onCreate(com_github_osblinnikov_cnets_readerWriter *that);
-void com_github_osblinnikov_cnets_readerWriter_onDestroy(com_github_osblinnikov_cnets_readerWriter *that);
-void com_github_osblinnikov_cnets_readerWriter_init(struct com_github_osblinnikov_cnets_readerWriter *that){
+void readerWriter_cnets_osblinnikov_github_com_onCreate(readerWriter_cnets_osblinnikov_github_com *that);
+void readerWriter_cnets_osblinnikov_github_com_onDestroy(readerWriter_cnets_osblinnikov_github_com *that);
+void readerWriter_cnets_osblinnikov_github_com_init(struct readerWriter_cnets_osblinnikov_github_com *that){
   
-  com_github_osblinnikov_cnets_readerWriter_onKernels(that);
-  com_github_osblinnikov_cnets_readerWriter_onCreate(that);
+  readerWriter_cnets_osblinnikov_github_com_onCreate(that);
 }
 
-void com_github_osblinnikov_cnets_readerWriter_deinit(struct com_github_osblinnikov_cnets_readerWriter *that){
-  com_github_osblinnikov_cnets_readerWriter_onDestroy(that);
+void readerWriter_cnets_osblinnikov_github_com_deinit(struct readerWriter_cnets_osblinnikov_github_com *that){
+  readerWriter_cnets_osblinnikov_github_com_onDestroy(that);
 }
-/*[[[end]]] (3e689d1fff18609eb74d3c1a11af0650) (ab7daffd3cfb8978936159bd8c620083)*/
+/*[[[end]]] (checksum: de268effa6e43e765a45f6d26e8659bd)*/
 
-void com_github_osblinnikov_cnets_readerWriter_onCreate(com_github_osblinnikov_cnets_readerWriter *that){
-  
-  return;
-}
-
-void com_github_osblinnikov_cnets_readerWriter_onDestroy(com_github_osblinnikov_cnets_readerWriter *that){
+void readerWriter_cnets_osblinnikov_github_com_onCreate(readerWriter_cnets_osblinnikov_github_com *that){
   
   return;
 }
 
-void com_github_osblinnikov_cnets_readerWriter_onKernels(com_github_osblinnikov_cnets_readerWriter *that){
+void readerWriter_cnets_osblinnikov_github_com_onDestroy(readerWriter_cnets_osblinnikov_github_com *that){
+  
+  return;
+}
+
+void readerWriter_cnets_osblinnikov_github_com_onKernels(readerWriter_cnets_osblinnikov_github_com *that){
   
   return;
 }
@@ -40,13 +39,13 @@ writer writerNULL(){
   return r;
 }
 
-void* com_github_osblinnikov_cnets_readerWriter_writeNext(writer *that, int waitThreshold) {
+void* readerWriter_cnets_osblinnikov_github_com_writeNext(writer *that, int waitThreshold) {
   if(that == NULL || that->params.target == NULL){return 0;}
   /*todo: add here special code for debuging data flow*/
   return that->params.writeNext(&that->params, waitThreshold);
 }
 
-int com_github_osblinnikov_cnets_readerWriter_writeFinished(writer *that) {
+int readerWriter_cnets_osblinnikov_github_com_writeFinished(writer *that) {
   if(that == NULL || that->params.target == NULL){return 0;}
   /*todo: add here special code for debuging data flow*/
   uint64_t interval = statsCollectorStatic_getStatsInterval();
@@ -60,8 +59,8 @@ int com_github_osblinnikov_cnets_readerWriter_writeFinished(writer *that) {
       that->packetsCounter++;
       uint64_t curTime = curTimeMilisec();
       if (curTime - that->statsTime > interval) {
-        com_github_osblinnikov_cnets_types_statsLocalProtocol* p;
-        p = (com_github_osblinnikov_cnets_types_statsLocalProtocol*) statsWriter.writeNext(&statsWriter,0);
+        types_cnets_osblinnikov_github_com_statsLocalProtocol* p;
+        p = (types_cnets_osblinnikov_github_com_statsLocalProtocol*) statsWriter.writeNext(&statsWriter,0);
         if (p != 0) {
           p->writer = TRUE;
           p->uniqueId = that->uniqueId(that);
@@ -79,27 +78,27 @@ int com_github_osblinnikov_cnets_readerWriter_writeFinished(writer *that) {
   return that->params.writeFinished(&that->params);
 }
 
-int com_github_osblinnikov_cnets_readerWriter_sizeW(writer *that){
+int readerWriter_cnets_osblinnikov_github_com_sizeW(writer *that){
   if(that == NULL || that->params.target == NULL){return 0;}
   return that->params.size(&that->params);
 }
 
-int com_github_osblinnikov_cnets_readerWriter_timeoutW(writer *that){
+int readerWriter_cnets_osblinnikov_github_com_timeoutW(writer *that){
   if(that == NULL || that->params.target == NULL){return 0;}
   return that->params.timeout(&that->params);
 }
 
-int com_github_osblinnikov_cnets_readerWriter_gridSizeW(writer *that){
+int readerWriter_cnets_osblinnikov_github_com_gridSizeW(writer *that){
   if(that == NULL || that->params.target == NULL){return 0;}
   return that->params.gridSize(&that->params); 
 }
 
-int com_github_osblinnikov_cnets_readerWriter_uniqueIdW(writer *that){
+int readerWriter_cnets_osblinnikov_github_com_uniqueIdW(writer *that){
   if(that == NULL || that->params.target == NULL){return 0;}
   return that->params.uniqueId(&that->params);
 }
 
-void com_github_osblinnikov_cnets_readerWriter_incrementBytesCounterW(writer *that, int bytesCounter) {
+void readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterW(writer *that, int bytesCounter) {
   if (statsCollectorStatic_getStatsInterval() > 0) {
     that->bytesCounter += bytesCounter;
   }
@@ -113,7 +112,7 @@ reader readerNULL(){
   return r;
 }
 
-bufferReadData com_github_osblinnikov_cnets_readerWriter_readNextWithMeta(reader *that, int waitThreshold) {
+bufferReadData readerWriter_cnets_osblinnikov_github_com_readNextWithMeta(reader *that, int waitThreshold) {
   bufferReadData res;
   res.data = NULL;
   if(that == NULL || that->params.target == NULL){return res;}
@@ -121,13 +120,13 @@ bufferReadData com_github_osblinnikov_cnets_readerWriter_readNextWithMeta(reader
   return that->params.readNextWithMeta(&that->params, waitThreshold);
 }
 
-void* com_github_osblinnikov_cnets_readerWriter_readNext(reader *that, int waitThreshold) {
+void* readerWriter_cnets_osblinnikov_github_com_readNext(reader *that, int waitThreshold) {
   if(that == NULL || that->params.target == NULL){return 0;}
   /*todo: add here special code for debuging data flow*/
   return that->params.readNext(&that->params, waitThreshold);
 }
 
-int com_github_osblinnikov_cnets_readerWriter_readFinished(reader *that) {
+int readerWriter_cnets_osblinnikov_github_com_readFinished(reader *that) {
   if(that == NULL || that->params.target == NULL){return 0;}
   /*todo: add here special code for debuging data flow*/
   uint64_t interval = statsCollectorStatic_getStatsInterval();
@@ -141,8 +140,8 @@ int com_github_osblinnikov_cnets_readerWriter_readFinished(reader *that) {
       that->packetsCounter++;
       uint64_t curTime = curTimeMilisec();
       if (curTime - that->statsTime > interval) {
-        com_github_osblinnikov_cnets_types_statsLocalProtocol* p;
-        p = (com_github_osblinnikov_cnets_types_statsLocalProtocol*) statsWriter.writeNext(&statsWriter,0);
+        types_cnets_osblinnikov_github_com_statsLocalProtocol* p;
+        p = (types_cnets_osblinnikov_github_com_statsLocalProtocol*) statsWriter.writeNext(&statsWriter,0);
         if (p != 0) {
           p->writer = FALSE;
           p->uniqueId = that->uniqueId(that);
@@ -160,33 +159,33 @@ int com_github_osblinnikov_cnets_readerWriter_readFinished(reader *that) {
   return that->params.readFinished(&that->params);
 }
 
-int com_github_osblinnikov_cnets_readerWriter_sizeR(reader *that){
+int readerWriter_cnets_osblinnikov_github_com_sizeR(reader *that){
   if(that == NULL || that->params.target == NULL){return 0;}
   return that->params.size(&that->params);
 }
 
-int com_github_osblinnikov_cnets_readerWriter_timeoutR(reader *that){
+int readerWriter_cnets_osblinnikov_github_com_timeoutR(reader *that){
   if(that == NULL || that->params.target == NULL){return 0;}
   return that->params.timeout(&that->params);
 }
 
-int com_github_osblinnikov_cnets_readerWriter_gridSizeR(reader *that){
+int readerWriter_cnets_osblinnikov_github_com_gridSizeR(reader *that){
   if(that == NULL || that->params.target == NULL){return 0;}
   return that->params.gridSize(&that->params); 
 }
 
-int com_github_osblinnikov_cnets_readerWriter_uniqueIdR(reader *that){
+int readerWriter_cnets_osblinnikov_github_com_uniqueIdR(reader *that){
   if(that == NULL || that->params.target == NULL){return 0;}
   return that->params.uniqueId(&that->params);
 }
 
-void com_github_osblinnikov_cnets_readerWriter_incrementBytesCounterR(reader *that, int bytesCounter) {
+void readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterR(reader *that, int bytesCounter) {
   if (statsCollectorStatic_getStatsInterval() > 0) {
     that->bytesCounter += bytesCounter;
   }
 }
 
-int com_github_osblinnikov_cnets_readerWriter_addSelector(reader *that,linkedContainer *container){
+int readerWriter_cnets_osblinnikov_github_com_addSelector(reader *that,linkedContainer *container){
   if(that == NULL || that->params.target == NULL){return -1;}
   return that->params.addSelector(&that->params, (void*)container);
 } 
@@ -203,13 +202,13 @@ void writer_init(writer *that, bufferKernelParams params){
   that->statsTime = 0;
   that->statsWriterParams.target = 0;
   that->params = params;
-  that->writeNext = com_github_osblinnikov_cnets_readerWriter_writeNext;
-  that->writeFinished = com_github_osblinnikov_cnets_readerWriter_writeFinished;
-  that->size = com_github_osblinnikov_cnets_readerWriter_sizeW;
-  that->timeout = com_github_osblinnikov_cnets_readerWriter_timeoutW;
-  that->gridSize = com_github_osblinnikov_cnets_readerWriter_gridSizeW;
-  that->uniqueId = com_github_osblinnikov_cnets_readerWriter_uniqueIdW;
-  that->incrementBytesCounter = com_github_osblinnikov_cnets_readerWriter_incrementBytesCounterW;
+  that->writeNext = readerWriter_cnets_osblinnikov_github_com_writeNext;
+  that->writeFinished = readerWriter_cnets_osblinnikov_github_com_writeFinished;
+  that->size = readerWriter_cnets_osblinnikov_github_com_sizeW;
+  that->timeout = readerWriter_cnets_osblinnikov_github_com_timeoutW;
+  that->gridSize = readerWriter_cnets_osblinnikov_github_com_gridSizeW;
+  that->uniqueId = readerWriter_cnets_osblinnikov_github_com_uniqueIdW;
+  that->incrementBytesCounter = readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterW;
   return;
 }
 
@@ -223,21 +222,21 @@ void reader_init(reader *that, bufferKernelParams params){
   that->statsTime = 0;
   that->statsWriterParams.target = 0;
   that->params = params;
-  that->readNextWithMeta = com_github_osblinnikov_cnets_readerWriter_readNextWithMeta;
-  that->readNext = com_github_osblinnikov_cnets_readerWriter_readNext;
-  that->readFinished = com_github_osblinnikov_cnets_readerWriter_readFinished;
-  that->size = com_github_osblinnikov_cnets_readerWriter_sizeR;
-  that->timeout = com_github_osblinnikov_cnets_readerWriter_timeoutR;
-  that->gridSize = com_github_osblinnikov_cnets_readerWriter_gridSizeR;
-  that->uniqueId = com_github_osblinnikov_cnets_readerWriter_uniqueIdR;
-  that->incrementBytesCounter = com_github_osblinnikov_cnets_readerWriter_incrementBytesCounterR;
-  that->addSelector = com_github_osblinnikov_cnets_readerWriter_addSelector;
+  that->readNextWithMeta = readerWriter_cnets_osblinnikov_github_com_readNextWithMeta;
+  that->readNext = readerWriter_cnets_osblinnikov_github_com_readNext;
+  that->readFinished = readerWriter_cnets_osblinnikov_github_com_readFinished;
+  that->size = readerWriter_cnets_osblinnikov_github_com_sizeR;
+  that->timeout = readerWriter_cnets_osblinnikov_github_com_timeoutR;
+  that->gridSize = readerWriter_cnets_osblinnikov_github_com_gridSizeR;
+  that->uniqueId = readerWriter_cnets_osblinnikov_github_com_uniqueIdR;
+  that->incrementBytesCounter = readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterR;
+  that->addSelector = readerWriter_cnets_osblinnikov_github_com_addSelector;
   return;
 }
 
-void com_github_osblinnikov_cnets_readerWriter_addContainer(struct linkedContainer *that, struct linkedContainer *added){
+void readerWriter_cnets_osblinnikov_github_com_addContainer(struct linkedContainer *that, struct linkedContainer *added){
   if(that == NULL){
-    printf("com_github_osblinnikov_cnets_readerWriter_addContainer that is NULL\n");
+    printf("readerWriter_cnets_osblinnikov_github_com_addContainer that is NULL\n");
     return;
   }
   if(that->next != NULL){
@@ -248,9 +247,9 @@ void com_github_osblinnikov_cnets_readerWriter_addContainer(struct linkedContain
   }
 }
 
-void com_github_osblinnikov_cnets_readerWriter_removeContainer(struct linkedContainer *that){
+void readerWriter_cnets_osblinnikov_github_com_removeContainer(struct linkedContainer *that){
   if(that == NULL){
-    printf("com_github_osblinnikov_cnets_readerWriter_removeContainer that is NULL\n");
+    printf("readerWriter_cnets_osblinnikov_github_com_removeContainer that is NULL\n");
     return;
   }
   if(that->prev != NULL){
@@ -261,9 +260,9 @@ void com_github_osblinnikov_cnets_readerWriter_removeContainer(struct linkedCont
   }
 }
 
-void com_github_osblinnikov_cnets_readerWriter_callContainer(struct linkedContainer *that){
+void readerWriter_cnets_osblinnikov_github_com_callContainer(struct linkedContainer *that){
   if(that == NULL){
-    printf("com_github_osblinnikov_cnets_readerWriter_callContainer that is NULL\n");
+    printf("readerWriter_cnets_osblinnikov_github_com_callContainer that is NULL\n");
     return;
   }
   that->w.writeFinished(&that->w);
@@ -280,7 +279,7 @@ void linkedContainer_init(struct linkedContainer *that, struct writer w){
   that->next = NULL;
   that->prev = NULL;
   that->w = w;
-  that->add = com_github_osblinnikov_cnets_readerWriter_addContainer;
-  that->remove = com_github_osblinnikov_cnets_readerWriter_removeContainer;
-  that->call = com_github_osblinnikov_cnets_readerWriter_callContainer;
+  that->add = readerWriter_cnets_osblinnikov_github_com_addContainer;
+  that->remove = readerWriter_cnets_osblinnikov_github_com_removeContainer;
+  that->call = readerWriter_cnets_osblinnikov_github_com_callContainer;
 }

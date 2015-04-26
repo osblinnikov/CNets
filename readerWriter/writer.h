@@ -1,5 +1,5 @@
-#ifndef com_github_osblinnikov_cnets_readerWriter_writer_H
-#define com_github_osblinnikov_cnets_readerWriter_writer_H
+#ifndef readerWriter_cnets_osblinnikov_github_com_writer_H
+#define readerWriter_cnets_osblinnikov_github_com_writer_H
 
 typedef struct writer{
   unsigned packetsCounter, bytesCounter;
@@ -15,14 +15,14 @@ typedef struct writer{
   void (*incrementBytesCounter)(struct writer *that, int bytesCounter);
 }writer;
 
-com_github_osblinnikov_cnets_readerWriter_EXPORT_API
+readerWriter_cnets_osblinnikov_github_com_EXPORT_API
   void writer_init(struct writer *that, bufferKernelParams params);
 
 #define writer_create(_NAME_,params)\
     writer _NAME_;\
     writer_init(&_NAME_,params);
 
-com_github_osblinnikov_cnets_readerWriter_EXPORT_API
+readerWriter_cnets_osblinnikov_github_com_EXPORT_API
   writer writerNULL();
 
-#endif /* com_github_osblinnikov_cnets_readerWriter_writer_H */
+#endif /* readerWriter_cnets_osblinnikov_github_com_writer_H */

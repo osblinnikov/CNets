@@ -1,7 +1,7 @@
 
 
-#ifndef com_github_osblinnikov_cnets_readerWriter_H
-#define com_github_osblinnikov_cnets_readerWriter_H
+#ifndef readerWriter_cnets_osblinnikov_github_com_H
+#define readerWriter_cnets_osblinnikov_github_com_H
 
 /*[[[cog
 import cogging as c
@@ -10,34 +10,34 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 
 #include "github.com/osblinnikov/cnets/types/types.h"
 
-#undef com_github_osblinnikov_cnets_readerWriter_EXPORT_API
-#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(COM_GITHUB_OSBLINNIKOV_CNETS_READERWRITER_STATIC)
-  #ifdef com_github_osblinnikov_cnets_readerWriter_EXPORT
-    #define com_github_osblinnikov_cnets_readerWriter_EXPORT_API __declspec(dllexport)
+#undef readerWriter_cnets_osblinnikov_github_com_EXPORT_API
+#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(READERWRITER_CNETS_OSBLINNIKOV_GITHUB_COM_STATIC)
+  #ifdef readerWriter_cnets_osblinnikov_github_com_EXPORT
+    #define readerWriter_cnets_osblinnikov_github_com_EXPORT_API __declspec(dllexport)
   #else
-    #define com_github_osblinnikov_cnets_readerWriter_EXPORT_API __declspec(dllimport)
+    #define readerWriter_cnets_osblinnikov_github_com_EXPORT_API __declspec(dllimport)
   #endif
 #else
-  #define com_github_osblinnikov_cnets_readerWriter_EXPORT_API extern
+  #define readerWriter_cnets_osblinnikov_github_com_EXPORT_API extern
 #endif
 
-struct com_github_osblinnikov_cnets_readerWriter;
+struct readerWriter_cnets_osblinnikov_github_com;
 
-com_github_osblinnikov_cnets_readerWriter_EXPORT_API
-void com_github_osblinnikov_cnets_readerWriter_init(struct com_github_osblinnikov_cnets_readerWriter *that);
+readerWriter_cnets_osblinnikov_github_com_EXPORT_API
+void readerWriter_cnets_osblinnikov_github_com_init(struct readerWriter_cnets_osblinnikov_github_com *that);
 
-com_github_osblinnikov_cnets_readerWriter_EXPORT_API
-void com_github_osblinnikov_cnets_readerWriter_deinit(struct com_github_osblinnikov_cnets_readerWriter *that);
+readerWriter_cnets_osblinnikov_github_com_EXPORT_API
+void readerWriter_cnets_osblinnikov_github_com_deinit(struct readerWriter_cnets_osblinnikov_github_com *that);
 
-typedef struct com_github_osblinnikov_cnets_readerWriter{
+typedef struct readerWriter_cnets_osblinnikov_github_com{
   
   
-/*[[[end]]] (42e8e6abb9603470d3c32fc387a4ae7e) (2e9094ef91abfbf76fe7ccfd8e9e189c)*/
+/*[[[end]]] (checksum: 08f36cd5e8ab14740eea75b872aa7327)*/
 
-}com_github_osblinnikov_cnets_readerWriter;
+}readerWriter_cnets_osblinnikov_github_com;
 
 #include "./writer.h"
 #include "./statsCollectorStatic.h"
 #include "./reader.h"
 
-#endif /* com_github_osblinnikov_cnets_readerWriter_H */
+#endif /* readerWriter_cnets_osblinnikov_github_com_H */

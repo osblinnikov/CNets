@@ -1,12 +1,12 @@
-#ifndef com_github_osblinnikov_cnets_types_statsLocalProtocol_H
-#define com_github_osblinnikov_cnets_types_statsLocalProtocol_H
+#ifndef types_cnets_osblinnikov_github_com_statsLocalProtocol_H
+#define types_cnets_osblinnikov_github_com_statsLocalProtocol_H
 
-typedef struct com_github_osblinnikov_cnets_types_statsLocalProtocol {
+typedef struct types_cnets_osblinnikov_github_com_statsLocalProtocol {
   long gridId;
   int uniqueId;
   int packets;
   int bytes;
   BOOL writer;
-}com_github_osblinnikov_cnets_types_statsLocalProtocol;
+}types_cnets_osblinnikov_github_com_statsLocalProtocol;
 
-#endif /* com_github_osblinnikov_cnets_types_statsLocalProtocol_H */
+#endif /* types_cnets_osblinnikov_github_com_statsLocalProtocol_H */

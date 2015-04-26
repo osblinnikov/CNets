@@ -1,5 +1,5 @@
-#ifndef com_github_osblinnikov_cnets_types_arrayObject_H
-#define com_github_osblinnikov_cnets_types_arrayObject_H
+#ifndef types_cnets_osblinnikov_github_com_arrayObject_H
+#define types_cnets_osblinnikov_github_com_arrayObject_H
 
 #include "./types.h"
 #include <stdio.h>
@@ -26,13 +26,13 @@ typedef struct arrayObject{
     _NAME_.length = _capacity;\
     _NAME_.itemSize = sizeof(_type);
 
-com_github_osblinnikov_cnets_types_EXPORT_API
+types_cnets_osblinnikov_github_com_EXPORT_API
 struct arrayObject arrayObject_init_dynamic(unsigned itemSize, unsigned capacity);
 
-com_github_osblinnikov_cnets_types_EXPORT_API
+types_cnets_osblinnikov_github_com_EXPORT_API
 void arrayObject_free_dynamic(struct arrayObject arr);
 
-com_github_osblinnikov_cnets_types_EXPORT_API
+types_cnets_osblinnikov_github_com_EXPORT_API
 struct arrayObject arrayObjectNULL();
 
-#endif /* com_github_osblinnikov_cnets_types_arrayObject_H */
+#endif /* types_cnets_osblinnikov_github_com_arrayObject_H */

@@ -1,7 +1,7 @@
 
 
-#ifndef com_github_osblinnikov_cnets_queue_H
-#define com_github_osblinnikov_cnets_queue_H
+#ifndef queue_cnets_osblinnikov_github_com_H
+#define queue_cnets_osblinnikov_github_com_H
 
 /*[[[cog
 import cogging as c
@@ -10,27 +10,27 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 
 #include "github.com/osblinnikov/cnets/types/types.h"
 
-#undef com_github_osblinnikov_cnets_queue_EXPORT_API
-#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(COM_GITHUB_OSBLINNIKOV_CNETS_QUEUE_STATIC)
-  #ifdef com_github_osblinnikov_cnets_queue_EXPORT
-    #define com_github_osblinnikov_cnets_queue_EXPORT_API __declspec(dllexport)
+#undef queue_cnets_osblinnikov_github_com_EXPORT_API
+#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(QUEUE_CNETS_OSBLINNIKOV_GITHUB_COM_STATIC)
+  #ifdef queue_cnets_osblinnikov_github_com_EXPORT
+    #define queue_cnets_osblinnikov_github_com_EXPORT_API __declspec(dllexport)
   #else
-    #define com_github_osblinnikov_cnets_queue_EXPORT_API __declspec(dllimport)
+    #define queue_cnets_osblinnikov_github_com_EXPORT_API __declspec(dllimport)
   #endif
 #else
-  #define com_github_osblinnikov_cnets_queue_EXPORT_API extern
+  #define queue_cnets_osblinnikov_github_com_EXPORT_API extern
 #endif
 
-struct com_github_osblinnikov_cnets_queue;
+struct queue_cnets_osblinnikov_github_com;
 
-com_github_osblinnikov_cnets_queue_EXPORT_API
-void com_github_osblinnikov_cnets_queue_init(struct com_github_osblinnikov_cnets_queue *that,
-    int _capacity);
+queue_cnets_osblinnikov_github_com_EXPORT_API
+void queue_cnets_osblinnikov_github_com_init(struct queue_cnets_osblinnikov_github_com *that,
+    int32_t _capacity);
 
-com_github_osblinnikov_cnets_queue_EXPORT_API
-void com_github_osblinnikov_cnets_queue_deinit(struct com_github_osblinnikov_cnets_queue *that);
+queue_cnets_osblinnikov_github_com_EXPORT_API
+void queue_cnets_osblinnikov_github_com_deinit(struct queue_cnets_osblinnikov_github_com *that);
 
-typedef struct com_github_osblinnikov_cnets_queue{
+typedef struct queue_cnets_osblinnikov_github_com{
     int32_t capacity;
   arrayObject data;
   uint32_t maxIndex;
@@ -38,18 +38,18 @@ typedef struct com_github_osblinnikov_cnets_queue{
   uint32_t tail;
 
   
-/*[[[end]]] (1b8263f2732094ea3d32274693df0af8) (9943437232b3695222991abeee961a0d)*/
-  BOOL (*isEmpty)(struct com_github_osblinnikov_cnets_queue *that);
-  BOOL (*isFull)(struct com_github_osblinnikov_cnets_queue *that);
-  BOOL (*dequeue)(struct com_github_osblinnikov_cnets_queue *that,uint32_t *obj);
-  BOOL (*enqueue)(struct com_github_osblinnikov_cnets_queue *that,uint32_t obj);
-  uint32_t (*length)(struct com_github_osblinnikov_cnets_queue *that);
-  void (*clear)(struct com_github_osblinnikov_cnets_queue *that);
-}com_github_osblinnikov_cnets_queue;
+/*[[[end]]] (checksum: e83423cfd890a32e04989bd8ad23c1e4)*/
+  BOOL (*isEmpty)(struct queue_cnets_osblinnikov_github_com *that);
+  BOOL (*isFull)(struct queue_cnets_osblinnikov_github_com *that);
+  BOOL (*dequeue)(struct queue_cnets_osblinnikov_github_com *that,uint32_t *obj);
+  BOOL (*enqueue)(struct queue_cnets_osblinnikov_github_com *that,uint32_t obj);
+  uint32_t (*length)(struct queue_cnets_osblinnikov_github_com *that);
+  void (*clear)(struct queue_cnets_osblinnikov_github_com *that);
+}queue_cnets_osblinnikov_github_com;
 
 
-#define com_github_osblinnikov_cnets_queue_createGrid(_NAME_,_count,_capacity)\
-  com_github_osblinnikov_cnets_queue* _NAME_ = (com_github_osblinnikov_cnets_queue*)salloca(sizeof(com_github_osblinnikov_cnets_queue)*_count);\
+#define queue_cnets_osblinnikov_github_com_createGrid(_NAME_,_count,_capacity)\
+  queue_cnets_osblinnikov_github_com* _NAME_ = (queue_cnets_osblinnikov_github_com*)salloca(sizeof(queue_cnets_osblinnikov_github_com)*_count);\
   arrayObject_create(_NAME_##_data_, uint32_t, _count*_capacity)\
   int _NAME_##i;\
   for(_NAME_##i=0;_NAME_##i<_count;_NAME_##i++){\
@@ -57,9 +57,9 @@ typedef struct com_github_osblinnikov_cnets_queue{
     _NAME_[_NAME_##i].data.array = (void*)&((uint32_t*)_NAME_##_data_.array)[_capacity * _NAME_##i];\
     _NAME_[_NAME_##i].data.length = _capacity;\
     _NAME_[_NAME_##i].data.itemSize = sizeof(uint32_t);\
-    com_github_osblinnikov_cnets_queue_initialize(&_NAME_[_NAME_##i]);\
-    com_github_osblinnikov_cnets_queue_onKernels(&_NAME_[_NAME_##i]);\
+    queue_cnets_osblinnikov_github_com_initialize(&_NAME_[_NAME_##i]);\
+    queue_cnets_osblinnikov_github_com_onKernels(&_NAME_[_NAME_##i]);\
   }
 
 
-#endif /* com_github_osblinnikov_cnets_queue_H */
+#endif /* queue_cnets_osblinnikov_github_com_H */

@@ -1,10 +1,10 @@
 #include "../Kernel.h"
 #include <assert.h>
 
-void *com_github_osblinnikov_cnets_runnablesContainer_Kernel_run(void* inTarget){
-  com_github_osblinnikov_cnets_runnablesContainer_Kernel* that = (com_github_osblinnikov_cnets_runnablesContainer_Kernel* )inTarget;
+void *runnablesContainer_cnets_osblinnikov_github_com_Kernel_run(void* inTarget){
+  runnablesContainer_cnets_osblinnikov_github_com_Kernel* that = (runnablesContainer_cnets_osblinnikov_github_com_Kernel* )inTarget;
   if(that == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_runnablesContainer_Kernel_run: that is NULL\n");
+    printf("ERROR: runnablesContainer_cnets_osblinnikov_github_com_Kernel_run: that is NULL\n");
     return NULL;
   }
   pthread_spin_lock(&that->stopFlagLock);
@@ -26,17 +26,17 @@ void *com_github_osblinnikov_cnets_runnablesContainer_Kernel_run(void* inTarget)
   return NULL;
 }
 
-void com_github_osblinnikov_cnets_runnablesContainer_Kernel_launch(
-  struct com_github_osblinnikov_cnets_runnablesContainer_Kernel* that, 
+void runnablesContainer_cnets_osblinnikov_github_com_Kernel_launch(
+  struct runnablesContainer_cnets_osblinnikov_github_com_Kernel* that, 
   RunnableStoppable objectToRun, 
   BOOL lockLaunch
 ){
   if(that == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_runnablesContainer_Kernel_launch: that is NULL\n");
+    printf("ERROR: runnablesContainer_cnets_osblinnikov_github_com_Kernel_launch: that is NULL\n");
     return;
   }
   if(objectToRun.target == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_runnablesContainer_Kernel_launch: objectToRun.target is NULL\n");
+    printf("ERROR: runnablesContainer_cnets_osblinnikov_github_com_Kernel_launch: objectToRun.target is NULL\n");
     return;
   }
   pthread_spin_lock(&that->stopFlagLock);
@@ -55,11 +55,11 @@ void com_github_osblinnikov_cnets_runnablesContainer_Kernel_launch(
     that->objectToRun.onStart(that->objectToRun.target);
     if(lockLaunch){
       that->isSeparateThread = FALSE;
-      com_github_osblinnikov_cnets_runnablesContainer_Kernel_run((void*)that);
+      runnablesContainer_cnets_osblinnikov_github_com_Kernel_run((void*)that);
     }else{
       that->isSeparateThread = TRUE;
-      if(pthread_create(&that->kernelThread, NULL, com_github_osblinnikov_cnets_runnablesContainer_Kernel_run, (void *)that)){
-        printf("ERROR com_github_osblinnikov_cnets_runnablesContainer_Kernel_launch: return code from pthread_create() != 0\n");
+      if(pthread_create(&that->kernelThread, NULL, runnablesContainer_cnets_osblinnikov_github_com_Kernel_run, (void *)that)){
+        printf("ERROR runnablesContainer_cnets_osblinnikov_github_com_Kernel_launch: return code from pthread_create() != 0\n");
         pthread_spin_lock(&that->isRunningLock);
         that->isRunning = FALSE;
         pthread_spin_unlock(&that->isRunningLock);
@@ -70,15 +70,15 @@ void com_github_osblinnikov_cnets_runnablesContainer_Kernel_launch(
   }
 }
 
-void com_github_osblinnikov_cnets_runnablesContainer_Kernel_stopThread(
-  struct com_github_osblinnikov_cnets_runnablesContainer_Kernel* that
+void runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread(
+  struct runnablesContainer_cnets_osblinnikov_github_com_Kernel* that
 ){
   if(that == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_runnablesContainer_Kernel_stopThread: that is NULL\n");
+    printf("ERROR: runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread: that is NULL\n");
     return;
   }
   if(that->objectToRun.target == NULL) {
-    printf("ERROR: com_github_osblinnikov_cnets_runnablesContainer_Kernel_stopThread: objectToRun.target is NULL\n");
+    printf("ERROR: runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread: objectToRun.target is NULL\n");
     return;
   }
 
@@ -101,7 +101,7 @@ void com_github_osblinnikov_cnets_runnablesContainer_Kernel_stopThread(
     //taskDelay(1000000L);
     pthread_mutex_lock(&that->isRunning_cv_mutex);
     if(ETIMEDOUT == pthread_cond_timedwait(&that->isRunning_cv, &that->isRunning_cv_mutex, &wait_timespec)){
-      printf("ERROR: com_github_osblinnikov_cnets_runnablesContainer_Kernel_stopThread: wait timeout\n");
+      printf("ERROR: runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread: wait timeout\n");
     }
     pthread_mutex_unlock(&that->isRunning_cv_mutex);
     pthread_spin_lock(&that->isRunningLock);
@@ -114,11 +114,11 @@ void com_github_osblinnikov_cnets_runnablesContainer_Kernel_stopThread(
   that->objectToRun.target = NULL;
 }
 
-void com_github_osblinnikov_cnets_runnablesContainer_Kernel_create(
-  com_github_osblinnikov_cnets_runnablesContainer_Kernel* that
+void runnablesContainer_cnets_osblinnikov_github_com_Kernel_create(
+  runnablesContainer_cnets_osblinnikov_github_com_Kernel* that
 ){
   if(that == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_runnablesContainer_Kernel_create: that is NULL\n");
+    printf("ERROR: runnablesContainer_cnets_osblinnikov_github_com_Kernel_create: that is NULL\n");
     return;
   }
   int res;
@@ -135,16 +135,16 @@ void com_github_osblinnikov_cnets_runnablesContainer_Kernel_create(
   res = pthread_cond_init(&that->isRunning_cv, 0);
   assert(!res);
 
-  that->launch = com_github_osblinnikov_cnets_runnablesContainer_Kernel_launch;
-  that->stopThread = com_github_osblinnikov_cnets_runnablesContainer_Kernel_stopThread;
+  that->launch = runnablesContainer_cnets_osblinnikov_github_com_Kernel_launch;
+  that->stopThread = runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread;
   return;
 }
 
-void com_github_osblinnikov_cnets_runnablesContainer_Kernel_destroy(
-  com_github_osblinnikov_cnets_runnablesContainer_Kernel* that
+void runnablesContainer_cnets_osblinnikov_github_com_Kernel_destroy(
+  runnablesContainer_cnets_osblinnikov_github_com_Kernel* that
 ){
   if(that == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_runnablesContainer_Kernel_destroy: that is NULL\n");
+    printf("ERROR: runnablesContainer_cnets_osblinnikov_github_com_Kernel_destroy: that is NULL\n");
     return;
   }
   int res = pthread_spin_destroy(&that->isRunningLock);

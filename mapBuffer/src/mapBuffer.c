@@ -5,32 +5,32 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 
 #include "../mapBuffer.h"
 
-void* com_github_osblinnikov_cnets_mapBuffer_readNext(bufferKernelParams *params, int waitThreshold);
-bufferReadData com_github_osblinnikov_cnets_mapBuffer_readNextWithMeta(bufferKernelParams *params, int waitThreshold);
-int com_github_osblinnikov_cnets_mapBuffer_readFinished(bufferKernelParams *params);
-void* com_github_osblinnikov_cnets_mapBuffer_writeNext(bufferKernelParams *params, int waitThreshold);
-int com_github_osblinnikov_cnets_mapBuffer_writeFinished(bufferKernelParams *params);
-int com_github_osblinnikov_cnets_mapBuffer_size(bufferKernelParams *params);
-int64_t com_github_osblinnikov_cnets_mapBuffer_timeout(bufferKernelParams *params);
-int com_github_osblinnikov_cnets_mapBuffer_gridSize(bufferKernelParams *params);
-int com_github_osblinnikov_cnets_mapBuffer_uniqueId(bufferKernelParams *params);
-int com_github_osblinnikov_cnets_mapBuffer_addSelector(bufferKernelParams *params, void* selectorContainer);
-void com_github_osblinnikov_cnets_mapBuffer_onCreate(com_github_osblinnikov_cnets_mapBuffer *that);
-void com_github_osblinnikov_cnets_mapBuffer_onDestroy(com_github_osblinnikov_cnets_mapBuffer *that);
+void* mapBuffer_cnets_osblinnikov_github_com_readNext(bufferKernelParams *params, int waitThreshold);
+bufferReadData mapBuffer_cnets_osblinnikov_github_com_readNextWithMeta(bufferKernelParams *params, int waitThreshold);
+int mapBuffer_cnets_osblinnikov_github_com_readFinished(bufferKernelParams *params);
+void* mapBuffer_cnets_osblinnikov_github_com_writeNext(bufferKernelParams *params, int waitThreshold);
+int mapBuffer_cnets_osblinnikov_github_com_writeFinished(bufferKernelParams *params);
+int mapBuffer_cnets_osblinnikov_github_com_size(bufferKernelParams *params);
+int64_t mapBuffer_cnets_osblinnikov_github_com_timeout(bufferKernelParams *params);
+int mapBuffer_cnets_osblinnikov_github_com_gridSize(bufferKernelParams *params);
+int mapBuffer_cnets_osblinnikov_github_com_uniqueId(bufferKernelParams *params);
+int mapBuffer_cnets_osblinnikov_github_com_addSelector(bufferKernelParams *params, void* selectorContainer);
+void mapBuffer_cnets_osblinnikov_github_com_onCreate(mapBuffer_cnets_osblinnikov_github_com *that);
+void mapBuffer_cnets_osblinnikov_github_com_onDestroy(mapBuffer_cnets_osblinnikov_github_com *that);
 
-reader com_github_osblinnikov_cnets_mapBuffer_createReader(com_github_osblinnikov_cnets_mapBuffer *that, int gridId){
-  bufferKernelParams_create(params, that, gridId, NULL,com_github_osblinnikov_cnets_mapBuffer_)
+reader mapBuffer_cnets_osblinnikov_github_com_createReader(mapBuffer_cnets_osblinnikov_github_com *that, int gridId){
+  bufferKernelParams_create(params, that, gridId, NULL,mapBuffer_cnets_osblinnikov_github_com_)
   reader_create(res,params)
   return res;
 }
 
-writer com_github_osblinnikov_cnets_mapBuffer_createWriter(com_github_osblinnikov_cnets_mapBuffer *that, int gridId){
-  bufferKernelParams_create(params, that, gridId, NULL,com_github_osblinnikov_cnets_mapBuffer_)
+writer mapBuffer_cnets_osblinnikov_github_com_createWriter(mapBuffer_cnets_osblinnikov_github_com *that, int gridId){
+  bufferKernelParams_create(params, that, gridId, NULL,mapBuffer_cnets_osblinnikov_github_com_)
   writer_create(res,params)
   return res;
 }
 
-void com_github_osblinnikov_cnets_mapBuffer_init(struct com_github_osblinnikov_cnets_mapBuffer *that,
+void mapBuffer_cnets_osblinnikov_github_com_init(struct mapBuffer_cnets_osblinnikov_github_com *that,
     arrayObject _buffers,
     int64_t _timeout_milisec,
     int32_t _readers_grid_size){
@@ -38,25 +38,25 @@ void com_github_osblinnikov_cnets_mapBuffer_init(struct com_github_osblinnikov_c
   that->buffers = _buffers;
   that->timeout_milisec = _timeout_milisec;
   that->readers_grid_size = _readers_grid_size;
-  com_github_osblinnikov_cnets_mapBuffer_onCreate(that);
+  mapBuffer_cnets_osblinnikov_github_com_onCreate(that);
 }
 }
 
-void com_github_osblinnikov_cnets_mapBuffer_deinit(struct com_github_osblinnikov_cnets_mapBuffer *that){
-  com_github_osblinnikov_cnets_mapBuffer_onDestroy(that);
+void mapBuffer_cnets_osblinnikov_github_com_deinit(struct mapBuffer_cnets_osblinnikov_github_com *that){
+  mapBuffer_cnets_osblinnikov_github_com_onDestroy(that);
 }
-/*[[[end]]] (50fe8d2e6d91b31c90c87c1e39b261b4)*/
+/*[[[end]]] (checksum: c76dd5f7e4fe4f7636afe0964db4c8d2)*/
 
 #include <assert.h>
 
-void com_github_osblinnikov_cnets_mapBuffer_onCreate(com_github_osblinnikov_cnets_mapBuffer *that){
+void mapBuffer_cnets_osblinnikov_github_com_onCreate(mapBuffer_cnets_osblinnikov_github_com *that){
 
   that->buffers_grid_ids = (unsigned*)malloc(sizeof(unsigned)*that->buffers.length);
   that->buffers_to_read = (int*)malloc(sizeof(int)* that->buffers.length);
   that->buffers_to_read_lock = (pthread_spinlock_t*)malloc(sizeof(pthread_spinlock_t)*that->buffers.length);
-  that->grid = com_github_osblinnikov_cnets_queue_createGrid_dynamic(that->readers_grid_size, that->buffers.length);
+  that->grid = queue_cnets_osblinnikov_github_com_createGrid_dynamic(that->readers_grid_size, that->buffers.length);
   that->grid_mutex = (pthread_spinlock_t*)malloc(sizeof(pthread_spinlock_t)*that->readers_grid_size);
-  that->free_buffers = com_github_osblinnikov_cnets_queue_create_dynamic(that->buffers.length);
+  that->free_buffers = queue_cnets_osblinnikov_github_com_create_dynamic(that->buffers.length);
 
   int res;
   int i;
@@ -94,13 +94,13 @@ void com_github_osblinnikov_cnets_mapBuffer_onCreate(com_github_osblinnikov_cnet
   return;
 }
 
-void com_github_osblinnikov_cnets_mapBuffer_onDestroy(com_github_osblinnikov_cnets_mapBuffer *that){
+void mapBuffer_cnets_osblinnikov_github_com_onDestroy(mapBuffer_cnets_osblinnikov_github_com *that){
   free(that->buffers_grid_ids);// = (unsigned*)malloc(sizeof(unsigned)*that->buffers.length);
   free(that->buffers_to_read);// = (int*)malloc(sizeof(int)* that->buffers.length);
   free(that->buffers_to_read_lock);// = (pthread_spinlock_t*)malloc(sizeof(pthread_spinlock_t)*that->buffers.length);
-  com_github_osblinnikov_cnets_queue_freeGrid_dynamic(that->grid, that->readers_grid_size);
+  queue_cnets_osblinnikov_github_com_freeGrid_dynamic(that->grid, that->readers_grid_size);
   free(that->grid_mutex);// = (pthread_spinlock_t*)malloc(sizeof(pthread_spinlock_t)*that->readers_grid_size);
-  com_github_osblinnikov_cnets_queue_free_dynamic(that->free_buffers);
+  queue_cnets_osblinnikov_github_com_free_dynamic(that->free_buffers);
 
 
   int res;
@@ -134,28 +134,28 @@ void com_github_osblinnikov_cnets_mapBuffer_onDestroy(com_github_osblinnikov_cne
   return;
 }
 
-void* com_github_osblinnikov_cnets_mapBuffer_readNext(bufferKernelParams *params, int waitThreshold) {
-  bufferReadData res = com_github_osblinnikov_cnets_mapBuffer_readNextWithMeta(params, waitThreshold);
+void* mapBuffer_cnets_osblinnikov_github_com_readNext(bufferKernelParams *params, int waitThreshold) {
+  bufferReadData res = mapBuffer_cnets_osblinnikov_github_com_readNextWithMeta(params, waitThreshold);
   return res.data;
 }
 
-bufferReadData com_github_osblinnikov_cnets_mapBuffer_readNextWithMeta(bufferKernelParams *params, int waitThreshold) {
+bufferReadData mapBuffer_cnets_osblinnikov_github_com_readNextWithMeta(bufferKernelParams *params, int waitThreshold) {
   bufferReadData res;
   res.data = NULL;
   if(params == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer readNextWithMeta: params is NULL\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com readNextWithMeta: params is NULL\n");
     return res;
   }
-  com_github_osblinnikov_cnets_mapBuffer *that = (com_github_osblinnikov_cnets_mapBuffer*)params->target;
+  mapBuffer_cnets_osblinnikov_github_com *that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
   if(that == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer readNextWithMeta: Some Input parameters are wrong\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com readNextWithMeta: Some Input parameters are wrong\n");
     return res;
   }
   uint64_t nanosec = waitThreshold < 0? (uint64_t)that->timeout_milisec : (uint64_t)waitThreshold;
   struct timespec wait_timespec;
   wait_timespec = getTimespecDelay(nanosec*(uint64_t)1000000L);
   /*find the reader's queue*/
-  com_github_osblinnikov_cnets_queue *grid_queue = &that->grid[params->grid_id];
+  queue_cnets_osblinnikov_github_com *grid_queue = &that->grid[params->grid_id];
   pthread_spinlock_t              *grid_mutex = &that->grid_mutex[params->grid_id];
   /*Lock `wrote` dqueue for the Reader "params->grid_id"*/
   pthread_spin_lock(grid_mutex);
@@ -170,7 +170,7 @@ bufferReadData com_github_osblinnikov_cnets_mapBuffer_readNextWithMeta(bufferKer
       do{
         pthread_spin_unlock(grid_mutex);
         if(ETIMEDOUT == pthread_cond_timedwait(&that->switch_cv, &that->switch_cv_mutex, &wait_timespec)){
-          printf("WARN: com_github_osblinnikov_cnets_mapBuffer_readNextWithMeta: wait timeout, params->grid_id='%d'\n",params->grid_id);
+          printf("WARN: mapBuffer_cnets_osblinnikov_github_com_readNextWithMeta: wait timeout, params->grid_id='%d'\n",params->grid_id);
         }
         pthread_spin_lock(grid_mutex);
         if(!grid_queue->isEmpty(grid_queue)){
@@ -183,7 +183,7 @@ bufferReadData com_github_osblinnikov_cnets_mapBuffer_readNextWithMeta(bufferKer
   if(!grid_queue->isEmpty(grid_queue)){
     /*write id of buffer to params->internalId variable or NULL if no one buffer available*/
     if(!grid_queue->dequeue(grid_queue, &params->internalId)){
-      printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_readNextWithMeta: dequeue is failed: %d\n", params->internalId);
+      printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_readNextWithMeta: dequeue is failed: %d\n", params->internalId);
     }else{
       if(params->internalId >= (unsigned)0 && params->internalId < that->buffers.length ){
         res.data = (void*)&((char*)that->buffers.array)[params->internalId*that->buffers.itemSize];
@@ -197,14 +197,14 @@ bufferReadData com_github_osblinnikov_cnets_mapBuffer_readNextWithMeta(bufferKer
   return res;
 }
 
-int com_github_osblinnikov_cnets_mapBuffer_readFinished(bufferKernelParams *params) {
+int mapBuffer_cnets_osblinnikov_github_com_readFinished(bufferKernelParams *params) {
   if(params == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer readFinished: params is NULL\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com readFinished: params is NULL\n");
     return -1;
   }
-  com_github_osblinnikov_cnets_mapBuffer *that = (com_github_osblinnikov_cnets_mapBuffer*)params->target;
+  mapBuffer_cnets_osblinnikov_github_com *that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
   if(that == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer readFinished: Some Input parameters are wrong\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com readFinished: Some Input parameters are wrong\n");
     return -1;
   }
   int btr;
@@ -215,22 +215,22 @@ int com_github_osblinnikov_cnets_mapBuffer_readFinished(bufferKernelParams *para
   /*here, we are only in case if read everything*/
   pthread_mutex_lock(&that->free_buffers_cv_mutex);
   if(!that->free_buffers.enqueue(&that->free_buffers, params->internalId)){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_readFinished: enqueue %d failed\n", params->internalId);
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_readFinished: enqueue %d failed\n", params->internalId);
   }
   pthread_cond_signal(&that->free_buffers_cv);
   pthread_mutex_unlock(&that->free_buffers_cv_mutex);
   return 0;
 }
 
-void* com_github_osblinnikov_cnets_mapBuffer_writeNext(bufferKernelParams *params, int waitThreshold) {
+void* mapBuffer_cnets_osblinnikov_github_com_writeNext(bufferKernelParams *params, int waitThreshold) {
   if(params == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer writeNext: params is NULL\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com writeNext: params is NULL\n");
     return NULL;
   }
-  com_github_osblinnikov_cnets_mapBuffer *that = (com_github_osblinnikov_cnets_mapBuffer*)params->target;
+  mapBuffer_cnets_osblinnikov_github_com *that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
   void* res = NULL;
   if(that == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer writeNext: Some Input parameters are wrong\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com writeNext: Some Input parameters are wrong\n");
     return res;
   }
   uint64_t nanosec = waitThreshold < 0? (uint64_t)that->timeout_milisec : (uint64_t)waitThreshold;
@@ -242,12 +242,12 @@ void* com_github_osblinnikov_cnets_mapBuffer_writeNext(bufferKernelParams *param
     /*Lock uniq Publisher - only one Publisher will wait for condition variable
     wait until cond variable of free buffer with "Lock `free` stack" mutex*/
     if(ETIMEDOUT == pthread_cond_timedwait(&that->free_buffers_cv, &that->free_buffers_cv_mutex, &wait_timespec)){
-      printf("WARN: com_github_osblinnikov_cnets_mapBuffer_writeNext: wait timeout, params->grid_id='%d'\n",params->grid_id);
+      printf("WARN: mapBuffer_cnets_osblinnikov_github_com_writeNext: wait timeout, params->grid_id='%d'\n",params->grid_id);
     }
   }
   if(!that->free_buffers.isEmpty(&that->free_buffers)){
     if(!that->free_buffers.dequeue(&that->free_buffers, &params->internalId)){
-      printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_writeNext: dequeue is failed: %d\n", params->internalId);
+      printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_writeNext: dequeue is failed: %d\n", params->internalId);
     }else{
       res = (void*)&((char*)that->buffers.array)[params->internalId*that->buffers.itemSize];
     }
@@ -257,14 +257,14 @@ void* com_github_osblinnikov_cnets_mapBuffer_writeNext(bufferKernelParams *param
   return res;
 }
 
-int com_github_osblinnikov_cnets_mapBuffer_writeFinished(bufferKernelParams *params) {
+int mapBuffer_cnets_osblinnikov_github_com_writeFinished(bufferKernelParams *params) {
   if(params == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_writeFinished: params is NULL\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_writeFinished: params is NULL\n");
     return -1;
   }
-  com_github_osblinnikov_cnets_mapBuffer *that = (com_github_osblinnikov_cnets_mapBuffer*)params->target;
+  mapBuffer_cnets_osblinnikov_github_com *that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
   if(that == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_writeFinished: Some Input parameters are wrong\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_writeFinished: Some Input parameters are wrong\n");
     return -1;
   };
 
@@ -272,7 +272,7 @@ int com_github_osblinnikov_cnets_mapBuffer_writeFinished(bufferKernelParams *par
 
   pthread_spin_lock(&that->buffers_to_read_lock[params->internalId]);
   if(that->buffers_to_read[params->internalId]){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_writeFinished: ERROR not all readers read buffer %d, there are %d remain!\n",params->internalId, that->buffers_to_read[params->internalId]);
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_writeFinished: ERROR not all readers read buffer %d, there are %d remain!\n",params->internalId, that->buffers_to_read[params->internalId]);
     pthread_spin_unlock(&that->buffers_to_read_lock[params->internalId]);
     return -1;
   }
@@ -282,7 +282,7 @@ int com_github_osblinnikov_cnets_mapBuffer_writeFinished(bufferKernelParams *par
   for(i=0; i<(int)that->readers_grid_size; ++i){
     pthread_spin_lock( &that->grid_mutex[i] );
     if(!that->grid[i].enqueue(&that->grid[i], params->internalId)){
-      printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_writeFinished: enqueue %d failed\n", params->internalId);
+      printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_writeFinished: enqueue %d failed\n", params->internalId);
     }
     that->buffers_grid_ids[params->internalId] = params->grid_id;
     pthread_spin_unlock(&that->grid_mutex[i]);
@@ -300,66 +300,66 @@ int com_github_osblinnikov_cnets_mapBuffer_writeFinished(bufferKernelParams *par
   return 0;
 }
 
-int com_github_osblinnikov_cnets_mapBuffer_size(bufferKernelParams *params){
+int mapBuffer_cnets_osblinnikov_github_com_size(bufferKernelParams *params){
   if(params == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_size: params is NULL\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_size: params is NULL\n");
     return -1;
   }
-  com_github_osblinnikov_cnets_mapBuffer *that = (com_github_osblinnikov_cnets_mapBuffer*)params->target;
+  mapBuffer_cnets_osblinnikov_github_com *that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
   if(that == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_size: Some Input parameters are wrong\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_size: Some Input parameters are wrong\n");
     return -1;
   };
   return that->buffers.length;
 }
 
-int64_t com_github_osblinnikov_cnets_mapBuffer_timeout(bufferKernelParams *params){
+int64_t mapBuffer_cnets_osblinnikov_github_com_timeout(bufferKernelParams *params){
   if(params == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_timeout: params is NULL\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_timeout: params is NULL\n");
     return -1;
   }
-  com_github_osblinnikov_cnets_mapBuffer *that = (com_github_osblinnikov_cnets_mapBuffer*)params->target;
+  mapBuffer_cnets_osblinnikov_github_com *that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
   if(that == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_timeout: Some Input parameters are wrong\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_timeout: Some Input parameters are wrong\n");
     return -1;
   };
   return that->timeout_milisec;
 }
 
-int com_github_osblinnikov_cnets_mapBuffer_gridSize(bufferKernelParams *params){
+int mapBuffer_cnets_osblinnikov_github_com_gridSize(bufferKernelParams *params){
   if(params == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_gridSize: params is NULL\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_gridSize: params is NULL\n");
     return -1;
   }
-  com_github_osblinnikov_cnets_mapBuffer *that = (com_github_osblinnikov_cnets_mapBuffer*)params->target;
+  mapBuffer_cnets_osblinnikov_github_com *that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
   if(that == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_gridSize: Some Input parameters are wrong\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_gridSize: Some Input parameters are wrong\n");
     return -1;
   };
   return that->readers_grid_size;
 }
 
-int com_github_osblinnikov_cnets_mapBuffer_uniqueId(bufferKernelParams *params){
+int mapBuffer_cnets_osblinnikov_github_com_uniqueId(bufferKernelParams *params){
   if(params == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_uniqueId: params is NULL\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_uniqueId: params is NULL\n");
     return -1;
   }
-  com_github_osblinnikov_cnets_mapBuffer *that = (com_github_osblinnikov_cnets_mapBuffer*)params->target;
+  mapBuffer_cnets_osblinnikov_github_com *that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
   if(that == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_uniqueId: Some Input parameters are wrong\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_uniqueId: Some Input parameters are wrong\n");
     return -1;
   };
   return that->uniqueId;
 }
 
-int com_github_osblinnikov_cnets_mapBuffer_addSelector(bufferKernelParams *params, void* selectorContainer) {
+int mapBuffer_cnets_osblinnikov_github_com_addSelector(bufferKernelParams *params, void* selectorContainer) {
   if(params == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_addSelector: params is NULL\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_addSelector: params is NULL\n");
     return -1;
   }
-  com_github_osblinnikov_cnets_mapBuffer *that = (com_github_osblinnikov_cnets_mapBuffer*)params->target;
+  mapBuffer_cnets_osblinnikov_github_com *that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
   if(that == NULL){
-    printf("ERROR: com_github_osblinnikov_cnets_mapBuffer_addSelector: Some Input parameters are wrong\n");
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com_addSelector: Some Input parameters are wrong\n");
     return -1;
   };
   linkedContainer *sContainer = (linkedContainer*)selectorContainer;

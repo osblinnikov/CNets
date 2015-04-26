@@ -1,7 +1,7 @@
 
 
-#ifndef com_github_osblinnikov_cnets_selector_H
-#define com_github_osblinnikov_cnets_selector_H
+#ifndef selector_cnets_osblinnikov_github_com_H
+#define selector_cnets_osblinnikov_github_com_H
 
 /*[[[cog
 import cogging as c
@@ -14,39 +14,39 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 #include "github.com/osblinnikov/cnets/mapBuffer/mapBuffer.h"
 #include "github.com/osblinnikov/cnets/runnablesContainer/runnablesContainer.h"
 
-#undef com_github_osblinnikov_cnets_selector_EXPORT_API
-#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(COM_GITHUB_OSBLINNIKOV_CNETS_SELECTOR_STATIC)
-  #ifdef com_github_osblinnikov_cnets_selector_EXPORT
-    #define com_github_osblinnikov_cnets_selector_EXPORT_API __declspec(dllexport)
+#undef selector_cnets_osblinnikov_github_com_EXPORT_API
+#if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(SELECTOR_CNETS_OSBLINNIKOV_GITHUB_COM_STATIC)
+  #ifdef selector_cnets_osblinnikov_github_com_EXPORT
+    #define selector_cnets_osblinnikov_github_com_EXPORT_API __declspec(dllexport)
   #else
-    #define com_github_osblinnikov_cnets_selector_EXPORT_API __declspec(dllimport)
+    #define selector_cnets_osblinnikov_github_com_EXPORT_API __declspec(dllimport)
   #endif
 #else
-  #define com_github_osblinnikov_cnets_selector_EXPORT_API extern
+  #define selector_cnets_osblinnikov_github_com_EXPORT_API extern
 #endif
 
-struct com_github_osblinnikov_cnets_selector;
+struct selector_cnets_osblinnikov_github_com;
 
-com_github_osblinnikov_cnets_selector_EXPORT_API
-void com_github_osblinnikov_cnets_selector_init(struct com_github_osblinnikov_cnets_selector *that,
-    reader[] _reducableReaders);
+selector_cnets_osblinnikov_github_com_EXPORT_API
+void selector_cnets_osblinnikov_github_com_init(struct selector_cnets_osblinnikov_github_com *that,
+    arrayObject _reducableReaders);
 
-com_github_osblinnikov_cnets_selector_EXPORT_API
-void com_github_osblinnikov_cnets_selector_deinit(struct com_github_osblinnikov_cnets_selector *that);
+selector_cnets_osblinnikov_github_com_EXPORT_API
+void selector_cnets_osblinnikov_github_com_deinit(struct selector_cnets_osblinnikov_github_com *that);
 
-com_github_osblinnikov_cnets_selector_EXPORT_API
-reader com_github_osblinnikov_cnets_selector_createReader(struct com_github_osblinnikov_cnets_selector *that, int gridId);
+selector_cnets_osblinnikov_github_com_EXPORT_API
+reader selector_cnets_osblinnikov_github_com_createReader(struct selector_cnets_osblinnikov_github_com *that, int gridId);
 
-com_github_osblinnikov_cnets_selector_EXPORT_API
-writer com_github_osblinnikov_cnets_selector_createWriter(struct com_github_osblinnikov_cnets_selector *that, int gridId);
+selector_cnets_osblinnikov_github_com_EXPORT_API
+writer selector_cnets_osblinnikov_github_com_createWriter(struct selector_cnets_osblinnikov_github_com *that, int gridId);
 
 
 
-typedef struct com_github_osblinnikov_cnets_selector{
+typedef struct selector_cnets_osblinnikov_github_com{
     arrayObject reducableReaders;
 
   
-/*[[[end]]] (2835b78274aaf433310984e04193101f) (cf5327bc5122e80aa72c0a66351ce661) */
+/*[[[end]]] (checksum: 0ab0ce43e1cac3821799959b2146d36e)*/
     linkedContainer *allContainers;
     uint32_t        *writesToContainers;
     int64_t         timeout_milisec;
@@ -54,6 +54,6 @@ typedef struct com_github_osblinnikov_cnets_selector{
     int32_t         sumWrites;
     pthread_mutex_t switch_cv_lock;
     pthread_cond_t  switch_cv;
-}com_github_osblinnikov_cnets_selector;
+}selector_cnets_osblinnikov_github_com;
 
-#endif /* com_github_osblinnikov_cnets_selector_H */
+#endif /* selector_cnets_osblinnikov_github_com_H */

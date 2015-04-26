@@ -5,8 +5,8 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
 #include "../runnablesContainer.h"
-/*[[[end]]] (fe356104a05951dd1917afc42a8d1c62) (fe356104a05951dd1917afc42a8d1c62)*/
+/*[[[end]]] (checksum: 701669c04ea2f2a048f648c2eb808abb)*/
 int main(int argc, char* argv[]){
-  com_github_osblinnikov_cnets_runnablesContainer_create(classObj);
+  runnablesContainer_cnets_osblinnikov_github_com_create(classObj);
   return 0;
 }

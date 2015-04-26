@@ -4,31 +4,30 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
 #include "../types.h"
-void com_github_osblinnikov_cnets_types_onCreate(com_github_osblinnikov_cnets_types *that);
-void com_github_osblinnikov_cnets_types_onDestroy(com_github_osblinnikov_cnets_types *that);
-void com_github_osblinnikov_cnets_types_init(struct com_github_osblinnikov_cnets_types *that){
+void types_cnets_osblinnikov_github_com_onCreate(types_cnets_osblinnikov_github_com *that);
+void types_cnets_osblinnikov_github_com_onDestroy(types_cnets_osblinnikov_github_com *that);
+void types_cnets_osblinnikov_github_com_init(struct types_cnets_osblinnikov_github_com *that){
   
-  com_github_osblinnikov_cnets_types_onKernels(that);
-  com_github_osblinnikov_cnets_types_onCreate(that);
+  types_cnets_osblinnikov_github_com_onCreate(that);
 }
 
-void com_github_osblinnikov_cnets_types_deinit(struct com_github_osblinnikov_cnets_types *that){
-  com_github_osblinnikov_cnets_types_onDestroy(that);
+void types_cnets_osblinnikov_github_com_deinit(struct types_cnets_osblinnikov_github_com *that){
+  types_cnets_osblinnikov_github_com_onDestroy(that);
 }
-/*[[[end]]] (e20117ea76f34832a75cb111c3e9e273) (71c5424b19c94ae035119a62d5086f81)*/
+/*[[[end]]] (checksum: b5a85543aee82267b3a23966e28c9f7b)*/
 
-void com_github_osblinnikov_cnets_types_onCreate(com_github_osblinnikov_cnets_types *that){
-  
-  return;
-}
-
-void com_github_osblinnikov_cnets_types_onDestroy(com_github_osblinnikov_cnets_types *that){
+void types_cnets_osblinnikov_github_com_onCreate(types_cnets_osblinnikov_github_com *that){
   
   return;
 }
 
+void types_cnets_osblinnikov_github_com_onDestroy(types_cnets_osblinnikov_github_com *that){
+  
+  return;
+}
 
-void com_github_osblinnikov_cnets_types_onKernels(com_github_osblinnikov_cnets_types *that){
+
+void types_cnets_osblinnikov_github_com_onKernels(types_cnets_osblinnikov_github_com *that){
   
   return;
 }

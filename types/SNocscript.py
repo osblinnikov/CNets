@@ -9,12 +9,12 @@ def add_dependencies(env):
   c.tpl(cog,templateFile,c.a(prefix=configFile))
   ]]]'''
 
-  '''[[[end]]] (68b329da9893e34099c7d8ad5cb9c940) (68b329da9893e34099c7d8ad5cb9c940)'''
+  '''[[[end]]] (checksum: 68b329da9893e34099c7d8ad5cb9c940)'''
   AddPthreads(env)
   # AddNetwork(env)
 
 c = {}
-c['PROG_NAME'] = 'com_github_osblinnikov_cnets_types'
+c['PROG_NAME'] = 'types_cnets_osblinnikov_github_com'
 c['sourceFiles'] = ['types.c','timeUtils.c']
 c['testFiles'] = ['typesTest.c']
 c['runFiles'] = ['main.c']

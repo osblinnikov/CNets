@@ -1,22 +1,22 @@
-#ifndef com_github_osblinnikov_cnets_runnablesContainer_Kernel_H
-#define com_github_osblinnikov_cnets_runnablesContainer_Kernel_H
+#ifndef runnablesContainer_cnets_osblinnikov_github_com_Kernel_H
+#define runnablesContainer_cnets_osblinnikov_github_com_Kernel_H
 
-#undef com_github_osblinnikov_cnets_runnablesContainer_EXPORT_API
+#undef runnablesContainer_cnets_osblinnikov_github_com_EXPORT_API
 #if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(COM_GITHUB_AIRUTECH_CNETS_RUNNABLESCONTAINER_STATIC)
-  #ifdef com_github_osblinnikov_cnets_runnablesContainer_EXPORT
-    #define com_github_osblinnikov_cnets_runnablesContainer_EXPORT_API __declspec(dllexport)
+  #ifdef runnablesContainer_cnets_osblinnikov_github_com_EXPORT
+    #define runnablesContainer_cnets_osblinnikov_github_com_EXPORT_API __declspec(dllexport)
   #else
-    #define com_github_osblinnikov_cnets_runnablesContainer_EXPORT_API __declspec(dllimport)
+    #define runnablesContainer_cnets_osblinnikov_github_com_EXPORT_API __declspec(dllimport)
   #endif
 #else
-  #define com_github_osblinnikov_cnets_runnablesContainer_EXPORT_API extern
+  #define runnablesContainer_cnets_osblinnikov_github_com_EXPORT_API extern
 #endif
 
 #include "github.com/osblinnikov/cnets/types/types.h"
 #include "./RunnableStoppable.h"
 #include <pthread.h>
 
-typedef struct com_github_osblinnikov_cnets_runnablesContainer_Kernel{
+typedef struct runnablesContainer_cnets_osblinnikov_github_com_Kernel{
   RunnableStoppable objectToRun;
   BOOL isSeparateThread;
   BOOL isRunning;
@@ -28,18 +28,18 @@ typedef struct com_github_osblinnikov_cnets_runnablesContainer_Kernel{
   pthread_mutex_t     isRunning_cv_mutex;
   pthread_cond_t      isRunning_cv;
 
-  void (*launch)(struct com_github_osblinnikov_cnets_runnablesContainer_Kernel* that, RunnableStoppable objectToRun, BOOL lockLaunch);
-  void (*stopThread)(struct com_github_osblinnikov_cnets_runnablesContainer_Kernel* that);
-}com_github_osblinnikov_cnets_runnablesContainer_Kernel;
+  void (*launch)(struct runnablesContainer_cnets_osblinnikov_github_com_Kernel* that, RunnableStoppable objectToRun, BOOL lockLaunch);
+  void (*stopThread)(struct runnablesContainer_cnets_osblinnikov_github_com_Kernel* that);
+}runnablesContainer_cnets_osblinnikov_github_com_Kernel;
 
-com_github_osblinnikov_cnets_runnablesContainer_EXPORT_API
-  void com_github_osblinnikov_cnets_runnablesContainer_Kernel_create(
-    com_github_osblinnikov_cnets_runnablesContainer_Kernel* that
+runnablesContainer_cnets_osblinnikov_github_com_EXPORT_API
+  void runnablesContainer_cnets_osblinnikov_github_com_Kernel_create(
+    runnablesContainer_cnets_osblinnikov_github_com_Kernel* that
   );
 
-com_github_osblinnikov_cnets_runnablesContainer_EXPORT_API
-  void com_github_osblinnikov_cnets_runnablesContainer_Kernel_destroy(
-    com_github_osblinnikov_cnets_runnablesContainer_Kernel* that
+runnablesContainer_cnets_osblinnikov_github_com_EXPORT_API
+  void runnablesContainer_cnets_osblinnikov_github_com_Kernel_destroy(
+    runnablesContainer_cnets_osblinnikov_github_com_Kernel* that
   );
 
-#endif /* com_github_osblinnikov_cnets_runnablesContainer_Kernel_H */
+#endif /* runnablesContainer_cnets_osblinnikov_github_com_Kernel_H */

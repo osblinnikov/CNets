@@ -4,27 +4,26 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
 #include "../queue.h"
-void com_github_osblinnikov_cnets_queue_onCreate(com_github_osblinnikov_cnets_queue *that);
-void com_github_osblinnikov_cnets_queue_onDestroy(com_github_osblinnikov_cnets_queue *that);
-void com_github_osblinnikov_cnets_queue_init(struct com_github_osblinnikov_cnets_queue *that,
-    int _capacity){
+void queue_cnets_osblinnikov_github_com_onCreate(queue_cnets_osblinnikov_github_com *that);
+void queue_cnets_osblinnikov_github_com_onDestroy(queue_cnets_osblinnikov_github_com *that);
+void queue_cnets_osblinnikov_github_com_init(struct queue_cnets_osblinnikov_github_com *that,
+    int32_t _capacity){
   
   that->capacity = _capacity;
   that->data = arrayObject_init_dynamic(sizeof(uint32_t), that->capacity);
-  com_github_osblinnikov_cnets_queue_onKernels(that);
-  com_github_osblinnikov_cnets_queue_onCreate(that);
+  queue_cnets_osblinnikov_github_com_onCreate(that);
 }
 
-void com_github_osblinnikov_cnets_queue_deinit(struct com_github_osblinnikov_cnets_queue *that){
-  com_github_osblinnikov_cnets_queue_onDestroy(that);
+void queue_cnets_osblinnikov_github_com_deinit(struct queue_cnets_osblinnikov_github_com *that){
+  queue_cnets_osblinnikov_github_com_onDestroy(that);
 }
-/*[[[end]]] (f92a71cdb77b79091e16d271b40f9d6f) (cd2c58ec7c94a8d384711e7ccb284a23)*/
+/*[[[end]]] (checksum: 2fd3991213f0b27177b71d271ff7219d)*/
 
-BOOL com_github_osblinnikov_cnets_queue_isEmpty(com_github_osblinnikov_cnets_queue *that) {
+BOOL queue_cnets_osblinnikov_github_com_isEmpty(queue_cnets_osblinnikov_github_com *that) {
   return that->tail == that->head;
 }
 
-BOOL com_github_osblinnikov_cnets_queue_isFull(com_github_osblinnikov_cnets_queue *that) {
+BOOL queue_cnets_osblinnikov_github_com_isFull(queue_cnets_osblinnikov_github_com *that) {
   int64_t headMin = (int64_t)that->tail - (int64_t)that->capacity;
   if(headMin < 0){
     headMin = that->maxIndex + headMin;
@@ -32,8 +31,8 @@ BOOL com_github_osblinnikov_cnets_queue_isFull(com_github_osblinnikov_cnets_queu
   return (headMin == (int64_t)that->head);
 }
 
-BOOL com_github_osblinnikov_cnets_queue_enqueue(com_github_osblinnikov_cnets_queue *that,uint32_t obj){
-  if(com_github_osblinnikov_cnets_queue_isFull(that)){
+BOOL queue_cnets_osblinnikov_github_com_enqueue(queue_cnets_osblinnikov_github_com *that,uint32_t obj){
+  if(queue_cnets_osblinnikov_github_com_isFull(that)){
     return FALSE;
   }else{
     that->tail++;
@@ -43,8 +42,8 @@ BOOL com_github_osblinnikov_cnets_queue_enqueue(com_github_osblinnikov_cnets_que
   }
 }
 
-BOOL com_github_osblinnikov_cnets_queue_dequeue(com_github_osblinnikov_cnets_queue *that,uint32_t *obj){
-  if(com_github_osblinnikov_cnets_queue_isEmpty(that)){
+BOOL queue_cnets_osblinnikov_github_com_dequeue(queue_cnets_osblinnikov_github_com *that,uint32_t *obj){
+  if(queue_cnets_osblinnikov_github_com_isEmpty(that)){
     return FALSE;
   }else{
     that->head++;
@@ -54,7 +53,7 @@ BOOL com_github_osblinnikov_cnets_queue_dequeue(com_github_osblinnikov_cnets_que
   }
 }
 
-uint32_t com_github_osblinnikov_cnets_queue_length(com_github_osblinnikov_cnets_queue *that){
+uint32_t queue_cnets_osblinnikov_github_com_length(queue_cnets_osblinnikov_github_com *that){
   uint32_t res;
   if(that->head <= that->tail){
     return (uint32_t)(that->tail - that->head);
@@ -64,11 +63,11 @@ uint32_t com_github_osblinnikov_cnets_queue_length(com_github_osblinnikov_cnets_
     return res;
   }
 }
-void com_github_osblinnikov_cnets_queue_clear(com_github_osblinnikov_cnets_queue *that){
+void queue_cnets_osblinnikov_github_com_clear(queue_cnets_osblinnikov_github_com *that){
   that->head = that->tail = that->maxIndex - 5;
 }
 
-void com_github_osblinnikov_cnets_queue_onCreate(com_github_osblinnikov_cnets_queue *that){
+void queue_cnets_osblinnikov_github_com_onCreate(queue_cnets_osblinnikov_github_com *that){
   uint32_t maxInteger = 0;
   maxInteger--;
   if(that->capacity > 0){
@@ -77,22 +76,22 @@ void com_github_osblinnikov_cnets_queue_onCreate(com_github_osblinnikov_cnets_qu
     that->maxIndex = 5;
   }
   that->head = that->tail = that->maxIndex - 5;
-  that->isEmpty = com_github_osblinnikov_cnets_queue_isEmpty;
-  that->isFull = com_github_osblinnikov_cnets_queue_isFull;
-  that->enqueue = com_github_osblinnikov_cnets_queue_enqueue;
-  that->dequeue = com_github_osblinnikov_cnets_queue_dequeue;
-  that->length = com_github_osblinnikov_cnets_queue_length;
-  that->clear = com_github_osblinnikov_cnets_queue_clear;
+  that->isEmpty = queue_cnets_osblinnikov_github_com_isEmpty;
+  that->isFull = queue_cnets_osblinnikov_github_com_isFull;
+  that->enqueue = queue_cnets_osblinnikov_github_com_enqueue;
+  that->dequeue = queue_cnets_osblinnikov_github_com_dequeue;
+  that->length = queue_cnets_osblinnikov_github_com_length;
+  that->clear = queue_cnets_osblinnikov_github_com_clear;
 
   return;
 }
 
-void com_github_osblinnikov_cnets_queue_onDestroy(com_github_osblinnikov_cnets_queue *that){
+void queue_cnets_osblinnikov_github_com_onDestroy(queue_cnets_osblinnikov_github_com *that){
   
   return;
 }
 
-void com_github_osblinnikov_cnets_queue_onKernels(com_github_osblinnikov_cnets_queue *that){
+void queue_cnets_osblinnikov_github_com_onKernels(queue_cnets_osblinnikov_github_com *that){
   
   return;
 }

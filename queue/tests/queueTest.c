@@ -5,9 +5,9 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
 #include "../queue.h"
-/*[[[end]]] (2ba1e92af3ca8c0c65c29ed3201f817b) (2ba1e92af3ca8c0c65c29ed3201f817b)*/
+/*[[[end]]] (checksum: f98e009465bc52ac8d0d53699bfa8cd0)*/
 
-int testQueue(com_github_osblinnikov_cnets_queue *classObj){
+int testQueue(queue_cnets_osblinnikov_github_com *classObj){
   unsigned obj = 1;
   if(!classObj->enqueue(classObj,obj)){
     printf("!classObj->enqueue(classObj,obj)\n");
@@ -26,10 +26,10 @@ int testQueue(com_github_osblinnikov_cnets_queue *classObj){
 }
 
 int main(int argc, char* argv[]){
-  com_github_osblinnikov_cnets_queue_create(classObj,1);
+  queue_cnets_osblinnikov_github_com_create(classObj,1);
   if(testQueue(&classObj)<0){return -1;}
 
-  com_github_osblinnikov_cnets_queue_createGrid(classObjGrid,10,1);
+  queue_cnets_osblinnikov_github_com_createGrid(classObjGrid,10,1);
   if(testQueue(&classObjGrid[0])<0){return -1;}
   if(testQueue(&classObjGrid[9])<0){return -1;}
   return 0;

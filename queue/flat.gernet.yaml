@@ -11,7 +11,7 @@ gen:
 - github.com/osblinnikov/gernet/plugins/build
 hide: false
 name: github.com/osblinnikov/cnets/queue
-prefix: /home/oleg/Projects/src/github.com/osblinnikov/cnets-workspace/github.com/osblinnikov/cnets/queue/gernet.json
+prefix: /home/oleg/Projects/src/github.com/osblinnikov/cnets-workspace/github.com/osblinnikov/cnets/./queue/gernet.json
 props:
 -   name: data
     size: capacity

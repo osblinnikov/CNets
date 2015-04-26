@@ -1,5 +1,5 @@
-#ifndef com_github_osblinnikov_cnets_types_bufferReadData_H
-#define com_github_osblinnikov_cnets_types_bufferReadData_H
+#ifndef types_cnets_osblinnikov_github_com_bufferReadData_H
+#define types_cnets_osblinnikov_github_com_bufferReadData_H
 
 typedef struct bufferReadData{
   void* data;
@@ -7,4 +7,4 @@ typedef struct bufferReadData{
   unsigned writer_grid_id;
 }bufferReadData;
 
-#endif /* com_github_osblinnikov_cnets_types_bufferReadData_H */
+#endif /* types_cnets_osblinnikov_github_com_bufferReadData_H */

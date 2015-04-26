@@ -16,7 +16,7 @@ gen:
 - github.com/osblinnikov/gernet/plugins/build
 hide: false
 name: github.com/osblinnikov/cnets/mapBuffer
-prefix: mapBuffer/gernet.json
+prefix: /home/oleg/Projects/src/github.com/osblinnikov/cnets-workspace/github.com/osblinnikov/cnets/./mapBuffer/gernet.json
 props: []
 receive: []
 spawnMode: ''

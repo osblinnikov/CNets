@@ -1,5 +1,5 @@
-#ifndef com_github_osblinnikov_cnets_types_binary_H
-#define com_github_osblinnikov_cnets_types_binary_H
+#ifndef types_cnets_osblinnikov_github_com_binary_H
+#define types_cnets_osblinnikov_github_com_binary_H
 
 typedef struct binary{
   char* data;
@@ -7,4 +7,4 @@ typedef struct binary{
   unsigned full_size;
 }binary;
 
-#endif /* com_github_osblinnikov_cnets_types_binary_H */
+#endif /* types_cnets_osblinnikov_github_com_binary_H */
