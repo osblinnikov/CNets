@@ -16,8 +16,10 @@ void queue_cnets_osblinnikov_github_com_init(struct queue_cnets_osblinnikov_gith
 
 void queue_cnets_osblinnikov_github_com_deinit(struct queue_cnets_osblinnikov_github_com *that){
   queue_cnets_osblinnikov_github_com_onDestroy(that);
+  
+  arrayObject_free_dynamic(that->data);
 }
-/*[[[end]]] (checksum: 2fd3991213f0b27177b71d271ff7219d)*/
+/*[[[end]]] (checksum: 74e5943c4184a5f29613864b620987fa)*/
 
 BOOL queue_cnets_osblinnikov_github_com_isEmpty(queue_cnets_osblinnikov_github_com *that) {
   return that->tail == that->head;
@@ -91,9 +93,34 @@ void queue_cnets_osblinnikov_github_com_onDestroy(queue_cnets_osblinnikov_github
   return;
 }
 
-void queue_cnets_osblinnikov_github_com_onKernels(queue_cnets_osblinnikov_github_com *that){
-  
-  return;
+struct queue_cnets_osblinnikov_github_com* queue_cnets_osblinnikov_github_com_createGrid_dynamic(
+    int32_t count,
+    int32_t _capacity){
+  queue_cnets_osblinnikov_github_com* res = (queue_cnets_osblinnikov_github_com*)malloc(
+    sizeof(queue_cnets_osblinnikov_github_com)*count);
+  int i;
+  for(i=0;i<count;i++){
+    res[i] = queue_cnets_osblinnikov_github_com_create_dynamic(_capacity);
+  }
+  return res;
+}
+
+void queue_cnets_osblinnikov_github_com_freeGrid_dynamic(struct queue_cnets_osblinnikov_github_com* res, int32_t count){
+  int i;
+  for(i=0;i<count;i++){
+    queue_cnets_osblinnikov_github_com_free_dynamic(res[i]);
+  }
+  free(res);
+}
+
+struct queue_cnets_osblinnikov_github_com queue_cnets_osblinnikov_github_com_create_dynamic(int32_t _capacity){
+  queue_cnets_osblinnikov_github_com res;
+  queue_cnets_osblinnikov_github_com_init(&res, _capacity);
+  return res;
+}
+
+void queue_cnets_osblinnikov_github_com_free_dynamic(struct queue_cnets_osblinnikov_github_com res){
+  queue_cnets_osblinnikov_github_com_deinit(&res);
 }
 
 

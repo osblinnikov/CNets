@@ -62,4 +62,18 @@ typedef struct queue_cnets_osblinnikov_github_com{
   }
 
 
+queue_cnets_osblinnikov_github_com_EXPORT_API
+struct queue_cnets_osblinnikov_github_com* queue_cnets_osblinnikov_github_com_createGrid_dynamic(
+    int32_t count,
+    int32_t _capacity);
+
+queue_cnets_osblinnikov_github_com_EXPORT_API
+void queue_cnets_osblinnikov_github_com_freeGrid_dynamic(struct queue_cnets_osblinnikov_github_com* res, int32_t count);
+
+queue_cnets_osblinnikov_github_com_EXPORT_API
+struct queue_cnets_osblinnikov_github_com queue_cnets_osblinnikov_github_com_create_dynamic(int32_t _capacity);
+
+queue_cnets_osblinnikov_github_com_EXPORT_API
+void queue_cnets_osblinnikov_github_com_free_dynamic(struct queue_cnets_osblinnikov_github_com that);
+
 #endif /* queue_cnets_osblinnikov_github_com_H */

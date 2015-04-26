@@ -40,23 +40,16 @@ void selector_cnets_osblinnikov_github_com_init(struct selector_cnets_osblinniko
 
 void selector_cnets_osblinnikov_github_com_deinit(struct selector_cnets_osblinnikov_github_com *that){
   selector_cnets_osblinnikov_github_com_onDestroy(that);
+  
 }
-/*[[[end]]] (checksum: 5db8a757ea9496c797b772ab75260ad3)*/
+/*[[[end]]] (checksum: 13c68033b3827272a91b914e61b1e044)*/
 
 #include <assert.h>
 
 void selector_cnets_osblinnikov_github_com_onCreate(selector_cnets_osblinnikov_github_com *that){
 
-
-#undef selector_cnets_osblinnikov_github_com_onCreateMacro
-#define selector_cnets_osblinnikov_github_com_onCreateMacro(_NAME_)\
-    /* _allContainers_ */\
-    linkedContainer* _NAME_##_allContainers_ = (linkedContainer*)salloca(sizeof(linkedContainer)*_NAME_.reducableReaders.length); \
-    _NAME_.allContainers = _NAME_##_allContainers_;\
-    /* _writesToContainers_ */\
-    uint32_t* _NAME_##_writesToContainers_ = (uint32_t*)salloca(sizeof(uint32_t)*_NAME_.reducableReaders.length); \
-    _NAME_.writesToContainers = _NAME_##_writesToContainers_;
-
+  that->allContainers = (linkedContainer*)malloc(sizeof(linkedContainer)*that->reducableReaders.length);
+  that->writesToContainers = (uint32_t*)malloc(sizeof(uint32_t)*that->reducableReaders.length);
   
   that->timeout_milisec = -1;
   that->lastReadId = -1;
@@ -88,6 +81,9 @@ void selector_cnets_osblinnikov_github_com_onCreate(selector_cnets_osblinnikov_g
 }
 
 void selector_cnets_osblinnikov_github_com_onDestroy(selector_cnets_osblinnikov_github_com *that){
+  free(that->allContainers);/* = (linkedContainer*)malloc(sizeof(linkedContainer)*that->reducableReaders.length);*/
+  free(that->writesToContainers); /* = (uint32_t*)malloc(sizeof(uint32_t)*that->reducableReaders.length);*/
+
   int i;
   for(i=0; i<(int)that->reducableReaders.length; i++){
     if(that->allContainers[i].add != NULL) {

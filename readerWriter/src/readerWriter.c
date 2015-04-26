@@ -13,8 +13,9 @@ void readerWriter_cnets_osblinnikov_github_com_init(struct readerWriter_cnets_os
 
 void readerWriter_cnets_osblinnikov_github_com_deinit(struct readerWriter_cnets_osblinnikov_github_com *that){
   readerWriter_cnets_osblinnikov_github_com_onDestroy(that);
+  
 }
-/*[[[end]]] (checksum: de268effa6e43e765a45f6d26e8659bd)*/
+/*[[[end]]] (checksum: 1166ebf44b63521a5f64d81530b49aae)*/
 
 void readerWriter_cnets_osblinnikov_github_com_onCreate(readerWriter_cnets_osblinnikov_github_com *that){
   
