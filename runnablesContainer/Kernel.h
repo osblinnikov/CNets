@@ -19,9 +19,9 @@
 typedef struct runnablesContainer_cnets_osblinnikov_github_com_Kernel{
   RunnableStoppable objectToRun;
   BOOL isSeparateThread;
-  BOOL isRunning;
+  volatile BOOL isRunning;
   pthread_spinlock_t isRunningLock;
-  BOOL stopFlag;
+  volatile BOOL stopFlag;
   pthread_spinlock_t stopFlagLock;
   pthread_t kernelThread;
 

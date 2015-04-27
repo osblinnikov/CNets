@@ -14,7 +14,6 @@ gen:
 - github.com/osblinnikov/gernet/plugins/build
 hide: false
 name: github.com/osblinnikov/cnets/selector
-prefix: selector/gernet.json
 props: []
 receive: []
 spawnMode: ''

@@ -8,10 +8,10 @@ def add_dependencies(env):
   c.tpl(cog,templateFile,c.a(prefix=configFile))
   ]]]'''
 
-  AddDependency(env,'types_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/types')
   AddDependency(env,'readerWriter_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/readerWriter')
   AddDependency(env,'queue_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/queue')
-  '''[[[end]]] (checksum: 37d856e3ef2f35e10842006d63160470)'''
+  AddDependency(env,'types_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/types')
+  '''[[[end]]] (checksum: 7e53eb0eded51b8369a31f49657cc3dd)'''
   AddPthreads(env)
   # AddNetwork(env) 
 

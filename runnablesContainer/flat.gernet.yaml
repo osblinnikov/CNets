@@ -8,7 +8,6 @@ gen:
 - github.com/osblinnikov/gernet/plugins/build
 hide: false
 name: github.com/osblinnikov/cnets/runnablesContainer
-prefix: /home/oleg/Projects/src/github.com/osblinnikov/cnets-workspace/github.com/osblinnikov/cnets/./runnablesContainer/gernet.json
 props: []
 receive: []
 spawnMode: ''
