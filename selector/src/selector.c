@@ -62,7 +62,7 @@ void selector_cnets_osblinnikov_github_com_onCreate(selector_cnets_osblinnikov_g
   for(i=0; i<(int)that->reducableReaders.length; i++){
     that->writesToContainers[i] = 0;
     reader* rdReaderItem = (reader*)&((char*)that->reducableReaders.array)[i * that->reducableReaders.itemSize];
-    if(rdReaderItem == NULL){
+    if(rdReaderItem == NULL || rdReaderItem->params.target == NULL){
       that->allContainers[i].add = NULL;
       continue;
     }
