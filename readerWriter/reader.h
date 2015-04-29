@@ -4,6 +4,7 @@
 #include "./linkedContainer.h"
 
 typedef struct reader{
+  BOOL hasReadNext;
   unsigned packetsCounter, bytesCounter;
   uint64_t statsTime;
   struct bufferKernelParams statsWriterParams;

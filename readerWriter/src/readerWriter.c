@@ -35,19 +35,25 @@ void readerWriter_cnets_osblinnikov_github_com_onKernels(readerWriter_cnets_osbl
 /*********WRITER FUNCTIONS**********/
 
 writer writerNULL(){
-  writer r;
-  r.params.target = NULL;
-  return r;
+  writer w;
+  bufferKernelParams params;
+  params.target = NULL;
+  writer_init(&w,params);
+  return w;
 }
 
 void* readerWriter_cnets_osblinnikov_github_com_writeNext(writer *that, int waitThreshold) {
-  if(that == NULL || that->params.target == NULL){return 0;}
+  if(that == NULL || that->params.target == NULL || that->hasWriteNext){return 0;}
   /*todo: add here special code for debuging data flow*/
-  return that->params.writeNext(&that->params, waitThreshold);
+  void* res = that->params.writeNext(&that->params, waitThreshold);
+  if(res != NULL){
+      that->hasWriteNext = TRUE;
+  }
+  return res;
 }
 
 int readerWriter_cnets_osblinnikov_github_com_writeFinished(writer *that) {
-  if(that == NULL || that->params.target == NULL){return 0;}
+  if(that == NULL || that->params.target == NULL || !that->hasWriteNext){return 0;}
   /*todo: add here special code for debuging data flow*/
   uint64_t interval = statsCollectorStatic_getStatsInterval();
   if(interval > 0) {
@@ -76,6 +82,7 @@ int readerWriter_cnets_osblinnikov_github_com_writeFinished(writer *that) {
       }
     }
   }
+  that->hasWriteNext = FALSE;
   return that->params.writeFinished(&that->params);
 }
 
@@ -109,26 +116,32 @@ void readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterW(writer *th
 
 reader readerNULL(){
   reader r;
-  r.params.target = NULL;
+  bufferKernelParams params;
+  params.target = NULL;
+  reader_init(&r,params);
   return r;
 }
 
 bufferReadData readerWriter_cnets_osblinnikov_github_com_readNextWithMeta(reader *that, int waitThreshold) {
   bufferReadData res;
   res.data = NULL;
-  if(that == NULL || that->params.target == NULL){return res;}
+  if(that == NULL || that->params.target == NULL || that->hasReadNext){return res;}
   /*todo: add here special code for debuging data flow*/
-  return that->params.readNextWithMeta(&that->params, waitThreshold);
+  res = that->params.readNextWithMeta(&that->params, waitThreshold);
+  that->hasReadNext = (res.data != NULL);
+  return res;
 }
 
 void* readerWriter_cnets_osblinnikov_github_com_readNext(reader *that, int waitThreshold) {
-  if(that == NULL || that->params.target == NULL){return 0;}
+  if(that == NULL || that->params.target == NULL || that->hasReadNext){return 0;}
   /*todo: add here special code for debuging data flow*/
-  return that->params.readNext(&that->params, waitThreshold);
+  void* res = that->params.readNext(&that->params, waitThreshold);
+  that->hasReadNext = (res != NULL);
+  return res;
 }
 
 int readerWriter_cnets_osblinnikov_github_com_readFinished(reader *that) {
-  if(that == NULL || that->params.target == NULL){return 0;}
+  if(that == NULL || that->params.target == NULL || !that->hasReadNext){return 0;}
   /*todo: add here special code for debuging data flow*/
   uint64_t interval = statsCollectorStatic_getStatsInterval();
   if(interval > 0) {
@@ -157,6 +170,7 @@ int readerWriter_cnets_osblinnikov_github_com_readFinished(reader *that) {
       }
     }
   }
+  that->hasReadNext = FALSE;
   return that->params.readFinished(&that->params);
 }
 
@@ -194,10 +208,11 @@ int readerWriter_cnets_osblinnikov_github_com_addSelector(reader *that,linkedCon
 /****STRUCTURES INITIALIZATIONS***/
 
 void writer_init(writer *that, bufferKernelParams params){
-  if(that == NULL || params.target == NULL){
-    printf("writer_init that or params->target is NULL\n");
+  if(that == NULL){
+    printf("writer_init 'that' is NULL\n");
     return;
   }
+  that->hasWriteNext = FALSE;
   that->packetsCounter = 0;
   that->bytesCounter = 0;
   that->statsTime = 0;
@@ -214,10 +229,11 @@ void writer_init(writer *that, bufferKernelParams params){
 }
 
 void reader_init(reader *that, bufferKernelParams params){
-  if(that == NULL || params.target == NULL){
-    printf("reader_init that or params->target is NULL\n");
+  if(that == NULL){
+    printf("reader_init 'that' is NULL\n");
     return;
   }
+  that->hasReadNext = FALSE;
   that->packetsCounter = 0;
   that->bytesCounter = 0;
   that->statsTime = 0;

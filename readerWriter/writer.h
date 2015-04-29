@@ -2,6 +2,7 @@
 #define readerWriter_cnets_osblinnikov_github_com_writer_H
 
 typedef struct writer{
+  BOOL hasWriteNext;
   unsigned packetsCounter, bytesCounter;
   uint64_t statsTime;
   struct bufferKernelParams statsWriterParams;
