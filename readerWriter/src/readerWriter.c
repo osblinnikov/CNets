@@ -43,7 +43,7 @@ writer writerNULL(){
 }
 
 void* readerWriter_cnets_osblinnikov_github_com_writeNext(writer *that, int waitThreshold) {
-  if(that == NULL || that->params.target == NULL || that->hasWriteNext){return 0;}
+  if(that == NULL || that->params.target == NULL || that->hasWriteNext){return NULL;}
   /*todo: add here special code for debuging data flow*/
   void* res = that->params.writeNext(&that->params, waitThreshold);
   if(res != NULL){
@@ -53,7 +53,8 @@ void* readerWriter_cnets_osblinnikov_github_com_writeNext(writer *that, int wait
 }
 
 int readerWriter_cnets_osblinnikov_github_com_writeFinished(writer *that) {
-  if(that == NULL || that->params.target == NULL || !that->hasWriteNext){return 0;}
+  if(that == NULL || that->params.target == NULL || !that->hasWriteNext){return -1;}
+
   /*todo: add here special code for debuging data flow*/
   uint64_t interval = statsCollectorStatic_getStatsInterval();
   if(interval > 0) {
@@ -133,7 +134,7 @@ bufferReadData readerWriter_cnets_osblinnikov_github_com_readNextWithMeta(reader
 }
 
 void* readerWriter_cnets_osblinnikov_github_com_readNext(reader *that, int waitThreshold) {
-  if(that == NULL || that->params.target == NULL || that->hasReadNext){return 0;}
+  if(that == NULL || that->params.target == NULL || that->hasReadNext){return NULL;}
   /*todo: add here special code for debuging data flow*/
   void* res = that->params.readNext(&that->params, waitThreshold);
   that->hasReadNext = (res != NULL);
@@ -141,7 +142,7 @@ void* readerWriter_cnets_osblinnikov_github_com_readNext(reader *that, int waitT
 }
 
 int readerWriter_cnets_osblinnikov_github_com_readFinished(reader *that) {
-  if(that == NULL || that->params.target == NULL || !that->hasReadNext){return 0;}
+  if(that == NULL || that->params.target == NULL || !that->hasReadNext){return -1;}
   /*todo: add here special code for debuging data flow*/
   uint64_t interval = statsCollectorStatic_getStatsInterval();
   if(interval > 0) {
@@ -282,6 +283,8 @@ void readerWriter_cnets_osblinnikov_github_com_callContainer(struct linkedContai
     printf("readerWriter_cnets_osblinnikov_github_com_callContainer that is NULL\n");
     return;
   }
+//  that->w.writeNext(&that->w, -1);//will not cause anithing, but makes writer work consistent
+  that->w.hasWriteNext = TRUE;
   that->w.writeFinished(&that->w);
   if(that->next != NULL){
     that->next->call(that->next);

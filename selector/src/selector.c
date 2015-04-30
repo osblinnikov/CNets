@@ -66,8 +66,7 @@ void selector_cnets_osblinnikov_github_com_onCreate(selector_cnets_osblinnikov_g
       that->allContainers[i].add = NULL;
       continue;
     }
-    linkedContainer_create(_linkedContainer_,selector_cnets_osblinnikov_github_com_createWriter(that, i))
-    that->allContainers[i] = _linkedContainer_;
+    linkedContainer_init(&that->allContainers[i], selector_cnets_osblinnikov_github_com_createWriter(that, i));
     if(0!=rdReaderItem->addSelector(rdReaderItem,&that->allContainers[i]) ) {
       printf("ERROR: selector_cnets_osblinnikov_github_com_onCreate addSelector failed\n");
     }
@@ -182,7 +181,7 @@ void* selector_cnets_osblinnikov_github_com_writeNext(bufferKernelParams *params
     printf("ERROR: selector_cnets_osblinnikov_github_com writeNext: Some Input parameters are wrong\n");
     return res;
   }
-  printf("ERROR: selector_cnets_osblinnikov_github_com writeNext is not allowed\n");
+//  printf("ERROR: selector_cnets_osblinnikov_github_com writeNext is not allowed\n");
   return res;
 }
 

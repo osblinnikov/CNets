@@ -11,8 +11,10 @@ int testWrite(writer* w){
   void* res = w->writeNext(w, -1);
   if(res != NULL){
     *(unsigned*)res = 1;
+      printf("data is written\n");
     return w->writeFinished(w);
   }else{
+      printf("No data to write\n");
     return -1;
   }
 }
@@ -20,12 +22,13 @@ int testWrite(writer* w){
 int testRead(reader* r, unsigned expectedBufferId, unsigned expectedWriterId){
   bufferReadData res = r->readNextWithMeta(r, -1);
   if(res.data != NULL){
-    BOOL rs = *(unsigned*)res.data == 1 
-      && r->readFinished(r) == 0 
-      && res.nested_buffer_id == expectedBufferId 
+    BOOL rs = *(unsigned*)res.data == 1
+      && r->readFinished(r) == 0
+      && res.nested_buffer_id == expectedBufferId
       && res.writer_grid_id == expectedWriterId;
     return rs?0:-1;
   }else{
+      printf("No data to read\n");
     return -1;
   }
 }

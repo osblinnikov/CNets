@@ -364,8 +364,11 @@ int mapBuffer_cnets_osblinnikov_github_com_addSelector(bufferKernelParams *param
   };
   linkedContainer *sContainer = (linkedContainer*)selectorContainer;
   pthread_rwlock_wrlock(&that->rwLock);
-  if(that->selectorContainers == NULL){that->selectorContainers = sContainer;}
-  else{that->selectorContainers->add(that->selectorContainers, sContainer);}
+  if(that->selectorContainers == NULL){
+      that->selectorContainers = sContainer;
+  }else{
+      that->selectorContainers->add(that->selectorContainers, sContainer);
+  }
   pthread_rwlock_unlock(&that->rwLock);
   return 0;
 }
