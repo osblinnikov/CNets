@@ -2,12 +2,13 @@
 #define readerWriter_cnets_osblinnikov_github_com_reader_H
 
 #include "./linkedContainer.h"
+#include "./Exports.h"
 
 typedef struct reader{
   BOOL hasReadNext;
   unsigned packetsCounter, bytesCounter;
-  uint64_t statsTime;
-  struct bufferKernelParams statsWriterParams;
+  uint64_t statsTime, interval;
+  struct bufferKernelParams statsWriterParams, dispatchWriterParams;
   struct bufferKernelParams params;
   bufferReadData (*readNextWithMeta)(struct reader *that, int waitThreshold);
   void* (*readNext)(struct reader *that, int waitThreshold);
@@ -18,6 +19,7 @@ typedef struct reader{
   int (*uniqueId)(struct reader *that);
   void (*incrementBytesCounter)(struct reader *that, int bytesCounter);
   int (*addSelector)(struct reader *that, linkedContainer *selectorContainer);
+  void (*addKernelId)(struct reader *that, unsigned id);
 }reader;
 
 readerWriter_cnets_osblinnikov_github_com_EXPORT_API

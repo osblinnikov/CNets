@@ -1,0 +1,15 @@
+name: github.com/osblinnikov/cnets/dispatchBuffer
+args:
+-   name: buffers
+    type: Object[]
+-   name: timeout_milisec
+    type: long
+-   name: readers_grid_size
+    type: int
+gen:
+-   github.com/osblinnikov/gernet/plugins/buffer
+-   github.com/osblinnikov/gernet/plugins/build
+depends:
+-   name: github.com/osblinnikov/cnets/readerWriter
+-   name: github.com/osblinnikov/cnets/types
+-   name: github.com/osblinnikov/cnets/vector

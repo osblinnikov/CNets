@@ -1,36 +1,4 @@
-/*[[[cog
-import cogging as c
-c.tpl(cog,templateFile,c.a(prefix=configFile))
-]]]*/
-
 #include "../readerWriter.h"
-void readerWriter_cnets_osblinnikov_github_com_onCreate(readerWriter_cnets_osblinnikov_github_com *that);
-void readerWriter_cnets_osblinnikov_github_com_onDestroy(readerWriter_cnets_osblinnikov_github_com *that);
-void readerWriter_cnets_osblinnikov_github_com_init(struct readerWriter_cnets_osblinnikov_github_com *that){
-  
-  readerWriter_cnets_osblinnikov_github_com_onCreate(that);
-}
-
-void readerWriter_cnets_osblinnikov_github_com_deinit(struct readerWriter_cnets_osblinnikov_github_com *that){
-  readerWriter_cnets_osblinnikov_github_com_onDestroy(that);
-  
-}
-/*[[[end]]] (checksum: 1166ebf44b63521a5f64d81530b49aae)*/
-
-void readerWriter_cnets_osblinnikov_github_com_onCreate(readerWriter_cnets_osblinnikov_github_com *that){
-  
-  return;
-}
-
-void readerWriter_cnets_osblinnikov_github_com_onDestroy(readerWriter_cnets_osblinnikov_github_com *that){
-  
-  return;
-}
-
-void readerWriter_cnets_osblinnikov_github_com_onKernels(readerWriter_cnets_osblinnikov_github_com *that){
-  
-  return;
-}
 
 /*********WRITER FUNCTIONS**********/
 
@@ -40,6 +8,42 @@ writer writerNULL(){
   params.target = NULL;
   writer_init(&w,params);
   return w;
+}
+
+void idsDestructor(void* ids){
+  vector_cnets_osblinnikov_github_com* vec = (vector_cnets_osblinnikov_github_com*)ids;
+  vector_cnets_osblinnikov_github_com_deinit(vec);
+  free(vec);
+}
+
+vector_cnets_osblinnikov_github_com* getVectorFromParams(bufferKernelParams* params){
+  vector_cnets_osblinnikov_github_com* vec = (vector_cnets_osblinnikov_github_com*)params->getKernelIds(params);
+  if(vec == 0){
+    vec = (vector_cnets_osblinnikov_github_com*)malloc(sizeof(vector_cnets_osblinnikov_github_com));
+    if(vec == 0){
+      printf("ERROR: writer_cnets_osblinnikov_github_com_getVectorFromParams: unable to allocate memory for vector_cnets_osblinnikov_github_com");
+      return 0;
+    }
+    vector_cnets_osblinnikov_github_com_init(vec);
+    params->setKernelIds(params, vec, idsDestructor);
+  }
+  return vec;
+}
+
+void writer_cnets_osblinnikov_github_com_addKernelId(writer *that, unsigned id){
+  if(that == NULL || that->params.target == NULL){return;}
+  vector_cnets_osblinnikov_github_com* vec = getVectorFromParams(&that->params);
+  if(vec != 0){
+    vector_cnets_osblinnikov_github_com_add(vec, (void*)id);
+  }
+}
+
+void reader_cnets_osblinnikov_github_com_addKernelId(reader *that, unsigned id){
+  if(that == NULL || that->params.target == NULL){return;}
+  vector_cnets_osblinnikov_github_com* vec = getVectorFromParams(&that->params);
+  if(vec != 0){
+    vector_cnets_osblinnikov_github_com_add(vec, (void*)id);
+  }
 }
 
 void* readerWriter_cnets_osblinnikov_github_com_writeNext(writer *that, int waitThreshold) {
@@ -52,39 +56,53 @@ void* readerWriter_cnets_osblinnikov_github_com_writeNext(writer *that, int wait
   return res;
 }
 
+#define dispatchesAndStats(that)\
+{\
+  if (that->interval > 0 && that->statsWriterParams.target != 0) { \
+    that->packetsCounter++; \
+    uint64_t curTime = curTimeMilisec(); \
+    if (curTime - that->statsTime > that->interval) { \
+      types_cnets_osblinnikov_github_com_statsLocalProtocol* p; \
+      p = (types_cnets_osblinnikov_github_com_statsLocalProtocol*) that->statsWriterParams.writeNext(&that->statsWriterParams,0); \
+      if (p != 0) { \
+        p->writer = FALSE; \
+        p->uniqueId = that->uniqueId(that); \
+        p->gridId = that->params.grid_id; \
+        p->packets = that->packetsCounter; \
+        p->bytes = that->bytesCounter; \
+        that->statsWriterParams.writeFinished(&that->statsWriterParams); \
+        that->statsTime = curTime; \
+        that->packetsCounter = 0; \
+        that->bytesCounter = 0; \
+      } \
+    } \
+  } \
+  vector_cnets_osblinnikov_github_com* ids = (vector_cnets_osblinnikov_github_com*)that->params.getKernelIds(& that->params); \
+  if (ids != 0 && vector_cnets_osblinnikov_github_com_total(ids) > 0){ \
+    if (that->dispatchWriterParams.target != 0){ \
+      vector_cnets_osblinnikov_github_com* dispatchables = (vector_cnets_osblinnikov_github_com*)that->dispatchWriterParams.writeNext(&that->dispatchWriterParams,-1); \
+      if (dispatchables != 0){ \
+        *dispatchables = *ids; \
+        that->dispatchWriterParams.writeFinished(&that->dispatchWriterParams); \
+      }else{ \
+        printf("ERROR: readerWriter_cnets_osblinnikov_github_com_dispatchesAndStats: writeNext: dispatchables is NULL\n"); \
+      } \
+    } \
+  } \
+} \
+
+
 int readerWriter_cnets_osblinnikov_github_com_writeFinished(writer *that) {
   if(that == NULL || that->params.target == NULL || !that->hasWriteNext){return -1;}
 
-  /*todo: add here special code for debuging data flow*/
-  uint64_t interval = statsCollectorStatic_getStatsInterval();
-  if(interval > 0) {
-    if (that->statsWriterParams.target == 0) {
-      that->statsWriterParams = (statsCollectorStatic_getWriter()).params;
-    }
-    struct writer statsWriter;
-    writer_init(&statsWriter, that->statsWriterParams);
-    if (statsWriter.params.target != 0 && statsWriter.uniqueId(&statsWriter) != that->uniqueId(that)) {
-      that->packetsCounter++;
-      uint64_t curTime = curTimeMilisec();
-      if (curTime - that->statsTime > interval) {
-        types_cnets_osblinnikov_github_com_statsLocalProtocol* p;
-        p = (types_cnets_osblinnikov_github_com_statsLocalProtocol*) statsWriter.writeNext(&statsWriter,0);
-        if (p != 0) {
-          p->writer = TRUE;
-          p->uniqueId = that->uniqueId(that);
-          p->gridId = that->params.grid_id;
-          p->packets = that->packetsCounter;
-          p->bytes = that->bytesCounter;
-          statsWriter.writeFinished(&statsWriter);
-          that->statsTime = curTime;
-          that->packetsCounter = 0;
-          that->bytesCounter = 0;
-        }
-      }
-    }
-  }
   that->hasWriteNext = FALSE;
-  return that->params.writeFinished(&that->params);
+
+  int res = that->params.writeFinished(&that->params);
+
+  if(res == 0)
+    dispatchesAndStats(that);
+
+  return res;
 }
 
 int readerWriter_cnets_osblinnikov_github_com_sizeW(writer *that){
@@ -108,7 +126,7 @@ int readerWriter_cnets_osblinnikov_github_com_uniqueIdW(writer *that){
 }
 
 void readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterW(writer *that, int bytesCounter) {
-  if (statsCollectorStatic_getStatsInterval() > 0) {
+  if (that->interval > 0) {
     that->bytesCounter += bytesCounter;
   }
 }
@@ -144,35 +162,15 @@ void* readerWriter_cnets_osblinnikov_github_com_readNext(reader *that, int waitT
 int readerWriter_cnets_osblinnikov_github_com_readFinished(reader *that) {
   if(that == NULL || that->params.target == NULL || !that->hasReadNext){return -1;}
   /*todo: add here special code for debuging data flow*/
-  uint64_t interval = statsCollectorStatic_getStatsInterval();
-  if(interval > 0) {
-    if (that->statsWriterParams.target == 0) {
-      that->statsWriterParams = (statsCollectorStatic_getWriter()).params;
-    }
-    struct writer statsWriter;
-    writer_init(&statsWriter, that->statsWriterParams);
-    if (statsWriter.params.target != 0 && statsWriter.uniqueId(&statsWriter) != that->uniqueId(that)) {
-      that->packetsCounter++;
-      uint64_t curTime = curTimeMilisec();
-      if (curTime - that->statsTime > interval) {
-        types_cnets_osblinnikov_github_com_statsLocalProtocol* p;
-        p = (types_cnets_osblinnikov_github_com_statsLocalProtocol*) statsWriter.writeNext(&statsWriter,0);
-        if (p != 0) {
-          p->writer = FALSE;
-          p->uniqueId = that->uniqueId(that);
-          p->gridId = that->params.grid_id;
-          p->packets = that->packetsCounter;
-          p->bytes = that->bytesCounter;
-          statsWriter.writeFinished(&statsWriter);
-          that->statsTime = curTime;
-          that->packetsCounter = 0;
-          that->bytesCounter = 0;
-        }
-      }
-    }
-  }
+
   that->hasReadNext = FALSE;
-  return that->params.readFinished(&that->params);
+
+  int res = that->params.readFinished(&that->params);
+
+  if(res == 0)
+    dispatchesAndStats(that);
+
+  return res;
 }
 
 int readerWriter_cnets_osblinnikov_github_com_sizeR(reader *that){
@@ -196,7 +194,7 @@ int readerWriter_cnets_osblinnikov_github_com_uniqueIdR(reader *that){
 }
 
 void readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterR(reader *that, int bytesCounter) {
-  if (statsCollectorStatic_getStatsInterval() > 0) {
+  if (that->interval > 0) {
     that->bytesCounter += bytesCounter;
   }
 }
@@ -217,7 +215,9 @@ void writer_init(writer *that, bufferKernelParams params){
   that->packetsCounter = 0;
   that->bytesCounter = 0;
   that->statsTime = 0;
-  that->statsWriterParams.target = 0;
+  that->interval = statsCollectorStatic_getStatsInterval();
+  that->statsWriterParams = (statsCollectorStatic_getWriter()).params;
+  that->dispatchWriterParams = (dispatcherCollector_getWriter()).params;
   that->params = params;
   that->writeNext = readerWriter_cnets_osblinnikov_github_com_writeNext;
   that->writeFinished = readerWriter_cnets_osblinnikov_github_com_writeFinished;
@@ -226,6 +226,7 @@ void writer_init(writer *that, bufferKernelParams params){
   that->gridSize = readerWriter_cnets_osblinnikov_github_com_gridSizeW;
   that->uniqueId = readerWriter_cnets_osblinnikov_github_com_uniqueIdW;
   that->incrementBytesCounter = readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterW;
+  that->addKernelId = writer_cnets_osblinnikov_github_com_addKernelId;
   return;
 }
 
@@ -238,7 +239,9 @@ void reader_init(reader *that, bufferKernelParams params){
   that->packetsCounter = 0;
   that->bytesCounter = 0;
   that->statsTime = 0;
-  that->statsWriterParams.target = 0;
+  that->interval = statsCollectorStatic_getStatsInterval();
+  that->statsWriterParams = (statsCollectorStatic_getWriter()).params;
+  that->dispatchWriterParams = (dispatcherCollector_getWriter()).params;
   that->params = params;
   that->readNextWithMeta = readerWriter_cnets_osblinnikov_github_com_readNextWithMeta;
   that->readNext = readerWriter_cnets_osblinnikov_github_com_readNext;
@@ -249,6 +252,7 @@ void reader_init(reader *that, bufferKernelParams params){
   that->uniqueId = readerWriter_cnets_osblinnikov_github_com_uniqueIdR;
   that->incrementBytesCounter = readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterR;
   that->addSelector = readerWriter_cnets_osblinnikov_github_com_addSelector;
+  that->addKernelId = reader_cnets_osblinnikov_github_com_addKernelId;
   return;
 }
 

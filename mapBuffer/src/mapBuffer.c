@@ -17,6 +17,8 @@ int mapBuffer_cnets_osblinnikov_github_com_uniqueId(bufferKernelParams *params);
 int mapBuffer_cnets_osblinnikov_github_com_addSelector(bufferKernelParams *params, void* selectorContainer);
 void mapBuffer_cnets_osblinnikov_github_com_onCreate(mapBuffer_cnets_osblinnikov_github_com *that);
 void mapBuffer_cnets_osblinnikov_github_com_onDestroy(mapBuffer_cnets_osblinnikov_github_com *that);
+void mapBuffer_cnets_osblinnikov_github_com_setKernelIds(bufferKernelParams *params, void* ids, void (*idsDestructor)(void*));
+void* mapBuffer_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *params);
 
 reader mapBuffer_cnets_osblinnikov_github_com_createReader(mapBuffer_cnets_osblinnikov_github_com *that, int gridId){
   bufferKernelParams_create(params, that, gridId, mapBuffer_cnets_osblinnikov_github_com_)
@@ -34,6 +36,7 @@ void mapBuffer_cnets_osblinnikov_github_com_init(struct mapBuffer_cnets_osblinni
     arrayObject _buffers,
     int64_t _timeout_milisec,
     int32_t _readers_grid_size){
+  that->_ids_ = 0;
   
   that->buffers = _buffers;
   that->timeout_milisec = _timeout_milisec;
@@ -44,8 +47,41 @@ void mapBuffer_cnets_osblinnikov_github_com_init(struct mapBuffer_cnets_osblinni
 void mapBuffer_cnets_osblinnikov_github_com_deinit(struct mapBuffer_cnets_osblinnikov_github_com *that){
   mapBuffer_cnets_osblinnikov_github_com_onDestroy(that);
   
+  if(that->_ids_ && that->idsDestructor){
+    that->idsDestructor(that->_ids_);
+
+    that->_ids_ = 0;
+  }
 }
-/*[[[end]]] (checksum: 4589e7f84eb8649b23c0092b8f663d63)*/
+
+
+void mapBuffer_cnets_osblinnikov_github_com_setKernelIds(bufferKernelParams *params, void* ids, void (*idsDestructor)(void*)) {
+  if(params == NULL){
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com setKernelIds: params is NULL\n");
+    return;
+  }
+  mapBuffer_cnets_osblinnikov_github_com *that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
+  if(that == NULL){
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com setKernelIds: Some Input parameters are wrong\n");
+    return;
+  };
+  that->_ids_ = ids;
+  that->idsDestructor = idsDestructor;
+}
+
+void* mapBuffer_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *params) {
+  if(params == NULL){
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com setKernelIds: params is NULL\n");
+    return 0;
+  }
+  mapBuffer_cnets_osblinnikov_github_com *that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
+  if(that == NULL){
+    printf("ERROR: mapBuffer_cnets_osblinnikov_github_com setKernelIds: Some Input parameters are wrong\n");
+    return 0;
+  };
+  return that->_ids_;
+}
+/*[[[end]]] (checksum: 23be2f84f2fee2866cb48d66e8b24a36)*/
 
 #include <assert.h>
 

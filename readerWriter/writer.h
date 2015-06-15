@@ -1,11 +1,13 @@
 #ifndef readerWriter_cnets_osblinnikov_github_com_writer_H
 #define readerWriter_cnets_osblinnikov_github_com_writer_H
 
+#include "./Exports.h"
+
 typedef struct writer{
   BOOL hasWriteNext;
   unsigned packetsCounter, bytesCounter;
-  uint64_t statsTime;
-  struct bufferKernelParams statsWriterParams;
+  uint64_t statsTime, interval;
+  struct bufferKernelParams statsWriterParams, dispatchWriterParams;
   struct bufferKernelParams params;
   void* (*writeNext)(struct writer *that, int waitThreshold);
   int (*writeFinished)(struct writer *that);
@@ -14,6 +16,7 @@ typedef struct writer{
   int (*gridSize)(struct writer *that);
   int (*uniqueId)(struct writer *that);
   void (*incrementBytesCounter)(struct writer *that, int bytesCounter);
+  void (*addKernelId)(struct writer *that, unsigned id);
 }writer;
 
 readerWriter_cnets_osblinnikov_github_com_EXPORT_API

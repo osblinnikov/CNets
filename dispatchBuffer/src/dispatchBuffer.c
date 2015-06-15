@@ -1,0 +1,178 @@
+/*[[[cog
+import cogging as c
+c.tpl(cog,templateFile,c.a(prefix=configFile))
+]]]*/
+
+#include "../dispatchBuffer.h"
+
+void* dispatchBuffer_cnets_osblinnikov_github_com_readNext(bufferKernelParams *params, int waitThreshold);
+bufferReadData dispatchBuffer_cnets_osblinnikov_github_com_readNextWithMeta(bufferKernelParams *params, int waitThreshold);
+int dispatchBuffer_cnets_osblinnikov_github_com_readFinished(bufferKernelParams *params);
+void* dispatchBuffer_cnets_osblinnikov_github_com_writeNext(bufferKernelParams *params, int waitThreshold);
+int dispatchBuffer_cnets_osblinnikov_github_com_writeFinished(bufferKernelParams *params);
+int dispatchBuffer_cnets_osblinnikov_github_com_size(bufferKernelParams *params);
+int64_t dispatchBuffer_cnets_osblinnikov_github_com_timeout(bufferKernelParams *params);
+int dispatchBuffer_cnets_osblinnikov_github_com_gridSize(bufferKernelParams *params);
+int dispatchBuffer_cnets_osblinnikov_github_com_uniqueId(bufferKernelParams *params);
+int dispatchBuffer_cnets_osblinnikov_github_com_addSelector(bufferKernelParams *params, void* selectorContainer);
+void dispatchBuffer_cnets_osblinnikov_github_com_onCreate(dispatchBuffer_cnets_osblinnikov_github_com *that);
+void dispatchBuffer_cnets_osblinnikov_github_com_onDestroy(dispatchBuffer_cnets_osblinnikov_github_com *that);
+void dispatchBuffer_cnets_osblinnikov_github_com_setKernelIds(bufferKernelParams *params, void* ids, void (*idsDestructor)(void*));
+void* dispatchBuffer_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *params);
+
+reader dispatchBuffer_cnets_osblinnikov_github_com_createReader(dispatchBuffer_cnets_osblinnikov_github_com *that, int gridId){
+  bufferKernelParams_create(params, that, gridId, dispatchBuffer_cnets_osblinnikov_github_com_)
+  reader_create(res,params)
+  return res;
+}
+
+writer dispatchBuffer_cnets_osblinnikov_github_com_createWriter(dispatchBuffer_cnets_osblinnikov_github_com *that, int gridId){
+  bufferKernelParams_create(params, that, gridId, dispatchBuffer_cnets_osblinnikov_github_com_)
+  writer_create(res,params)
+  return res;
+}
+
+void dispatchBuffer_cnets_osblinnikov_github_com_init(struct dispatchBuffer_cnets_osblinnikov_github_com *that,
+    arrayObject _buffers,
+    int64_t _timeout_milisec,
+    int32_t _readers_grid_size){
+  that->_ids_ = 0;
+  
+  that->buffers = _buffers;
+  that->timeout_milisec = _timeout_milisec;
+  that->readers_grid_size = _readers_grid_size;
+  dispatchBuffer_cnets_osblinnikov_github_com_onCreate(that);
+}
+
+void dispatchBuffer_cnets_osblinnikov_github_com_deinit(struct dispatchBuffer_cnets_osblinnikov_github_com *that){
+  dispatchBuffer_cnets_osblinnikov_github_com_onDestroy(that);
+  
+  if(that->_ids_ && that->idsDestructor){
+    that->idsDestructor(that->_ids_);
+
+    that->_ids_ = 0;
+  }
+}
+
+
+void dispatchBuffer_cnets_osblinnikov_github_com_setKernelIds(bufferKernelParams *params, void* ids, void (*idsDestructor)(void*)) {
+  if(params == NULL){
+    printf("ERROR: dispatchBuffer_cnets_osblinnikov_github_com setKernelIds: params is NULL\n");
+    return;
+  }
+  dispatchBuffer_cnets_osblinnikov_github_com *that = (dispatchBuffer_cnets_osblinnikov_github_com*)params->target;
+  if(that == NULL){
+    printf("ERROR: dispatchBuffer_cnets_osblinnikov_github_com setKernelIds: Some Input parameters are wrong\n");
+    return;
+  };
+  that->_ids_ = ids;
+  that->idsDestructor = idsDestructor;
+}
+
+void* dispatchBuffer_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *params) {
+  if(params == NULL){
+    printf("ERROR: dispatchBuffer_cnets_osblinnikov_github_com setKernelIds: params is NULL\n");
+    return 0;
+  }
+  dispatchBuffer_cnets_osblinnikov_github_com *that = (dispatchBuffer_cnets_osblinnikov_github_com*)params->target;
+  if(that == NULL){
+    printf("ERROR: dispatchBuffer_cnets_osblinnikov_github_com setKernelIds: Some Input parameters are wrong\n");
+    return 0;
+  };
+  return that->_ids_;
+}
+/*[[[end]]] (checksum: eb350b4d1317328ae492dc94849777e8)*/
+
+void dispatchBuffer_cnets_osblinnikov_github_com_onCreate(dispatchBuffer_cnets_osblinnikov_github_com *that){
+  
+  return;
+}
+
+void dispatchBuffer_cnets_osblinnikov_github_com_onDestroy(dispatchBuffer_cnets_osblinnikov_github_com *that){
+  
+  return;
+}
+
+void* dispatchBuffer_cnets_osblinnikov_github_com_readNext(bufferKernelParams *params, int waitTimeout) {
+  bufferReadData res = dispatchBuffer_cnets_osblinnikov_github_com_readNextWithMeta(params, waitTimeout);
+  return res.data;
+}
+
+bufferReadData dispatchBuffer_cnets_osblinnikov_github_com_readNextWithMeta(bufferKernelParams *params, int waitTimeout) {
+  bufferReadData res;
+  res.data = NULL;
+  if(params == NULL){
+    printf("ERROR: dispatchBuffer_cnets_osblinnikov_github_com readNextWithMeta: params is NULL\n");
+    return res;
+  }
+  dispatchBuffer_cnets_osblinnikov_github_com *that = (dispatchBuffer_cnets_osblinnikov_github_com*)params->target;
+  if(that == NULL){
+    printf("ERROR: dispatchBuffer_cnets_osblinnikov_github_com readNextWithMeta: Some Input parameters are wrong\n");
+    return res;
+  }
+  /*TODO:IMPLEMENTATION GOES HERE*/
+  return res;
+}
+
+int dispatchBuffer_cnets_osblinnikov_github_com_readFinished(bufferKernelParams *params) {
+  if(params == NULL){
+    printf("ERROR: dispatchBuffer_cnets_osblinnikov_github_com readFinished: params is NULL\n");
+    return -1;
+  }
+  dispatchBuffer_cnets_osblinnikov_github_com *that = (dispatchBuffer_cnets_osblinnikov_github_com*)params->target;
+  if(that == NULL){
+    printf("ERROR: dispatchBuffer_cnets_osblinnikov_github_com readFinished: Some Input parameters are wrong\n");
+    return -1;
+  }
+  /*TODO:IMPLEMENTATION GOES HERE*/
+  return 0;
+}
+
+void* dispatchBuffer_cnets_osblinnikov_github_com_writeNext(bufferKernelParams *params, int waitTimeout) {
+  if(params == NULL){
+    printf("ERROR: dispatchBuffer_cnets_osblinnikov_github_com writeNext: params is NULL\n");
+    return NULL;
+  }
+  dispatchBuffer_cnets_osblinnikov_github_com *that = (dispatchBuffer_cnets_osblinnikov_github_com*)params->target;
+  void* res = NULL;
+  if(that == NULL){
+    printf("ERROR: dispatchBuffer_cnets_osblinnikov_github_com writeNext: Some Input parameters are wrong\n");
+    return res;
+  }
+  /*TODO:IMPLEMENTATION GOES HERE*/
+  return res;
+}
+
+int dispatchBuffer_cnets_osblinnikov_github_com_writeFinished(bufferKernelParams *params) {
+  if(params == NULL){
+    printf("ERROR: dispatchBuffer_cnets_osblinnikov_github_com writeFinished: params is NULL\n");
+    return -1;
+  }
+  dispatchBuffer_cnets_osblinnikov_github_com *that = (dispatchBuffer_cnets_osblinnikov_github_com*)params->target;
+  if(that == NULL){
+    printf("ERROR: dispatchBuffer_cnets_osblinnikov_github_com writeFinished: Some Input parameters are wrong\n");
+    return -1;
+  };
+  /*TODO:IMPLEMENTATION GOES HERE*/
+  return 0;
+}
+
+int dispatchBuffer_cnets_osblinnikov_github_com_size(bufferKernelParams *params){
+  return 0;
+}
+
+int64_t dispatchBuffer_cnets_osblinnikov_github_com_timeout(bufferKernelParams *params){
+  return 0;
+}
+
+int dispatchBuffer_cnets_osblinnikov_github_com_gridSize(bufferKernelParams *params){
+  return 0;
+}
+
+int dispatchBuffer_cnets_osblinnikov_github_com_uniqueId(bufferKernelParams *params){
+  return 0;
+}
+
+int dispatchBuffer_cnets_osblinnikov_github_com_addSelector(bufferKernelParams *params, void* selectorContainer) {
+  return 0;
+}

@@ -2,6 +2,7 @@
 #define types_cnets_osblinnikov_github_com_bufferKernelParams_H
 
 #include "./bufferReadData.h"
+#include "./arrayObject.h"
 
 #define bufferKernelParams_create(_NAME_,_target, _grid_id, fullName_)\
     bufferKernelParams _NAME_;\
@@ -18,7 +19,9 @@
     _NAME_.timeout = fullName_##timeout;\
     _NAME_.gridSize = fullName_##gridSize;\
     _NAME_.uniqueId = fullName_##uniqueId;\
-    _NAME_.addSelector = fullName_##addSelector;
+    _NAME_.addSelector = fullName_##addSelector; \
+    _NAME_.setKernelIds = fullName_##setKernelIds; \
+    _NAME_.getKernelIds = fullName_##getKernelIds;
 
 typedef struct bufferKernelParams{
   unsigned bufferId;
@@ -35,6 +38,8 @@ typedef struct bufferKernelParams{
   int (*gridSize)(struct bufferKernelParams *params);
   int (*uniqueId)(struct bufferKernelParams *params);
   int (*addSelector)(struct bufferKernelParams *params, void* selectorContainer);
+  void (*setKernelIds)(struct bufferKernelParams *params, void* ids, void (*idsDestructor)(void*));
+  void* (*getKernelIds)(struct bufferKernelParams *params);
 }bufferKernelParams;
 
 #endif /* types_cnets_osblinnikov_github_com_bufferKernelParams_H */

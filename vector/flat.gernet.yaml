@@ -1,13 +1,12 @@
 args: []
 channels: []
-depends:
--   name: github.com/osblinnikov/cnets/vector
+depends: []
 emit: []
 gen:
 - github.com/osblinnikov/gernet/plugins/library
 - github.com/osblinnikov/gernet/plugins/build
 hide: false
-name: github.com/osblinnikov/cnets/readerWriter
+name: github.com/osblinnikov/cnets/vector
 props: []
 receive: []
 spawnMode: ''

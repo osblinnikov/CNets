@@ -13,9 +13,9 @@ function(addDeps buildType dstBuildType)
 # ]]]
 
 include_directories(../../../../)
-add_dependencies(readerWriter_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
-target_link_libraries(readerWriter_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
-# [[[end]]] (checksum: 2de3fadd5c1e4c610cf2ac21333ad944)
+add_dependencies(readerWriter_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
+target_link_libraries(readerWriter_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
+# [[[end]]] (checksum: af3d39b29bada0cf31b92a1d56ca9449)
 endfunction(addDeps)
 
 file(GLOB READERWRITER_CNETS_OSBLINNIKOV_GITHUB_COM_HDRS "*.h")

@@ -9,10 +9,11 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
 #include "github.com/osblinnikov/cnets/mapBuffer/mapBuffer.h"
-#include "github.com/osblinnikov/cnets/readerWriter/readerWriter.h"
 #include "github.com/osblinnikov/cnets/queue/queue.h"
 #include "github.com/osblinnikov/cnets/runnablesContainer/runnablesContainer.h"
 #include "github.com/osblinnikov/cnets/types/types.h"
+#include "github.com/osblinnikov/cnets/readerWriter/readerWriter.h"
+#include "github.com/osblinnikov/cnets/vector/vector.h"
 
 #undef selector_cnets_osblinnikov_github_com_EXPORT_API
 #if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(SELECTOR_CNETS_OSBLINNIKOV_GITHUB_COM_STATIC)
@@ -40,13 +41,13 @@ reader selector_cnets_osblinnikov_github_com_createReader(struct selector_cnets_
 selector_cnets_osblinnikov_github_com_EXPORT_API
 writer selector_cnets_osblinnikov_github_com_createWriter(struct selector_cnets_osblinnikov_github_com *that, int gridId);
 
-
-
 typedef struct selector_cnets_osblinnikov_github_com{
-    arrayObject reducableReaders;
+  void* _ids_;
+  void (*idsDestructor)(void*);
+  arrayObject reducableReaders;
 
   
-/*[[[end]]] (checksum: 9e08e54a9fe2f10f12ac0dfade10898a)*/
+/*[[[end]]] (checksum: c011ca461b2a40e6f8a0507cf34593bd)*/
     linkedContainer *allContainers;
     uint32_t        *writesToContainers;
     int64_t         timeout_milisec;

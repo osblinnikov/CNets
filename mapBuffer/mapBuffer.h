@@ -10,9 +10,10 @@ import cogging as c
 c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
-#include "github.com/osblinnikov/cnets/readerWriter/readerWriter.h"
 #include "github.com/osblinnikov/cnets/queue/queue.h"
 #include "github.com/osblinnikov/cnets/types/types.h"
+#include "github.com/osblinnikov/cnets/readerWriter/readerWriter.h"
+#include "github.com/osblinnikov/cnets/vector/vector.h"
 
 #undef mapBuffer_cnets_osblinnikov_github_com_EXPORT_API
 #if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(MAPBUFFER_CNETS_OSBLINNIKOV_GITHUB_COM_STATIC)
@@ -42,15 +43,15 @@ reader mapBuffer_cnets_osblinnikov_github_com_createReader(struct mapBuffer_cnet
 mapBuffer_cnets_osblinnikov_github_com_EXPORT_API
 writer mapBuffer_cnets_osblinnikov_github_com_createWriter(struct mapBuffer_cnets_osblinnikov_github_com *that, int gridId);
 
-
-
 typedef struct mapBuffer_cnets_osblinnikov_github_com{
-    arrayObject buffers;
+  void* _ids_;
+  void (*idsDestructor)(void*);
+  arrayObject buffers;
   int64_t timeout_milisec;
   int32_t readers_grid_size;
 
   
-/*[[[end]]] (checksum: 2892154f070e99e86e796fdfacdd07c4)*/
+/*[[[end]]] (checksum: be6c4770b027b93465b9571161d8f0ac)*/
   int                                       uniqueId;
   unsigned                                  *buffers_grid_ids;/*required for storing ids of writers*/
   int                                       *buffers_to_read;

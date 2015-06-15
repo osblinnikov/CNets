@@ -1,0 +1,22 @@
+args:
+-   name: buffers
+    type: Object[]
+-   name: timeout_milisec
+    type: long
+-   name: readers_grid_size
+    type: int
+channels: []
+depends:
+-   name: github.com/osblinnikov/cnets/readerWriter
+-   name: github.com/osblinnikov/cnets/types
+-   name: github.com/osblinnikov/cnets/vector
+emit: []
+gen:
+- github.com/osblinnikov/gernet/plugins/buffer
+- github.com/osblinnikov/gernet/plugins/build
+hide: false
+name: github.com/osblinnikov/cnets/dispatchBuffer
+props: []
+receive: []
+spawnMode: ''
+topology: []

@@ -2,14 +2,14 @@
 
 #include <stdio.h>
 
-short wrSet = 0;
-struct writer w;
-int localId = 0;
-uint64_t statsInterval = 0;
+static short wrSet = 0;
+static struct writer w;
+static int localId = 0;
+static uint64_t statsInterval = 0;
 
-pthread_rwlock_t    writerRwMutex = PTHREAD_RWLOCK_INITIALIZER;
-pthread_mutex_t     localIdMutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_rwlock_t    statsIntervalRwMutex = PTHREAD_RWLOCK_INITIALIZER;
+static pthread_rwlock_t    writerRwMutex = PTHREAD_RWLOCK_INITIALIZER;
+static pthread_mutex_t     localIdMutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_rwlock_t    statsIntervalRwMutex = PTHREAD_RWLOCK_INITIALIZER;
 
 void statsCollectorStatic_setWriter(writer wIn){
   pthread_rwlock_wrlock(&writerRwMutex);
@@ -24,10 +24,11 @@ void statsCollectorStatic_setWriter(writer wIn){
 
 struct writer statsCollectorStatic_getWriter(){
   struct writer res;
-  res.params.target = 0;
   pthread_rwlock_rdlock(&writerRwMutex);
   if(wrSet){
     res = w;
+  }else{
+    res.params.target = 0;
   }
   pthread_rwlock_unlock(&writerRwMutex);
   return res;

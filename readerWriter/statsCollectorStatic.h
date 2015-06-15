@@ -1,6 +1,7 @@
 #ifndef readerWriter_cnets_osblinnikov_github_com_statsCollectorStatic_H
 #define readerWriter_cnets_osblinnikov_github_com_statsCollectorStatic_H
 
+#include "./Exports.h"
 #include "./readerWriter.h"
 #include "./writer.h"
 #include <pthread.h>

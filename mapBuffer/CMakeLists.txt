@@ -13,13 +13,15 @@ function(addDeps buildType dstBuildType)
 # ]]]
 
 include_directories(../../../../)
-add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
-target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
 add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} queue_cnets_osblinnikov_github_com${dstBuildType})
 target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} queue_cnets_osblinnikov_github_com${dstBuildType})
 add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
 target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
-# [[[end]]] (checksum: 24fec8fa1464eed76b4e18a11c49cee8)
+add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
+target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
+add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
+target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
+# [[[end]]] (checksum: d008a7b6229ac1a0f2a15bc841cfc5d6)
 endfunction(addDeps)
 
 file(GLOB MAPBUFFER_CNETS_OSBLINNIKOV_GITHUB_COM_HDRS "*.h")
