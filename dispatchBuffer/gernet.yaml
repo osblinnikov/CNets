@@ -7,7 +7,6 @@ args:
 -   name: readers_grid_size
     type: int
 props:
--   "requiredToRespawn char[readers_grid_size]"
 -   "messagesInMailbox unsigned[buffers.length]"
 gen:
 -   github.com/osblinnikov/gernet/plugins/buffer
