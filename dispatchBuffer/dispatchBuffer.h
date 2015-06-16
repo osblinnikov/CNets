@@ -41,14 +41,15 @@ dispatchBuffer_cnets_osblinnikov_github_com_EXPORT_API
 writer dispatchBuffer_cnets_osblinnikov_github_com_createWriter(struct dispatchBuffer_cnets_osblinnikov_github_com *that, int gridId);
 
 typedef struct dispatchBuffer_cnets_osblinnikov_github_com{
-  void* _ids_;
-  void (*idsDestructor)(void*);
+  void *_readerIds_, *_writerIds_;
+  void (*readerIdsDestructor)(void*);
+  void (*writerIdsDestructor)(void*);
   arrayObject buffers;
   int64_t timeout_milisec;
   int32_t readers_grid_size;
 
   
-/*[[[end]]] (checksum: f4fcd900187c036af7eb7a5568b5c50c)*/
+/*[[[end]]] (checksum: 40a97ef5c648529f0263ecd38f624492)*/
 
 }dispatchBuffer_cnets_osblinnikov_github_com;
 

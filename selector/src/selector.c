@@ -17,8 +17,8 @@ int selector_cnets_osblinnikov_github_com_uniqueId(bufferKernelParams *params);
 int selector_cnets_osblinnikov_github_com_addSelector(bufferKernelParams *params, void* selectorContainer);
 void selector_cnets_osblinnikov_github_com_onCreate(selector_cnets_osblinnikov_github_com *that);
 void selector_cnets_osblinnikov_github_com_onDestroy(selector_cnets_osblinnikov_github_com *that);
-void selector_cnets_osblinnikov_github_com_setKernelIds(bufferKernelParams *params, void* ids, void (*idsDestructor)(void*));
-void* selector_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *params);
+void selector_cnets_osblinnikov_github_com_setKernelIds(bufferKernelParams *params, short isReader, void* ids, void (*idsDestructor)(void*));
+void* selector_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *params, short isReader);
 
 reader selector_cnets_osblinnikov_github_com_createReader(selector_cnets_osblinnikov_github_com *that, int gridId){
   bufferKernelParams_create(params, that, gridId, selector_cnets_osblinnikov_github_com_)
@@ -34,7 +34,8 @@ writer selector_cnets_osblinnikov_github_com_createWriter(selector_cnets_osblinn
 
 void selector_cnets_osblinnikov_github_com_init(struct selector_cnets_osblinnikov_github_com *that,
     arrayObject _reducableReaders){
-  that->_ids_ = 0;
+  that->_readerIds_ = 0;
+  that->_writerIds_ = 0;
   
   that->reducableReaders = _reducableReaders;
   selector_cnets_osblinnikov_github_com_onCreate(that);
@@ -43,15 +44,18 @@ void selector_cnets_osblinnikov_github_com_init(struct selector_cnets_osblinniko
 void selector_cnets_osblinnikov_github_com_deinit(struct selector_cnets_osblinnikov_github_com *that){
   selector_cnets_osblinnikov_github_com_onDestroy(that);
   
-  if(that->_ids_ && that->idsDestructor){
-    that->idsDestructor(that->_ids_);
-
-    that->_ids_ = 0;
+  if(that->_readerIds_ && that->readerIdsDestructor){
+    that->readerIdsDestructor(that->_readerIds_);
+    that->_readerIds_ = 0;
+  }
+  if(that->_writerIds_ && that->writerIdsDestructor){
+    that->writerIdsDestructor(that->_writerIds_);
+    that->_writerIds_ = 0;
   }
 }
 
 
-void selector_cnets_osblinnikov_github_com_setKernelIds(bufferKernelParams *params, void* ids, void (*idsDestructor)(void*)) {
+void selector_cnets_osblinnikov_github_com_setKernelIds(bufferKernelParams *params, short isReader, void* ids, void (*idsDestructor)(void*)) {
   if(params == NULL){
     printf("ERROR: selector_cnets_osblinnikov_github_com setKernelIds: params is NULL\n");
     return;
@@ -61,11 +65,16 @@ void selector_cnets_osblinnikov_github_com_setKernelIds(bufferKernelParams *para
     printf("ERROR: selector_cnets_osblinnikov_github_com setKernelIds: Some Input parameters are wrong\n");
     return;
   };
-  that->_ids_ = ids;
-  that->idsDestructor = idsDestructor;
+  if(isReader){
+    that->_readerIds_ = ids;
+    that->readerIdsDestructor = idsDestructor;
+  }else{
+    that->_writerIds_ = ids;
+    that->writerIdsDestructor = idsDestructor;
+  }
 }
 
-void* selector_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *params) {
+void* selector_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *params, short isReader) {
   if(params == NULL){
     printf("ERROR: selector_cnets_osblinnikov_github_com setKernelIds: params is NULL\n");
     return 0;
@@ -75,9 +84,13 @@ void* selector_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *par
     printf("ERROR: selector_cnets_osblinnikov_github_com setKernelIds: Some Input parameters are wrong\n");
     return 0;
   };
-  return that->_ids_;
+  if(isReader){
+    return that->_readerIds_;
+  }else{
+    return that->_writerIds_;
+  }
 }
-/*[[[end]]] (checksum: 87b695486ab04ebf6230b9ce6a7476f9)*/
+/*[[[end]]] (checksum: d43874d8affd698d0d71fb882aae3646)*/
 
 #include <assert.h>
 

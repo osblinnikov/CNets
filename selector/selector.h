@@ -42,12 +42,13 @@ selector_cnets_osblinnikov_github_com_EXPORT_API
 writer selector_cnets_osblinnikov_github_com_createWriter(struct selector_cnets_osblinnikov_github_com *that, int gridId);
 
 typedef struct selector_cnets_osblinnikov_github_com{
-  void* _ids_;
-  void (*idsDestructor)(void*);
+  void *_readerIds_, *_writerIds_;
+  void (*readerIdsDestructor)(void*);
+  void (*writerIdsDestructor)(void*);
   arrayObject reducableReaders;
 
   
-/*[[[end]]] (checksum: c011ca461b2a40e6f8a0507cf34593bd)*/
+/*[[[end]]] (checksum: 98114602d917a85c94da07a597364bcb)*/
     linkedContainer *allContainers;
     uint32_t        *writesToContainers;
     int64_t         timeout_milisec;

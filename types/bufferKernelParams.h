@@ -38,8 +38,8 @@ typedef struct bufferKernelParams{
   int (*gridSize)(struct bufferKernelParams *params);
   int (*uniqueId)(struct bufferKernelParams *params);
   int (*addSelector)(struct bufferKernelParams *params, void* selectorContainer);
-  void (*setKernelIds)(struct bufferKernelParams *params, void* ids, void (*idsDestructor)(void*));
-  void* (*getKernelIds)(struct bufferKernelParams *params);
+  void (*setKernelIds)(struct bufferKernelParams *params, short isReader, void* ids, void (*idsDestructor)(void*));
+  void* (*getKernelIds)(struct bufferKernelParams *params, short isReader);
 }bufferKernelParams;
 
 #endif /* types_cnets_osblinnikov_github_com_bufferKernelParams_H */

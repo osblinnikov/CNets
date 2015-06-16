@@ -16,8 +16,8 @@ void idsDestructor(void* ids){
   free(vec);
 }
 
-vector_cnets_osblinnikov_github_com* getVectorFromParams(bufferKernelParams* params){
-  vector_cnets_osblinnikov_github_com* vec = (vector_cnets_osblinnikov_github_com*)params->getKernelIds(params);
+vector_cnets_osblinnikov_github_com* getVectorFromParams(bufferKernelParams* params, BOOL isReader){
+  vector_cnets_osblinnikov_github_com* vec = (vector_cnets_osblinnikov_github_com*)params->getKernelIds(params, isReader);
   if(vec == 0){
     vec = (vector_cnets_osblinnikov_github_com*)malloc(sizeof(vector_cnets_osblinnikov_github_com));
     if(vec == 0){
@@ -25,25 +25,27 @@ vector_cnets_osblinnikov_github_com* getVectorFromParams(bufferKernelParams* par
       return 0;
     }
     vector_cnets_osblinnikov_github_com_init(vec);
-    params->setKernelIds(params, vec, idsDestructor);
+    params->setKernelIds(params, isReader, vec, idsDestructor);
   }
   return vec;
 }
 
-void writer_cnets_osblinnikov_github_com_addKernelId(writer *that, unsigned id){
+void writer_cnets_osblinnikov_github_com_setKernelId(writer *that, unsigned id){
   if(that == NULL || that->params.target == NULL){return;}
-  vector_cnets_osblinnikov_github_com* vec = getVectorFromParams(&that->params);
+  vector_cnets_osblinnikov_github_com* vec = getVectorFromParams(&that->params, FALSE);
   if(vec != 0){
     vector_cnets_osblinnikov_github_com_add(vec, (void*)id);
   }
+  that->kernelId = id;
 }
 
-void reader_cnets_osblinnikov_github_com_addKernelId(reader *that, unsigned id){
+void reader_cnets_osblinnikov_github_com_setKernelId(reader *that, unsigned id){
   if(that == NULL || that->params.target == NULL){return;}
-  vector_cnets_osblinnikov_github_com* vec = getVectorFromParams(&that->params);
+  vector_cnets_osblinnikov_github_com* vec = getVectorFromParams(&that->params, TRUE);
   if(vec != 0){
     vector_cnets_osblinnikov_github_com_add(vec, (void*)id);
   }
+  that->kernelId = id;
 }
 
 void* readerWriter_cnets_osblinnikov_github_com_writeNext(writer *that, int waitThreshold) {
@@ -56,7 +58,7 @@ void* readerWriter_cnets_osblinnikov_github_com_writeNext(writer *that, int wait
   return res;
 }
 
-#define dispatchesAndStats(that)\
+#define dispatchesAndStats(that,isReader)\
 {\
   if (that->interval > 0 && that->statsWriterParams.target != 0) { \
     that->packetsCounter++; \
@@ -77,7 +79,7 @@ void* readerWriter_cnets_osblinnikov_github_com_writeNext(writer *that, int wait
       } \
     } \
   } \
-  vector_cnets_osblinnikov_github_com* ids = (vector_cnets_osblinnikov_github_com*)that->params.getKernelIds(& that->params); \
+  vector_cnets_osblinnikov_github_com* ids = (vector_cnets_osblinnikov_github_com*)that->params.getKernelIds(& that->params, isReader); \
   if (ids != 0 && vector_cnets_osblinnikov_github_com_total(ids) > 0){ \
     if (that->dispatchWriterParams.target != 0){ \
       vector_cnets_osblinnikov_github_com* dispatchables = (vector_cnets_osblinnikov_github_com*)that->dispatchWriterParams.writeNext(&that->dispatchWriterParams,-1); \
@@ -100,7 +102,7 @@ int readerWriter_cnets_osblinnikov_github_com_writeFinished(writer *that) {
   int res = that->params.writeFinished(&that->params);
 
   if(res == 0)
-    dispatchesAndStats(that);
+    dispatchesAndStats(that,FALSE);
 
   return res;
 }
@@ -168,7 +170,7 @@ int readerWriter_cnets_osblinnikov_github_com_readFinished(reader *that) {
   int res = that->params.readFinished(&that->params);
 
   if(res == 0)
-    dispatchesAndStats(that);
+    dispatchesAndStats(that,TRUE);
 
   return res;
 }
@@ -215,6 +217,7 @@ void writer_init(writer *that, bufferKernelParams params){
   that->packetsCounter = 0;
   that->bytesCounter = 0;
   that->statsTime = 0;
+  that->kernelId = (unsigned)-1;
   that->interval = statsCollectorStatic_getStatsInterval();
   that->statsWriterParams = (statsCollectorStatic_getWriter()).params;
   that->dispatchWriterParams = (dispatcherCollector_getWriter()).params;
@@ -226,7 +229,7 @@ void writer_init(writer *that, bufferKernelParams params){
   that->gridSize = readerWriter_cnets_osblinnikov_github_com_gridSizeW;
   that->uniqueId = readerWriter_cnets_osblinnikov_github_com_uniqueIdW;
   that->incrementBytesCounter = readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterW;
-  that->addKernelId = writer_cnets_osblinnikov_github_com_addKernelId;
+  that->setKernelId = writer_cnets_osblinnikov_github_com_setKernelId;
   return;
 }
 
@@ -239,6 +242,7 @@ void reader_init(reader *that, bufferKernelParams params){
   that->packetsCounter = 0;
   that->bytesCounter = 0;
   that->statsTime = 0;
+  that->kernelId = (unsigned)-1;
   that->interval = statsCollectorStatic_getStatsInterval();
   that->statsWriterParams = (statsCollectorStatic_getWriter()).params;
   that->dispatchWriterParams = (dispatcherCollector_getWriter()).params;
@@ -252,7 +256,7 @@ void reader_init(reader *that, bufferKernelParams params){
   that->uniqueId = readerWriter_cnets_osblinnikov_github_com_uniqueIdR;
   that->incrementBytesCounter = readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterR;
   that->addSelector = readerWriter_cnets_osblinnikov_github_com_addSelector;
-  that->addKernelId = reader_cnets_osblinnikov_github_com_addKernelId;
+  that->setKernelId = reader_cnets_osblinnikov_github_com_setKernelId;
   return;
 }
 

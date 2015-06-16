@@ -6,7 +6,7 @@
 
 typedef struct reader{
   BOOL hasReadNext;
-  unsigned packetsCounter, bytesCounter;
+  unsigned packetsCounter, bytesCounter, kernelId;
   uint64_t statsTime, interval;
   struct bufferKernelParams statsWriterParams, dispatchWriterParams;
   struct bufferKernelParams params;
@@ -19,7 +19,7 @@ typedef struct reader{
   int (*uniqueId)(struct reader *that);
   void (*incrementBytesCounter)(struct reader *that, int bytesCounter);
   int (*addSelector)(struct reader *that, linkedContainer *selectorContainer);
-  void (*addKernelId)(struct reader *that, unsigned id);
+  void (*setKernelId)(struct reader *that, unsigned id);
 }reader;
 
 readerWriter_cnets_osblinnikov_github_com_EXPORT_API

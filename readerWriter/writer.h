@@ -5,7 +5,7 @@
 
 typedef struct writer{
   BOOL hasWriteNext;
-  unsigned packetsCounter, bytesCounter;
+  unsigned packetsCounter, bytesCounter, kernelId;
   uint64_t statsTime, interval;
   struct bufferKernelParams statsWriterParams, dispatchWriterParams;
   struct bufferKernelParams params;
@@ -16,7 +16,7 @@ typedef struct writer{
   int (*gridSize)(struct writer *that);
   int (*uniqueId)(struct writer *that);
   void (*incrementBytesCounter)(struct writer *that, int bytesCounter);
-  void (*addKernelId)(struct writer *that, unsigned id);
+  void (*setKernelId)(struct writer *that, unsigned id);
 }writer;
 
 readerWriter_cnets_osblinnikov_github_com_EXPORT_API

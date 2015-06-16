@@ -44,14 +44,15 @@ mapBuffer_cnets_osblinnikov_github_com_EXPORT_API
 writer mapBuffer_cnets_osblinnikov_github_com_createWriter(struct mapBuffer_cnets_osblinnikov_github_com *that, int gridId);
 
 typedef struct mapBuffer_cnets_osblinnikov_github_com{
-  void* _ids_;
-  void (*idsDestructor)(void*);
+  void *_readerIds_, *_writerIds_;
+  void (*readerIdsDestructor)(void*);
+  void (*writerIdsDestructor)(void*);
   arrayObject buffers;
   int64_t timeout_milisec;
   int32_t readers_grid_size;
 
   
-/*[[[end]]] (checksum: be6c4770b027b93465b9571161d8f0ac)*/
+/*[[[end]]] (checksum: 179d4c7113d2f5a4f40999f0c98635da)*/
   int                                       uniqueId;
   unsigned                                  *buffers_grid_ids;/*required for storing ids of writers*/
   int                                       *buffers_to_read;
