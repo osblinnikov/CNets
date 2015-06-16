@@ -42,12 +42,16 @@ void dispatchBuffer_cnets_osblinnikov_github_com_init(struct dispatchBuffer_cnet
   that->buffers = _buffers;
   that->timeout_milisec = _timeout_milisec;
   that->readers_grid_size = _readers_grid_size;
+  that->requiredToRespawn = arrayObject_init_dynamic(sizeof(char), that->readers_grid_size);
+  that->messagesInMailbox = arrayObject_init_dynamic(sizeof(uint32_t), that->buffers.length);
   dispatchBuffer_cnets_osblinnikov_github_com_onCreate(that);
 }
 
 void dispatchBuffer_cnets_osblinnikov_github_com_deinit(struct dispatchBuffer_cnets_osblinnikov_github_com *that){
   dispatchBuffer_cnets_osblinnikov_github_com_onDestroy(that);
   
+  arrayObject_free_dynamic(that->requiredToRespawn);
+  arrayObject_free_dynamic(that->messagesInMailbox);
   if(that->_readerIds_ && that->readerIdsDestructor){
     that->readerIdsDestructor(that->_readerIds_);
     that->_readerIds_ = 0;
@@ -94,7 +98,7 @@ void* dispatchBuffer_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParam
     return that->_writerIds_;
   }
 }
-/*[[[end]]] (checksum: 35f1e59acc9de79ed6770c6a49645462)*/
+/*[[[end]]] (checksum: 0bfba302c3fbb1549c32e52e778f79d7)*/
 
 void dispatchBuffer_cnets_osblinnikov_github_com_onCreate(dispatchBuffer_cnets_osblinnikov_github_com *that){
   

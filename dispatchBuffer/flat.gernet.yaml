@@ -16,7 +16,15 @@ gen:
 - github.com/osblinnikov/gernet/plugins/build
 hide: false
 name: github.com/osblinnikov/cnets/dispatchBuffer
-props: []
+props:
+-   name: requiredToRespawn
+    size: readers_grid_size
+    type: char[]
+    value: null
+-   name: messagesInMailbox
+    size: buffers.length
+    type: unsigned[]
+    value: null
 receive: []
 spawnMode: ''
 topology: []

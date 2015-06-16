@@ -47,9 +47,11 @@ typedef struct dispatchBuffer_cnets_osblinnikov_github_com{
   arrayObject buffers;
   int64_t timeout_milisec;
   int32_t readers_grid_size;
+  arrayObject requiredToRespawn;
+  arrayObject messagesInMailbox;
 
   
-/*[[[end]]] (checksum: 40a97ef5c648529f0263ecd38f624492)*/
+/*[[[end]]] (checksum: 1163810805ff8930201dc4e5297d8df7)*/
 
 }dispatchBuffer_cnets_osblinnikov_github_com;
 
