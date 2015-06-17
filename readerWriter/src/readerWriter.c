@@ -10,50 +10,46 @@ writer writerNULL(){
   return w;
 }
 
-typedef struct kernelIds{
-  vector_cnets_osblinnikov_github_com vec;
-
-}kernelIds;
-
-void kernelIds_init(void* ids){
-  kernelIds *that = (kernelIds*)ids;
-  vector_cnets_osblinnikov_github_com_init(&that->vec);
+vector_cnets_osblinnikov_github_com* kernelIds_init(){
+  vector_cnets_osblinnikov_github_com *ids = (vector_cnets_osblinnikov_github_com*)malloc(sizeof(vector_cnets_osblinnikov_github_com));
+  if(ids == 0){
+    printf("ERROR: writer_cnets_osblinnikov_github_com_getVectorFromParams: unable to allocate memory for kernelIds");
+    return 0;
+  }
+  vector_cnets_osblinnikov_github_com_init(ids);
 }
 
-void kernelIds_destroy(struct kernelIds* that){
-  vector_cnets_osblinnikov_github_com_deinit(&that->vec);
+void kernelIds_destroy(void* ids){
+  vector_cnets_osblinnikov_github_com *that = (vector_cnets_osblinnikov_github_com*)ids;
+  vector_cnets_osblinnikov_github_com_deinit(that);
   free(that);
 }
 
-kernelIds* getKernelIdsFromParams(bufferKernelParams* params, BOOL isReader){
-  kernelIds* ids = (kernelIds*)params->getKernelIds(params, isReader);
+vector_cnets_osblinnikov_github_com* getKernelIdsFromParams(bufferKernelParams* params, BOOL isReader){
+  vector_cnets_osblinnikov_github_com* ids = (vector_cnets_osblinnikov_github_com*)params->getKernelIds(params, isReader);
   if(ids == 0){
-    ids = (kernelIds*)malloc(sizeof(kernelIds));
-    if(ids == 0){
-      printf("ERROR: writer_cnets_osblinnikov_github_com_getVectorFromParams: unable to allocate memory for kernelIds");
-      return 0;
+    ids = kernelIds_init();
+    if(ids != 0){
+        params->setKernelIds(params, isReader, (void*)ids, kernelIds_destroy);
     }
-    kernelIds_init(ids);
-
-    params->setKernelIds(params, isReader, (void*)ids, kernelIds_init);
   }
   return ids;
 }
 
 void writer_cnets_osblinnikov_github_com_setKernelId(writer *that, unsigned id){
   if(that == NULL || that->params.target == NULL){return;}
-  kernelIds* ids = getKernelIdsFromParams(&that->params, FALSE);
+  vector_cnets_osblinnikov_github_com* ids = getKernelIdsFromParams(&that->params, FALSE);
   if(ids != 0){
-    vector_cnets_osblinnikov_github_com_add(&ids->vec, (void*)(unsigned long long)id);
+    vector_cnets_osblinnikov_github_com_add(ids, (void*)(unsigned long long)id);
   }
   that->kernelId = id;
 }
 
 void reader_cnets_osblinnikov_github_com_setKernelId(reader *that, unsigned id){
   if(that == NULL || that->params.target == NULL){return;}
-  kernelIds* ids = getKernelIdsFromParams(&that->params, TRUE);
+  vector_cnets_osblinnikov_github_com* ids = getKernelIdsFromParams(&that->params, TRUE);
   if(ids != 0){
-    vector_cnets_osblinnikov_github_com_add(&ids->vec, (void*)(unsigned long long)id);
+    vector_cnets_osblinnikov_github_com_add(ids, (void*)(unsigned long long)id);
   }
   that->kernelId = id;
 }
