@@ -62,7 +62,12 @@ typedef struct dispatchBuffer_cnets_osblinnikov_github_com{
   pthread_spinlock_t * spawnedSpinLocks;
   pthread_mutex_t     cv_mutex;
   pthread_cond_t      cv;
-  uint32_t (*formula)(dispatchBuffer_cnets_osblinnikov_github_com* that, uint64_t curTime, uint32_t cntInMailBox, uint32_t id);
+  struct formula_dispatchBuffer_cnets_osblinnikov_github_com{
+    uint32_t (*formula)(dispatchBuffer_cnets_osblinnikov_github_com* that,bufferKernelParams *params, uint64_t curTime, uint32_t cntInMailBox, uint32_t readerId);
+    size_t (*getIdsLength)(dispatchBuffer_cnets_osblinnikov_github_com* that, bufferKernelParams *params);
+    uint32_t* (*getIds)(dispatchBuffer_cnets_osblinnikov_github_com* that, bufferKernelParams *params);
+    void* context;
+  }formula;
 }dispatchBuffer_cnets_osblinnikov_github_com;
 
 #endif /* dispatchBuffer_cnets_osblinnikov_github_com_H */

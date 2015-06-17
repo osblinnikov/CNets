@@ -106,7 +106,7 @@ void* dispatchBuffer_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParam
 }
 /*[[[end]]] (checksum: 6ab5cd0a0e3af565bf313a75e98682ee)*/
 
-uint32_t defaultFormula(dispatchBuffer_cnets_osblinnikov_github_com* that, uint64_t curTime, uint32_t inMailBox, uint32_t id){
+uint32_t defaultFormula(dispatchBuffer_cnets_osblinnikov_github_com* that,bufferKernelParams *params, uint64_t curTime, uint32_t inMailBox, uint32_t id){
   /*each 10 miliseconds will add 1 to the mailbox raiting*/
   return inMailBox+(uint32_t)(curTime - that->spawnTime[id])/10;
 }
@@ -131,7 +131,10 @@ void dispatchBuffer_cnets_osblinnikov_github_com_onCreate(dispatchBuffer_cnets_o
   assert(!res);
   res = pthread_cond_init (&that->cv, NULL);
   assert(!res);
-  that->formula = defaultFormula;
+  that->formula.context = NULL;
+  that->formula.getIds = NULL;
+  that->formula.getIdsLength = NULL;
+  that->formula.formula = defaultFormula;
   return;
 }
 
@@ -190,35 +193,52 @@ bufferReadData dispatchBuffer_cnets_osblinnikov_github_com_readNextWithMeta(buff
   }
 #endif
   that = (dispatchBuffer_cnets_osblinnikov_github_com*)params->target;
-  uint64_t nanosec = waitThreshold < 0? (uint64_t)that->timeout_milisec : (uint64_t)waitThreshold;
-  struct timespec wait_timespec = getTimespecDelay(nanosec*(uint64_t)1000000L);
-
+  struct timespec wait_timespec = {0,0};
+  uint64_t curTime = curTimeMilisec();
   uint32_t maxId;
   uint32_t maxFormula = 0;
+  size_t idsLength;
+  uint32_t* ids;
+
+  if(that->formula.getIdsLength == NULL || that->formula.getIds == NULL){
+    idsLength = that->buffers.length;
+    ids = NULL;
+  }else{
+    idsLength = that->formula.getIdsLength(that,params);
+    ids = that->formula.getIds(that,params);
+  }
+
   do{
-    uint64_t curTime = curTimeMilisec();
-    for(size_t i = 0; i<that->buffers.length; i++){
-      uint32_t inMailBox = that->inMailbox[i];
-      if(!that->isSpawned[i] && inMailBox > 0){
-        uint32_t newFormula = that->formula(that, curTime, inMailBox, i);
-        if(maxFormula<newFormula ){
+    /*selection of the most relevant kernelId for the current grid_id*/
+    for(uint32_t j = 0; j<idsLength; j++){
+      uint32_t i = (ids != NULL)? ids[j] : j;
+      uint32_t inMailbox = that->inMailbox[i];
+      if(!that->isSpawned[i] && inMailbox > 0){
+        uint32_t newFormula = that->formula.formula(that, params, curTime, inMailbox, i);
+        if(maxFormula<newFormula){
           maxFormula = newFormula;
           maxId = i;
         }
       }
     }
     if(maxFormula == 0){
+      if(wait_timespec.tv_nsec == 0 && wait_timespec.tv_sec == 0){
+        uint64_t nanosec = waitThreshold < 0? (uint64_t)that->timeout_milisec : (uint64_t)waitThreshold;
+        wait_timespec = getTimespecDelay(nanosec*(uint64_t)1000000L);
+      }
       if(dispatchBuffer_cnets_osblinnikov_github_com_waitNext(that, &wait_timespec)){
         return res;
       }else{
+        curTime = curTimeMilisec();
         continue;
       }
     }
     pthread_spin_lock(&that->spawnedSpinLocks[maxId]);
   }while(that->isSpawned[maxId]);
   that->isSpawned[maxId] = 1;
-  pthread_spin_unlock(&that->spawnedSpinLocks[maxId]);
   --that->inMailbox[maxId];
+  pthread_spin_unlock(&that->spawnedSpinLocks[maxId]);
+
 
   /*res.nested_buffer_id = 0;
   res.writer_grid_id = 0;*/
@@ -283,10 +303,13 @@ int dispatchBuffer_cnets_osblinnikov_github_com_writeFinished(bufferKernelParams
 #endif
   that = (dispatchBuffer_cnets_osblinnikov_github_com*)params->target;
   vector_cnets_osblinnikov_github_com* ids = &((vector_cnets_osblinnikov_github_com*)that->buffers.array)[params->grid_id];
+  uint64_t curTime = curTimeMilisec();
   for(size_t i = 0; i < ids->total; i++){
     uint32_t id = (uint32_t)(unsigned long long)ids->items[i];
+    that->spawnTime[id] = curTime;
+    pthread_spin_lock(&that->spawnedSpinLocks[id]);
     ++that->inMailbox[id];
-    that->spawnTime[id] = curTimeMilisec();
+    pthread_spin_unlock(&that->spawnedSpinLocks[id]);
   }
   dispatchBuffer_cnets_osblinnikov_github_com_waitBroadcast(that);
   return 0;
