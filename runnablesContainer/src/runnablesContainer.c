@@ -60,7 +60,8 @@ void runnablesContainer_cnets_osblinnikov_github_com_setContainers(
 
 void runnablesContainer_cnets_osblinnikov_github_com_setCore(
   struct runnablesContainer_cnets_osblinnikov_github_com *that, 
-  RunnableStoppable target
+  RunnableStoppable target,
+  unsigned id, short dedicatedThread
 ){
   that->target = target;
 }

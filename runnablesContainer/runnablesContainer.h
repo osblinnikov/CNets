@@ -41,7 +41,7 @@ typedef struct runnablesContainer_cnets_osblinnikov_github_com{
   int containers_size;
   struct RunnableStoppable target;
   void (*setContainers)(struct runnablesContainer_cnets_osblinnikov_github_com *that, arrayObject containers);
-  void (*setCore)(struct runnablesContainer_cnets_osblinnikov_github_com *that, RunnableStoppable target);
+  void (*setCore)(struct runnablesContainer_cnets_osblinnikov_github_com *that, RunnableStoppable target, unsigned id, short dedicatedThread);
   void (*launch)(struct runnablesContainer_cnets_osblinnikov_github_com *that, BOOL lockLastElement);
   void (*stop)(struct runnablesContainer_cnets_osblinnikov_github_com *that);
 }runnablesContainer_cnets_osblinnikov_github_com;
