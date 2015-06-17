@@ -179,8 +179,8 @@ int readerWriter_cnets_osblinnikov_github_com_readFinished(reader *that) {
 
   int res = that->params.readFinished(&that->params);
 
-/*  if(res == 0)
-    dispatchesAndStats(that,TRUE);*/
+  if(res == 0)
+    dispatchesAndStats(that,TRUE);
 
   return res;
 }
