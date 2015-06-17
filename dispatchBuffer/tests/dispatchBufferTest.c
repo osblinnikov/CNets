@@ -10,14 +10,14 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 int dispatchIds(writer* w, vector_cnets_osblinnikov_github_com *ids){
   vector_cnets_osblinnikov_github_com* data = (vector_cnets_osblinnikov_github_com*)w->writeNext(w,-1);
   if(data == 0){
-    printf("ERROR: test: dispatchIds: w->writeNext returns NULL\n");
+    fprintf(stderr,"ERROR: test: dispatchIds: w->writeNext returns NULL\n");
     return -1;
   }
 
   *data = *ids;
 
   if( w->writeFinished(w) != 0 ){
-    printf("ERROR: test: dispatchIds: w->writeFinished returns non-0 status\n");
+    fprintf(stderr,"ERROR: test: dispatchIds: w->writeFinished returns non-0 status\n");
     return -1;
   }
 
@@ -27,19 +27,19 @@ int dispatchIds(writer* w, vector_cnets_osblinnikov_github_com *ids){
 int dequeueAllDifferentIdsTest(reader* r, int countToRead){
   unsigned readTmp[countToRead];
   for(int i=0; i<countToRead; i++){
-    unsigned id = (unsigned) r->readNext(r, -1);
-    if(id == (unsigned)-1){
-      printf("dequeueAllDifferentIds: readNext returns -1\n");
+    unsigned* ptr = (unsigned*) r->readNext(r, -1);
+    if(ptr == NULL){
+      fprintf(stderr,"ERROR dequeueAllDifferentIds: readNext returns -1\n");
       return -1;
     }
-    readTmp[i] = id;
+    readTmp[i] = *ptr;
     if(r->readFinished(r) != 0){
-      printf("dequeueAllDifferentIds: readFinished returns non-0 status\n");
+      fprintf(stderr,"ERROR dequeueAllDifferentIds: readFinished returns non-0 status\n");
       return -1;
     }
     for(int j=0; j<i; j++){
-      if(readTmp[j] == id) {
-        printf("dequeueAllDifferentIds: %d at index %d already occurs at position %d\n", id, i, j);
+      if(readTmp[j] == *ptr) {
+        fprintf(stderr,"ERROR dequeueAllDifferentIds: %d at index %d already occurs at position %d\n", *ptr, i, j);
         return -1;
       }
     }
@@ -52,19 +52,19 @@ int dequeueAllDifferentIdsTest(reader* r, int countToRead){
 int main(int argc, char* argv[]){
 
   const uint64_t timeoutMilisec = 1000;
-  const unsigned numberOfKernels = 100000;
+  const unsigned numberOfKernels = 10;
   const unsigned threadPoolSize = 4;
   vector_cnets_osblinnikov_github_com ids0;
   vector_cnets_osblinnikov_github_com_init(&ids0);
   /*starting from the 2nd kernel, because we're emulating first kernel as writer*/
   vector_cnets_osblinnikov_github_com_resize(&ids0, numberOfKernels-1);
   for(unsigned i=1; i<numberOfKernels; i++){
-    vector_cnets_osblinnikov_github_com_add(&ids0, (void*)i);
+    vector_cnets_osblinnikov_github_com_add(&ids0, (void*)(unsigned long long)i);
   }
 
   arrayObject arr = arrayObject_init_dynamic(sizeof(vector_cnets_osblinnikov_github_com), numberOfKernels);
   if(arr.array == NULL){
-    printf("ERROR: test: array is NULL\n");
+    fprintf(stderr,"ERROR: test: array is NULL\n");
     return -1;
   }
   for(unsigned i=0; i<numberOfKernels; i++){

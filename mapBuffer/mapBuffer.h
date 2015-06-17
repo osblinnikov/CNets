@@ -67,8 +67,7 @@ typedef struct mapBuffer_cnets_osblinnikov_github_com{
   pthread_mutex_t     free_buffers_cv_ow_mutex;
   pthread_mutex_t     free_buffers_cv_mutex;
   pthread_cond_t      free_buffers_cv;
-  pthread_rwlock_t    rwLock;
-  linkedContainer     *selectorContainers;
+  volatile linkedContainer     *selectorContainers;
 }mapBuffer_cnets_osblinnikov_github_com;
 
 #endif /* mapBuffer_cnets_osblinnikov_github_com_H */

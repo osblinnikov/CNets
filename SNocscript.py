@@ -10,6 +10,7 @@ def add_dependencies(env):
   AddDependency(env,'readerWriter_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/readerWriter')
   AddDependency(env,'queue_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/queue')
   AddDependency(env,'vector_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/vector')
+  AddDependency(env,'dispatchBuffer_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/dispatchBuffer')
 
 c = {}
 c['PROG_NAME'] = 'parent'

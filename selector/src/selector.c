@@ -57,12 +57,12 @@ void selector_cnets_osblinnikov_github_com_deinit(struct selector_cnets_osblinni
 
 void selector_cnets_osblinnikov_github_com_setKernelIds(bufferKernelParams *params, short isReader, void* ids, void (*idsDestructor)(void*)) {
   if(params == NULL){
-    printf("ERROR: selector_cnets_osblinnikov_github_com setKernelIds: params is NULL\n");
+    fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com setKernelIds: params is NULL\n");
     return;
   }
   selector_cnets_osblinnikov_github_com *that = (selector_cnets_osblinnikov_github_com*)params->target;
   if(that == NULL){
-    printf("ERROR: selector_cnets_osblinnikov_github_com setKernelIds: Some Input parameters are wrong\n");
+    fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com setKernelIds: Some Input parameters are wrong\n");
     return;
   };
   if(isReader){
@@ -76,12 +76,12 @@ void selector_cnets_osblinnikov_github_com_setKernelIds(bufferKernelParams *para
 
 void* selector_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *params, short isReader) {
   if(params == NULL){
-    printf("ERROR: selector_cnets_osblinnikov_github_com setKernelIds: params is NULL\n");
+    fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com setKernelIds: params is NULL\n");
     return 0;
   }
   selector_cnets_osblinnikov_github_com *that = (selector_cnets_osblinnikov_github_com*)params->target;
   if(that == NULL){
-    printf("ERROR: selector_cnets_osblinnikov_github_com setKernelIds: Some Input parameters are wrong\n");
+    fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com setKernelIds: Some Input parameters are wrong\n");
     return 0;
   };
   if(isReader){
@@ -90,7 +90,7 @@ void* selector_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *par
     return that->_writerIds_;
   }
 }
-/*[[[end]]] (checksum: d43874d8affd698d0d71fb882aae3646)*/
+/*[[[end]]] (checksum: 85d549e829456ceaa6512aa4f5d62572)*/
 
 #include <assert.h>
 

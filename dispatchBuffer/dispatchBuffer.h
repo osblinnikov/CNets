@@ -3,6 +3,8 @@
 #ifndef dispatchBuffer_cnets_osblinnikov_github_com_H
 #define dispatchBuffer_cnets_osblinnikov_github_com_H
 
+#include <pthread.h>
+
 /*[[[cog
 import cogging as c
 c.tpl(cog,templateFile,c.a(prefix=configFile))
@@ -48,10 +50,19 @@ typedef struct dispatchBuffer_cnets_osblinnikov_github_com{
   int64_t timeout_milisec;
   int32_t readers_grid_size;
   arrayObject messagesInMailbox;
+  arrayObject dispatchedKernels;
+  arrayObject messagesSpawnTime;
+  arrayObject spawnedArray;
 
   
-/*[[[end]]] (checksum: b05249242e42eeccfc291b89271c5846)*/
-
+/*[[[end]]] (checksum: 6d0b0262e946f6ae9b974f9ee978779a)*/
+  unsigned char volatile * isSpawned;
+  uint32_t volatile * inMailbox;
+  uint64_t volatile * spawnTime;
+  pthread_spinlock_t * spawnedSpinLocks;
+  pthread_mutex_t     cv_mutex;
+  pthread_cond_t      cv;
+  uint32_t (*formula)(dispatchBuffer_cnets_osblinnikov_github_com* that, uint64_t curTime, uint32_t cntInMailBox, uint32_t id);
 }dispatchBuffer_cnets_osblinnikov_github_com;
 
 #endif /* dispatchBuffer_cnets_osblinnikov_github_com_H */

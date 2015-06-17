@@ -8,6 +8,9 @@ args:
     type: int
 props:
 -   "messagesInMailbox unsigned[buffers.length]"
+-   "dispatchedKernels unsigned[readers_grid_size]"
+-   "messagesSpawnTime unsigned-long[buffers.length]"
+-   "spawnedArray      char[buffers.length]"
 gen:
 -   github.com/osblinnikov/gernet/plugins/buffer
 -   github.com/osblinnikov/gernet/plugins/build

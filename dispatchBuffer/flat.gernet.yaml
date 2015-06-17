@@ -21,6 +21,18 @@ props:
     size: buffers.length
     type: unsigned[]
     value: null
+-   name: dispatchedKernels
+    size: readers_grid_size
+    type: unsigned[]
+    value: null
+-   name: messagesSpawnTime
+    size: buffers.length
+    type: unsigned-long[]
+    value: null
+-   name: spawnedArray
+    size: buffers.length
+    type: char[]
+    value: null
 receive: []
 spawnMode: ''
 topology: []

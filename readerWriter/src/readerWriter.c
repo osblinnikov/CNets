@@ -85,9 +85,9 @@ void* readerWriter_cnets_osblinnikov_github_com_writeNext(writer *that, int wait
       } \
     } \
   } \
-  vector_cnets_osblinnikov_github_com* ids = (vector_cnets_osblinnikov_github_com*)that->params.getKernelIds(& that->params, isReader); \
-  if (ids != 0 && vector_cnets_osblinnikov_github_com_total(ids) > 0){ \
-    if (that->dispatchWriterParams.target != 0){ \
+  if (that->dispatchWriterParams.target != 0){ \
+    vector_cnets_osblinnikov_github_com* ids = (vector_cnets_osblinnikov_github_com*)that->params.getKernelIds(& that->params, isReader); \
+    if (ids != 0 && vector_cnets_osblinnikov_github_com_total(ids) > 0){ \
       vector_cnets_osblinnikov_github_com* dispatchables = (vector_cnets_osblinnikov_github_com*)that->dispatchWriterParams.writeNext(&that->dispatchWriterParams,-1); \
       if (dispatchables != 0){ \
         *dispatchables = *ids; \

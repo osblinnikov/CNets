@@ -42,7 +42,7 @@ int vector_cnets_osblinnikov_github_com_total(vector_cnets_osblinnikov_github_co
 void vector_cnets_osblinnikov_github_com_resize(vector_cnets_osblinnikov_github_com *v, int capacity)
 {
 #ifdef _DEBUG
-    printf("vector_resize: %d to %d\n", v->capacity, capacity);
+//    printf("vector_resize: %d to %d\n", v->capacity, capacity);
 #endif
 
     void **items = (void**)realloc(v->items, sizeof(void *) * capacity);

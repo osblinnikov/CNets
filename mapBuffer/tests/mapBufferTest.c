@@ -7,7 +7,7 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 #include "../mapBuffer.h"
 /*[[[end]]] (checksum: e52bf3d992008716f42df794df287184)*/
 
-const int countToSend = 3000000;
+const int countToSend = 6000000;
 
 BOOL checkTotal(int total){
   return total >= countToSend;
@@ -47,7 +47,7 @@ void *writeKernel(void* inTarget){
     }
     if(0<=testWrite((writer*)inTarget)){
       ++cnt;
-      ++total;//it's because we actually have 2 writers
+//      ++total;//it's because we actually have 2 writers
       if (checkTotal(++total))
         break;
     }
@@ -130,13 +130,17 @@ int main(int argc, char* argv[]){
   printf("testRead 5\n");
 
   pthread_t threadW0, threadW1, threadR0, threadR1;
+  classObj.readers_grid_size = 1;
   pthread_create(&threadW0, NULL, writeKernel, (void *)&classObjW0);
-  pthread_create(&threadW1, NULL, writeKernel, (void *)&classObjW1);
+//  pthread_create(&threadW1, NULL, writeKernel, (void *)&classObjW1);
   pthread_create(&threadR0, NULL, readKernel, (void *)&classObjR0);
-  pthread_create(&threadR1, NULL, readKernel, (void *)&classObjR1);
+//  pthread_create(&threadR1, NULL, readKernel, (void *)&classObjR1);
   // readKernel((void *)&classObjR1);
-  // taskDelay(5000000000L);
-  pthread_join(threadW0, NULL);pthread_join(threadW1, NULL);pthread_join(threadR0, NULL);pthread_join(threadR1, NULL);
+//   taskDelay(5000000000L);
+  pthread_join(threadW0, NULL);
+//  pthread_join(threadW1, NULL);
+  pthread_join(threadR0, NULL);
+//  pthread_join(threadR1, NULL);
 
   mapBuffer_cnets_osblinnikov_github_com_deinit(&classObj);
   printf("--- mapBufferTest OK\n");
