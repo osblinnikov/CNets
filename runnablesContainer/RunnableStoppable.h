@@ -17,4 +17,8 @@ typedef struct RunnableStoppable{
     _NAME_.run = fullName_##run;\
     _NAME_.onStop = fullName_##onStop;
 
+inline void RunnableStoppable_init(struct RunnableStoppable* that){
+  *that = RunnableStoppable;
+}
+
 #endif /* runnablesContainer_cnets_osblinnikov_github_com_RunnableStoppable_H */

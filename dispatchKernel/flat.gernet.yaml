@@ -10,7 +10,7 @@ channels:
     -   type: Object[]
         value: buffersArr
     -   value: timeout
-    -   value: dispatcherCollector_getStartLocalId()
+    -   value: startLocalId
     -   value: threads
     channel: ids
     name: github.com/osblinnikov/cnets/dispatchBuffer
@@ -28,6 +28,10 @@ gen:
 hide: true
 name: github.com/osblinnikov/cnets/dispatchKernel
 props:
+-   name: startLocalId
+    size: null
+    type: unsigned
+    value: dispatcherCollector_getStartLocalId()
 -   name: numberOfKernels
     size: null
     type: unsigned
@@ -44,6 +48,10 @@ topology:
         value: parent
     -   type: null
         value: _kernel0_i
+    -   type: null
+        value: numberOfKernels
+    -   type: null
+        value: startLocalId
     emit: []
     name: github.com/osblinnikov/cnets/dispatchKernel/dispatcher
     parallel: threads

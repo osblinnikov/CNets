@@ -23,13 +23,12 @@ void runnablesContainer_cnets_osblinnikov_github_com_launch(
 ){
   if(that->containers != NULL && that->containers_size > 0){
     int i;
-    for(i=0; i< that->containers_size - 1; i++){
+    for(i=0; i< that->containers_size; i++){
       if(that->target.target != NULL){
         that->target.onStart(that->target.target);
       }
-      that->containers[i].launch(&that->containers[i], FALSE);
+      that->containers[i].launch(&that->containers[i], (lockLastElement && i == that->containers_size - 1) );
     }
-    that->containers[that->containers_size - 1].launch(&that->containers[that->containers_size - 1], lockLastElement);
   }else if(that->target.target != NULL){
     if(that->spawnMode == 1){
       that->kernel.launch(&that->kernel, that->target, lockLastElement);

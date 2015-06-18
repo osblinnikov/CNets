@@ -28,6 +28,8 @@ dispatcher_dispatchKernel_cnets_osblinnikov_github_com_EXPORT_API
 void dispatcher_dispatchKernel_cnets_osblinnikov_github_com_init(struct dispatcher_dispatchKernel_cnets_osblinnikov_github_com *that,
     RunnablesInterface _parent,
     uint32_t _threadId,
+    uint32_t _numberOfKernels,
+    uint32_t _startLocalId,
     reader _rids0);
 
 dispatcher_dispatchKernel_cnets_osblinnikov_github_com_EXPORT_API
@@ -36,13 +38,16 @@ void dispatcher_dispatchKernel_cnets_osblinnikov_github_com_deinit(struct dispat
 typedef struct dispatcher_dispatchKernel_cnets_osblinnikov_github_com{
     RunnablesInterface parent;
   uint32_t threadId;
+  uint32_t numberOfKernels;
+  uint32_t startLocalId;
   uint32_t _kernelId;
+  arrayObject runObjects;
   reader rids0;
 
   
   struct runnablesContainer_cnets_osblinnikov_github_com (*getRunnables)(struct dispatcher_dispatchKernel_cnets_osblinnikov_github_com *that);
   struct runnablesContainer_cnets_osblinnikov_github_com _runnables;
-/*[[[end]]] (checksum: f4444505a6696eb72bb202f4db263816)*/
+/*[[[end]]] (checksum: cdc7acd18dad226e3d20eb95088e91b0)*/
 
 }dispatcher_dispatchKernel_cnets_osblinnikov_github_com;
 

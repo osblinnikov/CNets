@@ -2,6 +2,10 @@ name: github.com/osblinnikov/cnets/dispatchKernel/dispatcher
 args:
 -   "parent RunnablesInterface"
 -   "threadId unsigned"
+-   "numberOfKernels unsigned"
+-   "startLocalId unsigned"
+props:
+-   "runObjects RunnableStoppable[numberOfKernels]"
 depends:
 -   name: github.com/osblinnikov/cnets/runnablesContainer
 -   name: github.com/osblinnikov/cnets/readerWriter

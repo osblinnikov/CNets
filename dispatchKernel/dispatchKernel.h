@@ -39,6 +39,7 @@ typedef struct dispatchKernel_cnets_osblinnikov_github_com{
     RunnablesInterface parent;
   uint32_t threads;
   int64_t timeout;
+  uint32_t startLocalId;
   uint32_t numberOfKernels;
   arrayObject buffersArr;
 
@@ -49,7 +50,7 @@ runnablesContainer_cnets_osblinnikov_github_com* arrContainers;
   
   struct runnablesContainer_cnets_osblinnikov_github_com (*getRunnables)(struct dispatchKernel_cnets_osblinnikov_github_com *that);
   struct runnablesContainer_cnets_osblinnikov_github_com _runnables;
-/*[[[end]]] (checksum: 407e869cc1439463a4cf10c7b718e827)*/
+/*[[[end]]] (checksum: 73a28dd649a6982f4c7616c00613e3aa)*/
   struct dispatchBuffer_cnets_osblinnikov_github_com dispatcher;
 }dispatchKernel_cnets_osblinnikov_github_com;
 

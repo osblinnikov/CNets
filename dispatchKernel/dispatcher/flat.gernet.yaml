@@ -3,6 +3,10 @@ args:
     type: RunnablesInterface
 -   name: threadId
     type: unsigned
+-   name: numberOfKernels
+    type: unsigned
+-   name: startLocalId
+    type: unsigned
 channels: []
 depends:
 -   name: github.com/osblinnikov/cnets/runnablesContainer
@@ -14,7 +18,11 @@ gen:
 - github.com/osblinnikov/gernet/plugins/build
 hide: false
 name: github.com/osblinnikov/cnets/dispatchKernel/dispatcher
-props: []
+props:
+-   name: runObjects
+    size: numberOfKernels
+    type: RunnableStoppable[]
+    value: null
 receive:
 -   channel: ids
     size: null

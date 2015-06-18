@@ -4,6 +4,7 @@ args:
 -   "threads unsigned"
 -   "timeout long"
 props:
+-   "startLocalId unsigned dispatcherCollector_getStartLocalId()"
 -   "numberOfKernels unsigned dispatcherCollector_getLocalId()-dispatcherCollector_getStartLocalId()"
 -   "buffersArr github.com/osblinnikov/cnets/vector[numberOfKernels]"
 depends:
@@ -23,14 +24,16 @@ channels:
       - value: buffersArr
         type:  Object[]
       - value: timeout
-      - value: "dispatcherCollector_getStartLocalId()"
+      - value: startLocalId
       - value: threads
 hide: true
 topology:
 -   name: github.com/osblinnikov/cnets/dispatchKernel/dispatcher
     parallel: threads
     args:
-    -   "parent"
-    -   "_kernel0_i"
+    -   parent
+    -   _kernel0_i
+    -   numberOfKernels
+    -   startLocalId
     receive:
     -   "ids"

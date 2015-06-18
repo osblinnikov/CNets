@@ -30,6 +30,7 @@ void dispatchKernel_cnets_osblinnikov_github_com_init(struct dispatchKernel_cnet
   that->parent = _parent;
   that->threads = _threads;
   that->timeout = _timeout;
+  that->startLocalId = dispatcherCollector_getStartLocalId();
   that->numberOfKernels = dispatcherCollector_getLocalId()-dispatcherCollector_getStartLocalId();
   that->buffersArr = arrayObject_init_dynamic(sizeof(vector_cnets_osblinnikov_github_com), that->numberOfKernels);
   int buffersArr_i_ = 0;
@@ -37,14 +38,14 @@ void dispatchKernel_cnets_osblinnikov_github_com_init(struct dispatchKernel_cnet
     vector_cnets_osblinnikov_github_com_init(&((vector_cnets_osblinnikov_github_com*)that->buffersArr.array)[buffersArr_i_]);
   }
   
-  dispatchBuffer_cnets_osblinnikov_github_com_init(&that->ids,that->buffersArr,that->timeout,dispatcherCollector_getStartLocalId(),that->threads);
+  dispatchBuffer_cnets_osblinnikov_github_com_init(&that->ids,that->buffersArr,that->timeout,that->startLocalId,that->threads);
   reader idsr0_0 = dispatchBuffer_cnets_osblinnikov_github_com_createReader(&that->ids,0);
   dispatchKernel_cnets_osblinnikov_github_com_onKernels(that);
   
   that->kernel0 = (dispatcher_dispatchKernel_cnets_osblinnikov_github_com*)malloc(sizeof(dispatcher_dispatchKernel_cnets_osblinnikov_github_com)*that->threads);
   int _kernel0_i;
   for(_kernel0_i=0;_kernel0_i<(int)that->threads;_kernel0_i++){
-    dispatcher_dispatchKernel_cnets_osblinnikov_github_com_init(&that->kernel0[_kernel0_i],that->parent,_kernel0_i,idsr0_0);
+    dispatcher_dispatchKernel_cnets_osblinnikov_github_com_init(&that->kernel0[_kernel0_i],that->parent,_kernel0_i,that->numberOfKernels,that->startLocalId,idsr0_0);
   }
   that->arrContainers = (runnablesContainer_cnets_osblinnikov_github_com*)malloc(sizeof(runnablesContainer_cnets_osblinnikov_github_com)*(0+that->threads));
   that->getRunnables = dispatchKernel_cnets_osblinnikov_github_com_getRunnables;
@@ -80,7 +81,7 @@ void dispatchKernel_cnets_osblinnikov_github_com_deinit(struct dispatchKernel_cn
   free((void*)that->arrContainers);
 }
 
-/*[[[end]]] (checksum: 7d224c418479fad85d9a7b5ebe3bcc28)*/
+/*[[[end]]] (checksum: 5bff16e58d2a6c7029158fe644bc45c6)*/
 
 void dispatchKernel_cnets_osblinnikov_github_com_run(void *t){
   /*struct dispatchKernel_cnets_osblinnikov_github_com *that = (struct dispatchKernel_cnets_osblinnikov_github_com*)t;*/
