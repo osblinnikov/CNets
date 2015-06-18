@@ -5,6 +5,7 @@
 
 #include "./Kernel.h"
 #include "./RunnableStoppable.h"
+#include "./RunnablesInterface.h"
 
 /*[[[cog
 import cogging as c
@@ -40,8 +41,10 @@ typedef struct runnablesContainer_cnets_osblinnikov_github_com{
   struct runnablesContainer_cnets_osblinnikov_github_com *containers;
   int containers_size;
   struct RunnableStoppable target;
+  unsigned id;
+  unsigned spawnMode;
   void (*setContainers)(struct runnablesContainer_cnets_osblinnikov_github_com *that, arrayObject containers);
-  void (*setCore)(struct runnablesContainer_cnets_osblinnikov_github_com *that, RunnableStoppable target, unsigned id, short dedicatedThread);
+  void (*setCore)(struct runnablesContainer_cnets_osblinnikov_github_com *that, RunnableStoppable target, unsigned id, unsigned spawnMode);
   void (*launch)(struct runnablesContainer_cnets_osblinnikov_github_com *that, BOOL lockLastElement);
   void (*stop)(struct runnablesContainer_cnets_osblinnikov_github_com *that);
 }runnablesContainer_cnets_osblinnikov_github_com;

@@ -2,34 +2,71 @@
 
 #include <stdio.h>
 
-static short wrSet = 0;
-static struct writer w;
-static int localId = 0;
+static short initialized = 0;
+static struct vector_cnets_osblinnikov_github_com vec;
+static unsigned localId = 0, startLocalId = 0;
 
-static pthread_mutex_t     localIdMutex = PTHREAD_MUTEX_INITIALIZER;
-
-void dispatcherCollector_setWriter(writer wIn){
-  if(wrSet == 0) {
-    w = wIn;
-    wrSet = 1;
-  }else{
-    printf("WARN: dispatcherCollector_setWriter: writer already set\n");
+void dispatcherCollector_deinit(){
+  if(initialized){
+    for(size_t i = 0; i<vector_cnets_osblinnikov_github_com_total(&vec); i++){
+      free(vec.items[i]);
+    }
+    vector_cnets_osblinnikov_github_com_deinit(&vec);
+    initialized = 0;
+    localId = 0;
+    startLocalId = 0;
   }
 }
 
-struct writer dispatcherCollector_getWriter(){
-  struct writer res;
-  if(wrSet){
-    res = w;
-  }else{
-    res.params.target = 0;
+void dispatcherCollector_init(){
+  if(!initialized){
+    initialized = 1;
+    vector_cnets_osblinnikov_github_com_init(&vec);
+    writer* w = (writer*)malloc(sizeof(writer));
+    *w = writer;
+    w->params.target = NULL;
+    vector_cnets_osblinnikov_github_com_add(&vec, (void*)w);
   }
-  return res;
 }
 
-int dispatcherCollector_getNextLocalId(){
-  pthread_mutex_lock(&localIdMutex);
-  int res = localId++;
-  pthread_mutex_unlock(&localIdMutex);
-  return res;
+void dispatcherCollector_addWriter(writer wIn){
+  if(!initialized){
+    fprintf(stderr, "ERROR: dispatcherCollector_addWriter: dispatcherCollector was not initialized yet for some reason!\n");
+    dispatcherCollector_init();
+  }else{
+    writer* w = (writer*)vector_cnets_osblinnikov_github_com_get(&vec, vector_cnets_osblinnikov_github_com_total(&vec) - 1);
+    *w = wIn;/*set writer for the previously created kernels*/
+
+    writer* w1 = (writer*)malloc(sizeof(writer));
+    *w1 = writer;
+    w1->params.target = NULL;
+    vector_cnets_osblinnikov_github_com_add(&vec, w1);
+  }
+}
+
+struct writer *dispatcherCollector_getWriter(){
+  if(!initialized){
+    dispatcherCollector_init();
+  }
+  return (writer*)vector_cnets_osblinnikov_github_com_get(&vec, vector_cnets_osblinnikov_github_com_total(&vec) - 1);
+}
+
+void dispatcherCollector_tagAsStartLocalId(){
+  startLocalId = localId;
+}
+
+unsigned dispatcherCollector_getStartLocalId(){
+  return startLocalId;
+}
+
+unsigned dispatcherCollector_getLocalId(){
+  if(localId > 0){
+    return localId - 1;
+  }else{
+    return 0;
+  }
+}
+
+unsigned dispatcherCollector_getNextLocalId(){
+  return localId++;
 }

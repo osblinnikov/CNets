@@ -85,13 +85,13 @@ void* readerWriter_cnets_osblinnikov_github_com_writeNext(writer *that, int wait
       } \
     } \
   } \
-  if (that->dispatchWriterParams.target != 0){ \
+  if (that->dispatchWriter != 0 && that->dispatchWriter->params.target != 0){ \
     vector_cnets_osblinnikov_github_com* ids = (vector_cnets_osblinnikov_github_com*)that->params.getKernelIds(& that->params, isReader); \
     if (ids != 0 && vector_cnets_osblinnikov_github_com_total(ids) > 0){ \
-      vector_cnets_osblinnikov_github_com* dispatchables = (vector_cnets_osblinnikov_github_com*)that->dispatchWriterParams.writeNext(&that->dispatchWriterParams,-1); \
+      vector_cnets_osblinnikov_github_com* dispatchables = (vector_cnets_osblinnikov_github_com*)that->dispatchWriter->params.writeNext(&that->dispatchWriter->params,-1); \
       if (dispatchables != 0){ \
         *dispatchables = *ids; \
-        that->dispatchWriterParams.writeFinished(&that->dispatchWriterParams); \
+        that->dispatchWriter->params.writeFinished(&that->dispatchWriter->params); \
       }else{ \
         printf("ERROR: readerWriter_cnets_osblinnikov_github_com_dispatchesAndStats: writeNext: dispatchables is NULL\n"); \
       } \
@@ -226,7 +226,7 @@ void writer_init(writer *that, bufferKernelParams params){
   that->kernelId = (unsigned)-1;
   that->interval = statsCollectorStatic_getStatsInterval();
   that->statsWriterParams = (statsCollectorStatic_getWriter()).params;
-  that->dispatchWriterParams = (dispatcherCollector_getWriter()).params;
+  that->dispatchWriter = dispatcherCollector_getWriter();
   that->params = params;
   that->writeNext = readerWriter_cnets_osblinnikov_github_com_writeNext;
   that->writeFinished = readerWriter_cnets_osblinnikov_github_com_writeFinished;
@@ -251,7 +251,7 @@ void reader_init(reader *that, bufferKernelParams params){
   that->kernelId = (unsigned)-1;
   that->interval = statsCollectorStatic_getStatsInterval();
   that->statsWriterParams = (statsCollectorStatic_getWriter()).params;
-  that->dispatchWriterParams = (dispatcherCollector_getWriter()).params;
+  that->dispatchWriter = dispatcherCollector_getWriter();
   that->params = params;
   that->readNextWithMeta = readerWriter_cnets_osblinnikov_github_com_readNextWithMeta;
   that->readNext = readerWriter_cnets_osblinnikov_github_com_readNext;

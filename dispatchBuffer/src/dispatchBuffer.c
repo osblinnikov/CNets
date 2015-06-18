@@ -37,12 +37,14 @@ writer dispatchBuffer_cnets_osblinnikov_github_com_createWriter(dispatchBuffer_c
 void dispatchBuffer_cnets_osblinnikov_github_com_init(struct dispatchBuffer_cnets_osblinnikov_github_com *that,
     arrayObject _buffers,
     int64_t _timeout_milisec,
+    uint32_t _startKernelId,
     int32_t _readers_grid_size){
   that->_readerIds_ = 0;
   that->_writerIds_ = 0;
   
   that->buffers = _buffers;
   that->timeout_milisec = _timeout_milisec;
+  that->startKernelId = _startKernelId;
   that->readers_grid_size = _readers_grid_size;
   that->messagesInMailbox = arrayObject_init_dynamic(sizeof(uint32_t), that->buffers.length);
   that->dispatchedKernels = arrayObject_init_dynamic(sizeof(uint32_t), that->readers_grid_size);
@@ -104,11 +106,11 @@ void* dispatchBuffer_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParam
     return that->_writerIds_;
   }
 }
-/*[[[end]]] (checksum: 6ab5cd0a0e3af565bf313a75e98682ee)*/
+/*[[[end]]] (checksum: 9e9c0f6a4e6b90f95b0465e880cf0ae0)*/
 
-uint32_t defaultFormula(dispatchBuffer_cnets_osblinnikov_github_com* that,bufferKernelParams *params, uint64_t curTime, uint32_t inMailBox, uint32_t id){
+uint32_t defaultFormula(dispatchBuffer_cnets_osblinnikov_github_com* that,bufferKernelParams *params, uint64_t curTime, uint32_t inMailBox, uint32_t index){
   /*each 10 miliseconds will add 1 to the mailbox raiting*/
-  return inMailBox+(uint32_t)(curTime - that->spawnTime[id])/10;
+  return inMailBox+(uint32_t)(curTime - that->spawnTime[index])/10;
 }
 
 void dispatchBuffer_cnets_osblinnikov_github_com_onCreate(dispatchBuffer_cnets_osblinnikov_github_com *that){
@@ -195,7 +197,7 @@ bufferReadData dispatchBuffer_cnets_osblinnikov_github_com_readNextWithMeta(buff
   that = (dispatchBuffer_cnets_osblinnikov_github_com*)params->target;
   struct timespec wait_timespec = {0,0};
   uint64_t curTime = curTimeMilisec();
-  uint32_t maxId;
+  uint32_t maxId, maxI;
   uint32_t maxFormula = 0;
   size_t idsLength;
   uint32_t* ids;
@@ -211,13 +213,20 @@ bufferReadData dispatchBuffer_cnets_osblinnikov_github_com_readNextWithMeta(buff
   do{
     /*selection of the most relevant kernelId for the current grid_id*/
     for(uint32_t j = 0; j<idsLength; j++){
-      uint32_t i = (ids != NULL)? ids[j] : j;
+      uint32_t i, id;
+      if(ids != NULL){
+        id = ids[j];
+        i = id - that->startKernelId;
+      }else{
+        id = i = j;
+      }
       uint32_t inMailbox = that->inMailbox[i];
       if(!that->isSpawned[i] && inMailbox > 0){
         uint32_t newFormula = that->formula.formula(that, params, curTime, inMailbox, i);
         if(maxFormula<newFormula){
           maxFormula = newFormula;
-          maxId = i;
+          maxId = id;
+          maxI = i;
         }
       }
     }
@@ -233,16 +242,16 @@ bufferReadData dispatchBuffer_cnets_osblinnikov_github_com_readNextWithMeta(buff
         continue;
       }
     }
-    pthread_spin_lock(&that->spawnedSpinLocks[maxId]);
-  }while(that->isSpawned[maxId]);
-  that->isSpawned[maxId] = 1;
-  --that->inMailbox[maxId];
-  pthread_spin_unlock(&that->spawnedSpinLocks[maxId]);
+    pthread_spin_lock(&that->spawnedSpinLocks[maxI]);
+  }while(that->isSpawned[maxI]);
+  that->isSpawned[maxI] = 1;
+  --that->inMailbox[maxI];
+  pthread_spin_unlock(&that->spawnedSpinLocks[maxI]);
 
 
   /*res.nested_buffer_id = 0;
   res.writer_grid_id = 0;*/
-  params->internalId = maxId;
+  params->internalId = maxI;
   res.data = (void*)&((uint32_t*)that->dispatchedKernels.array)[params->grid_id];
   *(uint32_t*)res.data = maxId;
   return res;
@@ -306,10 +315,11 @@ int dispatchBuffer_cnets_osblinnikov_github_com_writeFinished(bufferKernelParams
   uint64_t curTime = curTimeMilisec();
   for(size_t i = 0; i < ids->total; i++){
     uint32_t id = (uint32_t)(unsigned long long)ids->items[i];
-    that->spawnTime[id] = curTime;
-    pthread_spin_lock(&that->spawnedSpinLocks[id]);
-    ++that->inMailbox[id];
-    pthread_spin_unlock(&that->spawnedSpinLocks[id]);
+    i = id - that->startKernelId;
+    that->spawnTime[i] = curTime;
+    pthread_spin_lock(&that->spawnedSpinLocks[i]);
+    ++that->inMailbox[i];
+    pthread_spin_unlock(&that->spawnedSpinLocksi);
   }
   dispatchBuffer_cnets_osblinnikov_github_com_waitBroadcast(that);
   return 0;

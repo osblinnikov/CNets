@@ -8,7 +8,8 @@ typedef struct reader{
   BOOL hasReadNext;
   unsigned packetsCounter, bytesCounter, kernelId;
   uint64_t statsTime, interval;
-  struct bufferKernelParams statsWriterParams, dispatchWriterParams;
+  struct bufferKernelParams statsWriterParams;
+  struct writer *dispatchWriter;
   struct bufferKernelParams params;
   bufferReadData (*readNextWithMeta)(struct reader *that, int waitThreshold);
   void* (*readNext)(struct reader *that, int waitThreshold);

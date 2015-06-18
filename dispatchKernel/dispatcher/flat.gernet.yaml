@@ -1,0 +1,24 @@
+args:
+-   name: parent
+    type: RunnablesInterface
+-   name: threadId
+    type: unsigned
+channels: []
+depends:
+-   name: github.com/osblinnikov/cnets/runnablesContainer
+-   name: github.com/osblinnikov/cnets/readerWriter
+-   name: github.com/osblinnikov/cnets/types
+emit: []
+gen:
+- github.com/osblinnikov/gernet/plugins/kernel
+- github.com/osblinnikov/gernet/plugins/build
+hide: false
+name: github.com/osblinnikov/cnets/dispatchKernel/dispatcher
+props: []
+receive:
+-   channel: ids
+    size: null
+    timeout: null
+    type: unsigned
+spawnMode: '0'
+topology: []

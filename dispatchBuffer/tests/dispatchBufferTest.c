@@ -72,7 +72,7 @@ int main(int argc, char* argv[]){
   }
   dispatchBuffer_cnets_osblinnikov_github_com classObj;
 
-  dispatchBuffer_cnets_osblinnikov_github_com_init(&classObj, arr, timeoutMilisec, threadPoolSize);
+  dispatchBuffer_cnets_osblinnikov_github_com_init(&classObj, arr, timeoutMilisec, 0, threadPoolSize);
   writer w = dispatchBuffer_cnets_osblinnikov_github_com_createWriter(&classObj, 0);
   reader r[threadPoolSize];
   for(unsigned i=0; i<threadPoolSize; i++){

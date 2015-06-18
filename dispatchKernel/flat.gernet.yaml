@@ -1,0 +1,55 @@
+args:
+-   name: parent
+    type: RunnablesInterface
+-   name: threads
+    type: unsigned
+-   name: timeout
+    type: long
+channels:
+-   args:
+    -   type: Object[]
+        value: buffersArr
+    -   value: timeout
+    -   value: dispatcherCollector_getStartLocalId()
+    -   value: threads
+    channel: ids
+    name: github.com/osblinnikov/cnets/dispatchBuffer
+    type: unsigned
+depends:
+-   name: github.com/osblinnikov/cnets/runnablesContainer
+-   name: github.com/osblinnikov/cnets/readerWriter
+-   name: github.com/osblinnikov/cnets/types
+-   name: github.com/osblinnikov/cnets/vector
+-   name: github.com/osblinnikov/cnets/dispatchBuffer
+emit: []
+gen:
+- github.com/osblinnikov/gernet/plugins/kernel
+- github.com/osblinnikov/gernet/plugins/build
+hide: true
+name: github.com/osblinnikov/cnets/dispatchKernel
+props:
+-   name: numberOfKernels
+    size: null
+    type: unsigned
+    value: dispatcherCollector_getLocalId()-dispatcherCollector_getStartLocalId()
+-   name: buffersArr
+    size: numberOfKernels
+    type: github.com/osblinnikov/cnets/vector[]
+    value: null
+receive: []
+spawnMode: '0'
+topology:
+-   args:
+    -   type: null
+        value: parent
+    -   type: null
+        value: _kernel0_i
+    emit: []
+    name: github.com/osblinnikov/cnets/dispatchKernel/dispatcher
+    parallel: threads
+    parents: []
+    receive:
+    -   channel: ids
+        size: null
+        timeout: null
+        type: null

@@ -1,0 +1,36 @@
+name: github.com/osblinnikov/cnets/dispatchKernel
+args:
+-   "parent RunnablesInterface"
+-   "threads unsigned"
+-   "timeout long"
+props:
+-   "numberOfKernels unsigned dispatcherCollector_getLocalId()-dispatcherCollector_getStartLocalId()"
+-   "buffersArr github.com/osblinnikov/cnets/vector[numberOfKernels]"
+depends:
+-   name: github.com/osblinnikov/cnets/runnablesContainer
+-   name: github.com/osblinnikov/cnets/readerWriter
+-   name: github.com/osblinnikov/cnets/types
+-   name: github.com/osblinnikov/cnets/vector
+-   name: github.com/osblinnikov/cnets/dispatchBuffer
+gen:
+- github.com/osblinnikov/gernet/plugins/kernel
+- github.com/osblinnikov/gernet/plugins/build
+channels:
+-   channel: ids
+    name: github.com/osblinnikov/cnets/dispatchBuffer
+    type: unsigned
+    args:
+      - value: buffersArr
+        type:  Object[]
+      - value: timeout
+      - value: "dispatcherCollector_getStartLocalId()"
+      - value: threads
+hide: true
+topology:
+-   name: github.com/osblinnikov/cnets/dispatchKernel/dispatcher
+    parallel: threads
+    args:
+    -   "parent"
+    -   "_kernel0_i"
+    receive:
+    -   "ids"

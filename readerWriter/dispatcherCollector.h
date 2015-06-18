@@ -7,12 +7,24 @@
 #include <pthread.h>
 
 readerWriter_cnets_osblinnikov_github_com_EXPORT_API
-  void dispatcherCollector_setWriter(writer wIn);
+  void dispatcherCollector_deinit();
 
 readerWriter_cnets_osblinnikov_github_com_EXPORT_API
-  struct writer dispatcherCollector_getWriter();
+  void dispatcherCollector_addWriter(writer wIn);
 
 readerWriter_cnets_osblinnikov_github_com_EXPORT_API
-  int dispatcherCollector_getNextLocalId();
+  struct writer* dispatcherCollector_getWriter();
+
+readerWriter_cnets_osblinnikov_github_com_EXPORT_API
+  void dispatcherCollector_getStartLocalId();
+
+readerWriter_cnets_osblinnikov_github_com_EXPORT_API
+  void dispatcherCollector_tagAsStartLocalId();
+
+readerWriter_cnets_osblinnikov_github_com_EXPORT_API
+  unsigned dispatcherCollector_getLocalId();
+
+readerWriter_cnets_osblinnikov_github_com_EXPORT_API
+  unsigned dispatcherCollector_getNextLocalId();
 
 #endif /* readerWriter_cnets_osblinnikov_github_com_dispatcherCollector_H */

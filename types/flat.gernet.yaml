@@ -9,5 +9,5 @@ hide: false
 name: github.com/osblinnikov/cnets/types
 props: []
 receive: []
-spawnMode: ''
+spawnMode: '1'
 topology: []

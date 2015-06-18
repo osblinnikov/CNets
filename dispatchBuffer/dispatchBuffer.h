@@ -31,6 +31,7 @@ dispatchBuffer_cnets_osblinnikov_github_com_EXPORT_API
 void dispatchBuffer_cnets_osblinnikov_github_com_init(struct dispatchBuffer_cnets_osblinnikov_github_com *that,
     arrayObject _buffers,
     int64_t _timeout_milisec,
+    uint32_t _startKernelId,
     int32_t _readers_grid_size);
 
 dispatchBuffer_cnets_osblinnikov_github_com_EXPORT_API
@@ -48,6 +49,7 @@ typedef struct dispatchBuffer_cnets_osblinnikov_github_com{
   void (*writerIdsDestructor)(void*);
   arrayObject buffers;
   int64_t timeout_milisec;
+  uint32_t startKernelId;
   int32_t readers_grid_size;
   arrayObject messagesInMailbox;
   arrayObject dispatchedKernels;
@@ -55,7 +57,7 @@ typedef struct dispatchBuffer_cnets_osblinnikov_github_com{
   arrayObject spawnedArray;
 
   
-/*[[[end]]] (checksum: 6d0b0262e946f6ae9b974f9ee978779a)*/
+/*[[[end]]] (checksum: 5e07432c8b3883383d122eff43728b26)*/
   unsigned char volatile * isSpawned;
   uint32_t volatile * inMailbox;
   uint64_t volatile * spawnTime;
@@ -63,7 +65,7 @@ typedef struct dispatchBuffer_cnets_osblinnikov_github_com{
   pthread_mutex_t     cv_mutex;
   pthread_cond_t      cv;
   struct formula_dispatchBuffer_cnets_osblinnikov_github_com{
-    uint32_t (*formula)(dispatchBuffer_cnets_osblinnikov_github_com* that,bufferKernelParams *params, uint64_t curTime, uint32_t cntInMailBox, uint32_t readerId);
+    uint32_t (*formula)(dispatchBuffer_cnets_osblinnikov_github_com* that,bufferKernelParams *params, uint64_t curTime, uint32_t cntInMailBox, uint32_t readerIndex);
     size_t (*getIdsLength)(dispatchBuffer_cnets_osblinnikov_github_com* that, bufferKernelParams *params);
     uint32_t* (*getIds)(dispatchBuffer_cnets_osblinnikov_github_com* that, bufferKernelParams *params);
     void* context;

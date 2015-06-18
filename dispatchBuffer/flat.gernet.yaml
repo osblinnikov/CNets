@@ -3,6 +3,8 @@ args:
     type: Object[]
 -   name: timeout_milisec
     type: long
+-   name: startKernelId
+    type: unsigned
 -   name: readers_grid_size
     type: int
 channels: []
@@ -34,5 +36,5 @@ props:
     type: char[]
     value: null
 receive: []
-spawnMode: ''
+spawnMode: '1'
 topology: []

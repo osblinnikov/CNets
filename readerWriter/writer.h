@@ -7,7 +7,8 @@ typedef struct writer{
   BOOL hasWriteNext;
   unsigned packetsCounter, bytesCounter, kernelId;
   uint64_t statsTime, interval;
-  struct bufferKernelParams statsWriterParams, dispatchWriterParams;
+  struct bufferKernelParams statsWriterParams;
+  struct writer *dispatchWriter;
   struct bufferKernelParams params;
   void* (*writeNext)(struct writer *that, int waitThreshold);
   int (*writeFinished)(struct writer *that);

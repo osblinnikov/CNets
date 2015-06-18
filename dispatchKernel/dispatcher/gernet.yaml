@@ -1,0 +1,13 @@
+name: github.com/osblinnikov/cnets/dispatchKernel/dispatcher
+args:
+-   "parent RunnablesInterface"
+-   "threadId unsigned"
+depends:
+-   name: github.com/osblinnikov/cnets/runnablesContainer
+-   name: github.com/osblinnikov/cnets/readerWriter
+-   name: github.com/osblinnikov/cnets/types
+gen:
+- github.com/osblinnikov/gernet/plugins/kernel
+- github.com/osblinnikov/gernet/plugins/build
+receive:
+-   "ids unsigned"

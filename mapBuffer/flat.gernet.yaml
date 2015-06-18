@@ -18,5 +18,5 @@ hide: false
 name: github.com/osblinnikov/cnets/mapBuffer
 props: []
 receive: []
-spawnMode: ''
+spawnMode: '1'
 topology: []
