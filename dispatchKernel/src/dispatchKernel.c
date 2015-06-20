@@ -54,7 +54,7 @@ void dispatchKernel_cnets_osblinnikov_github_com_init(struct dispatchKernel_cnet
   that->getRunnables = dispatchKernel_cnets_osblinnikov_github_com_getRunnables;
   
     runnablesContainer_cnets_osblinnikov_github_com_init(&that->_runnables);
-    RunnableStoppable_create(runnableStoppableObj,that, dispatchKernel_cnets_osblinnikov_github_com_)
+    RunnableStoppable_create(runnableStoppableObj,that, dispatchKernel_cnets_osblinnikov_github_com)
     that->_runnables.setCore(&that->_runnables,runnableStoppableObj, 1);
   dispatchKernel_cnets_osblinnikov_github_com_onCreate(that);
 }
@@ -66,7 +66,7 @@ void dispatchKernel_cnets_osblinnikov_github_com_deinit(struct dispatchKernel_cn
   arrayObject_free_dynamic(that->kernels);
 }
 
-/*[[[end]]] (checksum: ccd53dd805e71f27a38bfc7001130d42)*/
+/*[[[end]]] (checksum: 20a1fc1ad3c0174b78eea2b5c789c366)*/
 
 
 void dispatchKernel_cnets_osblinnikov_github_com_run(void *t){
@@ -74,6 +74,7 @@ void dispatchKernel_cnets_osblinnikov_github_com_run(void *t){
   if(!that->readerSelector.params.target){return;}
   bufferReadData res = that->readerSelector.readNextWithMeta(&that->readerSelector,-1);
   if(res.data == NULL){
+    printf("WARN: dispatchKernel_cnets_osblinnikov_github_com_run: data is NULL\n");
     return;
   }
   RunnableStoppable* rs = &((RunnableStoppable*)that->kernels.array)[res.nested_buffer_id];
@@ -152,8 +153,7 @@ void dispatchKernel_cnets_osblinnikov_github_com_onStart(void *t){
 }
 
 void dispatchKernel_cnets_osblinnikov_github_com_onStop(void *t){
-  struct dispatchKernel_cnets_osblinnikov_github_com *ptr = (struct dispatchKernel_cnets_osblinnikov_github_com*)t;
-  freeDynamic(ptr);
+/*  struct dispatchKernel_cnets_osblinnikov_github_com *ptr = (struct dispatchKernel_cnets_osblinnikov_github_com*)t;*/
 }
 
 void dispatchKernel_cnets_osblinnikov_github_com_onCreate(struct dispatchKernel_cnets_osblinnikov_github_com *that){

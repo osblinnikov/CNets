@@ -8,6 +8,7 @@
 
 typedef struct RunnableStoppable{
   void *target;
+  char *name;
   void (*onStart)(void* target);
   struct arrayObject (*getReaders)(void *target);
   void (*setReadData)(void *target, bufferReadData *readData);
@@ -15,20 +16,21 @@ typedef struct RunnableStoppable{
   void (*onStop)(void* target);
 }RunnableStoppable;
 
-#define RunnableStoppable_create(_NAME_,_target, fullName_)\
+#define RunnableStoppable_create(_NAME_,_target, fullName)\
     RunnableStoppable _NAME_;\
+    _NAME_.name = #fullName; \
     _NAME_.target = (void*)_target;\
-    _NAME_.onStart = fullName_##onStart;\
-    _NAME_.run = fullName_##run;\
-    _NAME_.onStop = fullName_##onStop;\
-    _NAME_.getReaders = fullName_##getReaders;\
-    _NAME_.setReadData = fullName_##setReadData;
+    _NAME_.onStart = fullName##_onStart;\
+    _NAME_.run = fullName##_run;\
+    _NAME_.onStop = fullName##_onStop;\
+    _NAME_.getReaders = fullName##_getReaders;\
+    _NAME_.setReadData = fullName##_setReadData;
 
 typedef struct runnablesContainer_cnets_osblinnikov_github_com_Kernel{
   RunnableStoppable objectToRun;
   BOOL isSeparateThread;
   volatile BOOL isRunning;
-//  pthread_spinlock_t isRunningLock;
+  pthread_spinlock_t isRunningLock;
   volatile BOOL stopFlag;
   pthread_spinlock_t stopFlagLock;
   pthread_t kernelThread;

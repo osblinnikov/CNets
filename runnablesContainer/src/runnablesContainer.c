@@ -41,9 +41,9 @@ void runnablesContainer_cnets_osblinnikov_github_com_launch(
     if(that->spawnMode == 1){
       that->kernel.launch(&that->kernel, that->target, lockLastElement);
     }else{
-      that->target.onStart(&that->target.target);
+      that->target.onStart(that->target.target);
     }
-    printf("===> runnablesContainer_cnets_osblinnikov_github_com_launch   kernel\n");
+    printf("===> runnablesContainer_cnets_osblinnikov_github_com_launch:\n  %s spawnMode=%d\n",that->target.name,that->spawnMode);
   }else {
     printf("===> runnablesContainer_cnets_osblinnikov_github_com_launch NULL\n");
   }
@@ -91,6 +91,7 @@ void runnablesContainer_cnets_osblinnikov_github_com_setCore(
 void runnablesContainer_cnets_osblinnikov_github_com_onCreate(runnablesContainer_cnets_osblinnikov_github_com *that){
   runnablesContainer_cnets_osblinnikov_github_com_Kernel_create(&that->kernel);
   that->containers = NULL;
+  that->spawnMode = 0;
   that->containers_size = 0;
   that->target.target = NULL;
   that->setContainers = runnablesContainer_cnets_osblinnikov_github_com_setContainers;

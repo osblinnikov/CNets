@@ -9,8 +9,10 @@ int main(int argc, char* argv[]){
   dispatchKernel_cnets_osblinnikov_github_com classObj;
   dispatchKernel_cnets_osblinnikov_github_com_init(&classObj,NULL,0,0);
   runnablesContainer_cnets_osblinnikov_github_com runnables = classObj.getRunnables(&classObj);
+
   runnables.launch(&runnables,FALSE);
   runnables.stop(&runnables);
+  runnables.containers = NULL;
   dispatchKernel_cnets_osblinnikov_github_com_deinit(&classObj);
   return 0;
 }

@@ -15,9 +15,9 @@ void *runnablesContainer_cnets_osblinnikov_github_com_Kernel_run(void* inTarget)
   }
   // pthread_spin_unlock(&that->stopFlagLock);
 
-  // pthread_spin_lock(&that->isRunningLock);
+   pthread_spin_lock(&that->isRunningLock);
   that->isRunning = FALSE;
-  // pthread_spin_unlock(&that->isRunningLock);
+   pthread_spin_unlock(&that->isRunningLock);
 
   pthread_mutex_lock(&that->isRunning_cv_mutex);
   pthread_cond_broadcast(&that->isRunning_cv);
@@ -42,10 +42,10 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_launch(
   pthread_spin_lock(&that->stopFlagLock);
   that->stopFlag = FALSE;
   pthread_spin_unlock(&that->stopFlagLock);
-  // pthread_spin_lock(&that->isRunningLock);
+   pthread_spin_lock(&that->isRunningLock);
   if(!that->isRunning){
 
-    // pthread_spin_unlock(&that->isRunningLock);
+     pthread_spin_unlock(&that->isRunningLock);
 
     pthread_mutex_lock(&that->isRunning_cv_mutex);
     pthread_cond_broadcast(&that->isRunning_cv);
@@ -61,13 +61,13 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_launch(
       that->isSeparateThread = TRUE;
       if(pthread_create(&that->kernelThread, NULL, runnablesContainer_cnets_osblinnikov_github_com_Kernel_run, (void *)that)){
         printf("ERROR runnablesContainer_cnets_osblinnikov_github_com_Kernel_launch: return code from pthread_create() != 0\n");
-        // pthread_spin_lock(&that->isRunningLock);
+         pthread_spin_lock(&that->isRunningLock);
         that->isRunning = FALSE;
-        // pthread_spin_unlock(&that->isRunningLock);
+         pthread_spin_unlock(&that->isRunningLock);
       }
     }
   }else{
-    // pthread_spin_unlock(&that->isRunningLock);
+     pthread_spin_unlock(&that->isRunningLock);
   }
 }
 
@@ -89,25 +89,26 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread(
   // if(that->isSeparateThread) {
   //    this.interrupt();
   // }
-  // pthread_spin_lock(&that->isRunningLock);
+   pthread_spin_lock(&that->isRunningLock);
 
   struct timespec wait_timespec = getTimespecDelay((uint64_t)1000*(uint64_t)1000000);
 
   while(that->isRunning){
-    // pthread_spin_unlock(&that->isRunningLock);
+     pthread_spin_unlock(&that->isRunningLock);
     /*make sure that nobody will start the kernel before we finish the waiting*/
     // pthread_spin_lock(&that->stopFlagLock);
     that->stopFlag = TRUE;
     // pthread_spin_unlock(&that->stopFlagLock);
-    //taskDelay(1000000L);
+
     pthread_mutex_lock(&that->isRunning_cv_mutex);
     if(ETIMEDOUT == pthread_cond_timedwait(&that->isRunning_cv, &that->isRunning_cv_mutex, &wait_timespec)){
-      printf("WARN: runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread: wait timeout\n");
+//      printf("WARN: runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread: wait timeout\n");
+      taskDelay(1000000L);
     }
     pthread_mutex_unlock(&that->isRunning_cv_mutex);
-    // pthread_spin_lock(&that->isRunningLock);
+     pthread_spin_lock(&that->isRunningLock);
   }
-  // pthread_spin_unlock(&that->isRunningLock);
+   pthread_spin_unlock(&that->isRunningLock);
   // if (that->isSeparateThread) {
   //   this.join();
   // }
@@ -126,8 +127,8 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_create(
   that->isRunning = FALSE;
   that->objectToRun.target = NULL;
   that->isSeparateThread = FALSE;
-//  res = pthread_spin_init(&that->isRunningLock, 0);
-//  assert(!res);
+  res = pthread_spin_init(&that->isRunningLock, 0);
+  assert(!res);
   that->stopFlag = FALSE;
   res = pthread_spin_init(&that->stopFlagLock, 0);
   assert(!res);
@@ -149,8 +150,8 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_destroy(
     return;
   }
   int res;
-  //= pthread_spin_destroy(&that->isRunningLock);
-//  assert(!res);
+  res = pthread_spin_destroy(&that->isRunningLock);
+  assert(!res);
   res = pthread_spin_destroy(&that->stopFlagLock);
   assert(!res);
   res = pthread_mutex_destroy(&that->isRunning_cv_mutex);
