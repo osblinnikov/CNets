@@ -26,6 +26,8 @@ struct arrayObject dispatchKernel_cnets_osblinnikov_github_com_getReaders(void *
 
 
 void dispatchKernel_cnets_osblinnikov_github_com_setReadData(void *t, bufferReadData *readData){
+  struct dispatchKernel_cnets_osblinnikov_github_com *that = (struct dispatchKernel_cnets_osblinnikov_github_com*)t;
+  that->_readData = readData;
 }
 
 
@@ -33,6 +35,7 @@ void dispatchKernel_cnets_osblinnikov_github_com_init(struct dispatchKernel_cnet
     runnablesContainer_cnets_osblinnikov_github_com* _parent,
     uint32_t _maxNumberOfKernels,
     uint32_t _threadId){
+  that->_readData = NULL;
   
   that->parent = _parent;
   that->maxNumberOfKernels = _maxNumberOfKernels;
@@ -66,7 +69,7 @@ void dispatchKernel_cnets_osblinnikov_github_com_deinit(struct dispatchKernel_cn
   arrayObject_free_dynamic(that->kernels);
 }
 
-/*[[[end]]] (checksum: 20a1fc1ad3c0174b78eea2b5c789c366)*/
+/*[[[end]]] (checksum: 7e41523b72b38980530beb833f41ad8c)*/
 
 
 void dispatchKernel_cnets_osblinnikov_github_com_run(void *t){
@@ -144,6 +147,7 @@ void dispatchKernel_cnets_osblinnikov_github_com_onStart(void *t){
     countKernels(ptr, ptr->parent, &count, &countReaders, TRUE);
   }
   if(ptr->readers.length > 0){
+    printf("dispatchKernel_cnets_osblinnikov_github_com_onStart: init %d\n", ptr->readers.length );
     selector_cnets_osblinnikov_github_com_init(&ptr->selector, ptr->readers);
     ptr->readerSelector = selector_cnets_osblinnikov_github_com_createReader(&ptr->selector, 0);
   }else{

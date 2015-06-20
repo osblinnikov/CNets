@@ -5,7 +5,7 @@
 
 typedef struct writer{
   BOOL hasWriteNext;
-  unsigned packetsCounter, bytesCounter, kernelId;
+  unsigned packetsCounter, bytesCounter;
   uint64_t statsTime, interval;
   struct bufferKernelParams statsWriterParams;
   struct bufferKernelParams params;

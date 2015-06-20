@@ -6,7 +6,7 @@
 
 typedef struct reader{
   BOOL hasReadNext;
-  unsigned packetsCounter, bytesCounter, kernelId;
+  unsigned packetsCounter, bytesCounter;
   uint64_t statsTime, interval;
   struct bufferKernelParams statsWriterParams;
   struct bufferKernelParams params;

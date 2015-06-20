@@ -7,13 +7,13 @@ void *runnablesContainer_cnets_osblinnikov_github_com_Kernel_run(void* inTarget)
     printf("ERROR: runnablesContainer_cnets_osblinnikov_github_com_Kernel_run: that is NULL\n");
     return NULL;
   }
-  // pthread_spin_lock(&that->stopFlagLock);
+   pthread_spin_lock(&that->stopFlagLock);
   while(!that->stopFlag){
-    // pthread_spin_unlock(&that->stopFlagLock);
+     pthread_spin_unlock(&that->stopFlagLock);
     that->objectToRun.run(that->objectToRun.target);
-    // pthread_spin_lock(&that->stopFlagLock);
+     pthread_spin_lock(&that->stopFlagLock);
   }
-  // pthread_spin_unlock(&that->stopFlagLock);
+   pthread_spin_unlock(&that->stopFlagLock);
 
    pthread_spin_lock(&that->isRunningLock);
   that->isRunning = FALSE;
@@ -83,9 +83,9 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread(
     return;
   }
 
-  // pthread_spin_lock(&that->stopFlagLock);
+   pthread_spin_lock(&that->stopFlagLock);
   that->stopFlag = TRUE;
-  // pthread_spin_unlock(&that->stopFlagLock);
+   pthread_spin_unlock(&that->stopFlagLock);
   // if(that->isSeparateThread) {
   //    this.interrupt();
   // }
@@ -96,13 +96,13 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread(
   while(that->isRunning){
      pthread_spin_unlock(&that->isRunningLock);
     /*make sure that nobody will start the kernel before we finish the waiting*/
-    // pthread_spin_lock(&that->stopFlagLock);
+     pthread_spin_lock(&that->stopFlagLock);
     that->stopFlag = TRUE;
-    // pthread_spin_unlock(&that->stopFlagLock);
+     pthread_spin_unlock(&that->stopFlagLock);
 
     pthread_mutex_lock(&that->isRunning_cv_mutex);
     if(ETIMEDOUT == pthread_cond_timedwait(&that->isRunning_cv, &that->isRunning_cv_mutex, &wait_timespec)){
-//      printf("WARN: runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread: wait timeout\n");
+      printf("WARN: runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread: wait timeout\n");
       taskDelay(1000000L);
     }
     pthread_mutex_unlock(&that->isRunning_cv_mutex);

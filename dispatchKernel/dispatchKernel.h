@@ -37,6 +37,7 @@ dispatchKernel_cnets_osblinnikov_github_com_EXPORT_API
 void dispatchKernel_cnets_osblinnikov_github_com_deinit(struct dispatchKernel_cnets_osblinnikov_github_com *that);
 
 typedef struct dispatchKernel_cnets_osblinnikov_github_com{
+  bufferReadData *_readData;
   runnablesContainer_cnets_osblinnikov_github_com* parent;
   uint32_t maxNumberOfKernels;
   uint32_t threadId;
@@ -47,7 +48,7 @@ typedef struct dispatchKernel_cnets_osblinnikov_github_com{
   
   struct runnablesContainer_cnets_osblinnikov_github_com (*getRunnables)(struct dispatchKernel_cnets_osblinnikov_github_com *that);
   struct runnablesContainer_cnets_osblinnikov_github_com _runnables;
-/*[[[end]]] (checksum: 1822a587576e35687e19aabeb7300580)*/
+/*[[[end]]] (checksum: 7062bdf9cc4e5fa5aeed36a3aa4ada18)*/
   struct selector_cnets_osblinnikov_github_com selector;
 }dispatchKernel_cnets_osblinnikov_github_com;
 

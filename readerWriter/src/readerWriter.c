@@ -173,7 +173,6 @@ void writer_init_with_params(writer *that, bufferKernelParams params){
   that->packetsCounter = 0;
   that->bytesCounter = 0;
   that->statsTime = 0;
-  that->kernelId = (unsigned)-1;
   that->interval = statsCollectorStatic_getStatsInterval();
   that->statsWriterParams = (statsCollectorStatic_getWriter()).params;
   that->params = params;
@@ -201,7 +200,6 @@ void reader_init_with_params(reader *that, bufferKernelParams params){
   that->packetsCounter = 0;
   that->bytesCounter = 0;
   that->statsTime = 0;
-  that->kernelId = (unsigned)-1;
   that->interval = statsCollectorStatic_getStatsInterval();
   that->statsWriterParams = (statsCollectorStatic_getWriter()).params;
   that->params = params;
