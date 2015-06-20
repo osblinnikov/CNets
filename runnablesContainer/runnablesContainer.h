@@ -18,7 +18,7 @@ typedef struct RunnableStoppable{
 
 #define RunnableStoppable_create(_NAME_,_target, fullName)\
     RunnableStoppable _NAME_;\
-    _NAME_.name = #fullName; \
+    _NAME_.name = (char*)#fullName; \
     _NAME_.target = (void*)_target;\
     _NAME_.onStart = fullName##_onStart;\
     _NAME_.run = fullName##_run;\
