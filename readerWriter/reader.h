@@ -9,7 +9,6 @@ typedef struct reader{
   unsigned packetsCounter, bytesCounter, kernelId;
   uint64_t statsTime, interval;
   struct bufferKernelParams statsWriterParams;
-  struct writer *dispatchWriter;
   struct bufferKernelParams params;
   bufferReadData (*readNextWithMeta)(struct reader *that, int waitThreshold);
   void* (*readNext)(struct reader *that, int waitThreshold);
@@ -20,15 +19,17 @@ typedef struct reader{
   int (*uniqueId)(struct reader *that);
   void (*incrementBytesCounter)(struct reader *that, int bytesCounter);
   int (*addSelector)(struct reader *that, linkedContainer *selectorContainer);
-  void (*setKernelId)(struct reader *that, unsigned id);
 }reader;
 
 readerWriter_cnets_osblinnikov_github_com_EXPORT_API
-void reader_init(struct reader *that, bufferKernelParams params);
+void reader_init_with_params(struct reader *that, bufferKernelParams params);
+
+readerWriter_cnets_osblinnikov_github_com_EXPORT_API
+void reader_init(reader *that);
 
 #define reader_create(_NAME_,params)\
     reader _NAME_;\
-    reader_init(&_NAME_,params);
+    reader_init_with_params(&_NAME_,params);
 
 readerWriter_cnets_osblinnikov_github_com_EXPORT_API
   reader readerNULL();

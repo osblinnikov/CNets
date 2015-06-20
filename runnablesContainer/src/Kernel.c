@@ -1,4 +1,4 @@
-#include "../Kernel.h"
+#include "../runnablesContainer.h"
 #include <assert.h>
 
 void *runnablesContainer_cnets_osblinnikov_github_com_Kernel_run(void* inTarget){
@@ -44,7 +44,7 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_launch(
   pthread_spin_unlock(&that->stopFlagLock);
   // pthread_spin_lock(&that->isRunningLock);
   if(!that->isRunning){
-    that->isRunning = TRUE;
+
     // pthread_spin_unlock(&that->isRunningLock);
 
     pthread_mutex_lock(&that->isRunning_cv_mutex);
@@ -52,6 +52,7 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_launch(
     pthread_mutex_unlock(&that->isRunning_cv_mutex);
 
     that->objectToRun = objectToRun;
+    that->isRunning = TRUE;
     that->objectToRun.onStart(that->objectToRun.target);
     if(lockLaunch){
       that->isSeparateThread = FALSE;
@@ -122,11 +123,11 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_create(
     return;
   }
   int res;
+  that->isRunning = FALSE;
   that->objectToRun.target = NULL;
   that->isSeparateThread = FALSE;
-  that->isRunning = FALSE;
-  res = pthread_spin_init(&that->isRunningLock, 0);
-  assert(!res);
+//  res = pthread_spin_init(&that->isRunningLock, 0);
+//  assert(!res);
   that->stopFlag = FALSE;
   res = pthread_spin_init(&that->stopFlagLock, 0);
   assert(!res);
@@ -147,8 +148,9 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_destroy(
     printf("ERROR: runnablesContainer_cnets_osblinnikov_github_com_Kernel_destroy: that is NULL\n");
     return;
   }
-  int res = pthread_spin_destroy(&that->isRunningLock);
-  assert(!res);
+  int res;
+  //= pthread_spin_destroy(&that->isRunningLock);
+//  assert(!res);
   res = pthread_spin_destroy(&that->stopFlagLock);
   assert(!res);
   res = pthread_mutex_destroy(&that->isRunning_cv_mutex);

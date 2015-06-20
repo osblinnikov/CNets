@@ -6,52 +6,8 @@ writer writerNULL(){
   writer w;
   bufferKernelParams params;
   params.target = NULL;
-  writer_init(&w,params);
+  writer_init_with_params(&w,params);
   return w;
-}
-
-vector_cnets_osblinnikov_github_com* kernelIds_init(){
-  vector_cnets_osblinnikov_github_com *ids = (vector_cnets_osblinnikov_github_com*)malloc(sizeof(vector_cnets_osblinnikov_github_com));
-  if(ids == 0){
-    printf("ERROR: writer_cnets_osblinnikov_github_com_getVectorFromParams: unable to allocate memory for kernelIds");
-    return 0;
-  }
-  vector_cnets_osblinnikov_github_com_init(ids);
-}
-
-void kernelIds_destroy(void* ids){
-  vector_cnets_osblinnikov_github_com *that = (vector_cnets_osblinnikov_github_com*)ids;
-  vector_cnets_osblinnikov_github_com_deinit(that);
-  free(that);
-}
-
-vector_cnets_osblinnikov_github_com* getKernelIdsFromParams(bufferKernelParams* params, BOOL isReader){
-  vector_cnets_osblinnikov_github_com* ids = (vector_cnets_osblinnikov_github_com*)params->getKernelIds(params, isReader);
-  if(ids == 0){
-    ids = kernelIds_init();
-    if(ids != 0){
-        params->setKernelIds(params, isReader, (void*)ids, kernelIds_destroy);
-    }
-  }
-  return ids;
-}
-
-void writer_cnets_osblinnikov_github_com_setKernelId(writer *that, unsigned id){
-  if(that == NULL || that->params.target == NULL){return;}
-  vector_cnets_osblinnikov_github_com* ids = getKernelIdsFromParams(&that->params, FALSE);
-  if(ids != 0){
-    vector_cnets_osblinnikov_github_com_add(ids, (void*)(unsigned long long)id);
-  }
-  that->kernelId = id;
-}
-
-void reader_cnets_osblinnikov_github_com_setKernelId(reader *that, unsigned id){
-  if(that == NULL || that->params.target == NULL){return;}
-  vector_cnets_osblinnikov_github_com* ids = getKernelIdsFromParams(&that->params, TRUE);
-  if(ids != 0){
-    vector_cnets_osblinnikov_github_com_add(ids, (void*)(unsigned long long)id);
-  }
-  that->kernelId = id;
 }
 
 void* readerWriter_cnets_osblinnikov_github_com_writeNext(writer *that, int waitThreshold) {
@@ -82,18 +38,6 @@ void* readerWriter_cnets_osblinnikov_github_com_writeNext(writer *that, int wait
         that->statsTime = curTime; \
         that->packetsCounter = 0; \
         that->bytesCounter = 0; \
-      } \
-    } \
-  } \
-  if (that->dispatchWriter != 0 && that->dispatchWriter->params.target != 0){ \
-    vector_cnets_osblinnikov_github_com* ids = (vector_cnets_osblinnikov_github_com*)that->params.getKernelIds(& that->params, isReader); \
-    if (ids != 0 && vector_cnets_osblinnikov_github_com_total(ids) > 0){ \
-      vector_cnets_osblinnikov_github_com* dispatchables = (vector_cnets_osblinnikov_github_com*)that->dispatchWriter->params.writeNext(&that->dispatchWriter->params,-1); \
-      if (dispatchables != 0){ \
-        *dispatchables = *ids; \
-        that->dispatchWriter->params.writeFinished(&that->dispatchWriter->params); \
-      }else{ \
-        printf("ERROR: readerWriter_cnets_osblinnikov_github_com_dispatchesAndStats: writeNext: dispatchables is NULL\n"); \
       } \
     } \
   } \
@@ -145,7 +89,7 @@ reader readerNULL(){
   reader r;
   bufferKernelParams params;
   params.target = NULL;
-  reader_init(&r,params);
+  reader_init_with_params(&r,params);
   return r;
 }
 
@@ -214,7 +158,13 @@ int readerWriter_cnets_osblinnikov_github_com_addSelector(reader *that,linkedCon
 
 /****STRUCTURES INITIALIZATIONS***/
 
-void writer_init(writer *that, bufferKernelParams params){
+void writer_init(writer *that){
+  bufferKernelParams params;
+  writer_init_with_params(that, params);
+}
+
+
+void writer_init_with_params(writer *that, bufferKernelParams params){
   if(that == NULL){
     printf("writer_init 'that' is NULL\n");
     return;
@@ -226,7 +176,6 @@ void writer_init(writer *that, bufferKernelParams params){
   that->kernelId = (unsigned)-1;
   that->interval = statsCollectorStatic_getStatsInterval();
   that->statsWriterParams = (statsCollectorStatic_getWriter()).params;
-  that->dispatchWriter = dispatcherCollector_getWriter();
   that->params = params;
   that->writeNext = readerWriter_cnets_osblinnikov_github_com_writeNext;
   that->writeFinished = readerWriter_cnets_osblinnikov_github_com_writeFinished;
@@ -235,11 +184,15 @@ void writer_init(writer *that, bufferKernelParams params){
   that->gridSize = readerWriter_cnets_osblinnikov_github_com_gridSizeW;
   that->uniqueId = readerWriter_cnets_osblinnikov_github_com_uniqueIdW;
   that->incrementBytesCounter = readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterW;
-  that->setKernelId = writer_cnets_osblinnikov_github_com_setKernelId;
   return;
 }
 
-void reader_init(reader *that, bufferKernelParams params){
+void reader_init(reader *that){
+  bufferKernelParams params;
+  reader_init_with_params(that, params);
+}
+
+void reader_init_with_params(reader *that, bufferKernelParams params){
   if(that == NULL){
     printf("reader_init 'that' is NULL\n");
     return;
@@ -251,7 +204,6 @@ void reader_init(reader *that, bufferKernelParams params){
   that->kernelId = (unsigned)-1;
   that->interval = statsCollectorStatic_getStatsInterval();
   that->statsWriterParams = (statsCollectorStatic_getWriter()).params;
-  that->dispatchWriter = dispatcherCollector_getWriter();
   that->params = params;
   that->readNextWithMeta = readerWriter_cnets_osblinnikov_github_com_readNextWithMeta;
   that->readNext = readerWriter_cnets_osblinnikov_github_com_readNext;
@@ -262,7 +214,6 @@ void reader_init(reader *that, bufferKernelParams params){
   that->uniqueId = readerWriter_cnets_osblinnikov_github_com_uniqueIdR;
   that->incrementBytesCounter = readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterR;
   that->addSelector = readerWriter_cnets_osblinnikov_github_com_addSelector;
-  that->setKernelId = reader_cnets_osblinnikov_github_com_setKernelId;
   return;
 }
 

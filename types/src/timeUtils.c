@@ -153,3 +153,12 @@ void taskDelay(uint64_t nanosec){
     call nanosleep() again and continue with the pause.*/
     #endif
 }
+
+/**--------------------------------------------
+Function: taskDelayMilisec()
+Purpose: delay the current thread from execution
+Returns: void
+--------------------------------------------*/
+void taskDelayMilisec(uint64_t milisec){
+  taskDelay(milisec*1000L*1000L);
+}

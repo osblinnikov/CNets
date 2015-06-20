@@ -29,5 +29,5 @@ props:
     type: unsigned
     value: null
 receive: []
-spawnMode: '1'
+spawnMode: '0'
 topology: []

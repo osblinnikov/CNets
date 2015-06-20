@@ -24,7 +24,7 @@ void vector_cnets_osblinnikov_github_com_resize(vector_cnets_osblinnikov_github_
 void vector_cnets_osblinnikov_github_com_onCreate(vector_cnets_osblinnikov_github_com *v){
     v->capacity = VECTOR_INIT_CAPACITY;
     v->total = 0;
-    v->items = (void**)malloc(sizeof(void *) * v->capacity);
+    v->items = (unsigned*)malloc(sizeof(unsigned) * v->capacity);
     return;
 }
 
@@ -45,31 +45,31 @@ void vector_cnets_osblinnikov_github_com_resize(vector_cnets_osblinnikov_github_
 //    printf("vector_resize: %d to %d\n", v->capacity, capacity);
 #endif
 
-    void **items = (void**)realloc(v->items, sizeof(void *) * capacity);
+    unsigned *items = (unsigned*)realloc(v->items, sizeof(unsigned) * capacity);
     if (items) {
         v->items = items;
         v->capacity = capacity;
     }
 }
 
-void vector_cnets_osblinnikov_github_com_add(vector_cnets_osblinnikov_github_com *v, void *item)
+void vector_cnets_osblinnikov_github_com_add(vector_cnets_osblinnikov_github_com *v, unsigned item)
 {
     if (v->capacity == v->total)
         vector_cnets_osblinnikov_github_com_resize(v, v->capacity * 2);
     v->items[v->total++] = item;
 }
 
-void vector_cnets_osblinnikov_github_com_set(vector_cnets_osblinnikov_github_com *v, int index, void *item)
+void vector_cnets_osblinnikov_github_com_set(vector_cnets_osblinnikov_github_com *v, int index, unsigned item)
 {
     if (index >= 0 && index < v->total)
         v->items[index] = item;
 }
 
-void *vector_cnets_osblinnikov_github_com_get(vector_cnets_osblinnikov_github_com *v, int index)
+unsigned vector_cnets_osblinnikov_github_com_get(vector_cnets_osblinnikov_github_com *v, int index)
 {
     if (index >= 0 && index < v->total)
         return v->items[index];
-    return NULL;
+    return (unsigned)-1;
 }
 
 void vector_cnets_osblinnikov_github_com_delete(vector_cnets_osblinnikov_github_com *v, int index)
@@ -77,11 +77,11 @@ void vector_cnets_osblinnikov_github_com_delete(vector_cnets_osblinnikov_github_
     if (index < 0 || index >= v->total)
         return;
 
-    v->items[index] = NULL;
+    v->items[index] = 0;
 
     for (int i = 0; i < v->total - 1; i++) {
         v->items[i] = v->items[i + 1];
-        v->items[i + 1] = NULL;
+        v->items[i + 1] = 0;
     }
 
     v->total--;

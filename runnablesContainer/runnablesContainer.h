@@ -3,16 +3,42 @@
 #ifndef runnablesContainer_cnets_osblinnikov_github_com_H
 #define runnablesContainer_cnets_osblinnikov_github_com_H
 
-#include "./Kernel.h"
-#include "./RunnableStoppable.h"
-#include "./RunnablesInterface.h"
-
-/*[[[cog
-import cogging as c
-c.tpl(cog,templateFile,c.a(prefix=configFile))
-]]]*/
-
 #include "github.com/osblinnikov/cnets/types/types.h"
+#include <pthread.h>
+
+typedef struct RunnableStoppable{
+  void *target;
+  void (*onStart)(void* target);
+  struct arrayObject (*getReaders)(void *target);
+  void (*setReadData)(void *target, bufferReadData *readData);
+  void (*run)(void* target);
+  void (*onStop)(void* target);
+}RunnableStoppable;
+
+#define RunnableStoppable_create(_NAME_,_target, fullName_)\
+    RunnableStoppable _NAME_;\
+    _NAME_.target = (void*)_target;\
+    _NAME_.onStart = fullName_##onStart;\
+    _NAME_.run = fullName_##run;\
+    _NAME_.onStop = fullName_##onStop;\
+    _NAME_.getReaders = fullName_##getReaders;\
+    _NAME_.setReadData = fullName_##setReadData;
+
+typedef struct runnablesContainer_cnets_osblinnikov_github_com_Kernel{
+  RunnableStoppable objectToRun;
+  BOOL isSeparateThread;
+  volatile BOOL isRunning;
+//  pthread_spinlock_t isRunningLock;
+  volatile BOOL stopFlag;
+  pthread_spinlock_t stopFlagLock;
+  pthread_t kernelThread;
+
+  pthread_mutex_t     isRunning_cv_mutex;
+  pthread_cond_t      isRunning_cv;
+
+  void (*launch)(struct runnablesContainer_cnets_osblinnikov_github_com_Kernel* that, RunnableStoppable objectToRun, BOOL lockLaunch);
+  void (*stopThread)(struct runnablesContainer_cnets_osblinnikov_github_com_Kernel* that);
+}runnablesContainer_cnets_osblinnikov_github_com_Kernel;
 
 #undef runnablesContainer_cnets_osblinnikov_github_com_EXPORT_API
 #if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(RUNNABLESCONTAINER_CNETS_OSBLINNIKOV_GITHUB_COM_STATIC)
@@ -34,19 +60,28 @@ runnablesContainer_cnets_osblinnikov_github_com_EXPORT_API
 void runnablesContainer_cnets_osblinnikov_github_com_deinit(struct runnablesContainer_cnets_osblinnikov_github_com *that);
 
 typedef struct runnablesContainer_cnets_osblinnikov_github_com{
-  
-  
-/*[[[end]]] (checksum: 1674936ae9b5e42d789658026bda0da2)*/
   struct runnablesContainer_cnets_osblinnikov_github_com_Kernel kernel;
   struct runnablesContainer_cnets_osblinnikov_github_com *containers;
   int containers_size;
   struct RunnableStoppable target;
-  unsigned id;
   unsigned spawnMode;
   void (*setContainers)(struct runnablesContainer_cnets_osblinnikov_github_com *that, arrayObject containers);
-  void (*setCore)(struct runnablesContainer_cnets_osblinnikov_github_com *that, RunnableStoppable target, unsigned id, unsigned spawnMode);
+  void (*setCore)(struct runnablesContainer_cnets_osblinnikov_github_com *that, RunnableStoppable target, unsigned spawnMode);
   void (*launch)(struct runnablesContainer_cnets_osblinnikov_github_com *that, BOOL lockLastElement);
   void (*stop)(struct runnablesContainer_cnets_osblinnikov_github_com *that);
 }runnablesContainer_cnets_osblinnikov_github_com;
+
+runnablesContainer_cnets_osblinnikov_github_com_EXPORT_API
+  void RunnableStoppable_init(struct RunnableStoppable* that);
+
+runnablesContainer_cnets_osblinnikov_github_com_EXPORT_API
+  void runnablesContainer_cnets_osblinnikov_github_com_Kernel_create(
+    runnablesContainer_cnets_osblinnikov_github_com_Kernel* that
+  );
+
+runnablesContainer_cnets_osblinnikov_github_com_EXPORT_API
+  void runnablesContainer_cnets_osblinnikov_github_com_Kernel_destroy(
+    runnablesContainer_cnets_osblinnikov_github_com_Kernel* that
+  );
 
 #endif /* runnablesContainer_cnets_osblinnikov_github_com_H */

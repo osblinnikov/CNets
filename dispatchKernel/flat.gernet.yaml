@@ -1,63 +1,35 @@
 args:
 -   name: parent
-    type: RunnablesInterface
--   name: threads
+    type: github.com/osblinnikov/cnets/runnablesContainer*
+-   name: maxNumberOfKernels
     type: unsigned
--   name: timeout
-    type: long
-channels:
--   args:
-    -   type: Object[]
-        value: buffersArr
-    -   value: timeout
-    -   value: startLocalId
-    -   value: threads
-    channel: ids
-    name: github.com/osblinnikov/cnets/dispatchBuffer
+-   name: threadId
     type: unsigned
+channels: []
 depends:
+-   name: github.com/osblinnikov/cnets/selector
 -   name: github.com/osblinnikov/cnets/runnablesContainer
 -   name: github.com/osblinnikov/cnets/readerWriter
 -   name: github.com/osblinnikov/cnets/types
--   name: github.com/osblinnikov/cnets/vector
--   name: github.com/osblinnikov/cnets/dispatchBuffer
 emit: []
 gen:
 - github.com/osblinnikov/gernet/plugins/kernel
 - github.com/osblinnikov/gernet/plugins/build
-hide: true
+hide: false
 name: github.com/osblinnikov/cnets/dispatchKernel
 props:
--   name: startLocalId
+-   name: readers
+    size: 1
+    type: reader[]
+    value: null
+-   name: readerSelector
     size: null
-    type: unsigned
-    value: dispatcherCollector_getStartLocalId()
--   name: numberOfKernels
-    size: null
-    type: unsigned
-    value: dispatcherCollector_getLocalId()-dispatcherCollector_getStartLocalId()
--   name: buffersArr
-    size: numberOfKernels
-    type: github.com/osblinnikov/cnets/vector[]
+    type: reader
+    value: null
+-   name: kernels
+    size: 1
+    type: RunnableStoppable[]
     value: null
 receive: []
-spawnMode: '0'
-topology:
--   args:
-    -   type: null
-        value: parent
-    -   type: null
-        value: _kernel0_i
-    -   type: null
-        value: numberOfKernels
-    -   type: null
-        value: startLocalId
-    emit: []
-    name: github.com/osblinnikov/cnets/dispatchKernel/dispatcher
-    parallel: threads
-    parents: []
-    receive:
-    -   channel: ids
-        size: null
-        timeout: null
-        type: null
+spawnMode: '1'
+topology: []

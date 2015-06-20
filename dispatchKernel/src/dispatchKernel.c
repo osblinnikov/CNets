@@ -12,92 +12,152 @@ void dispatchKernel_cnets_osblinnikov_github_com_onStop(void *that);
 void dispatchKernel_cnets_osblinnikov_github_com_onCreate(struct dispatchKernel_cnets_osblinnikov_github_com *that);
 void dispatchKernel_cnets_osblinnikov_github_com_onDestroy(struct dispatchKernel_cnets_osblinnikov_github_com *that);
 void dispatchKernel_cnets_osblinnikov_github_com_onKernels(struct dispatchKernel_cnets_osblinnikov_github_com *that);
+struct arrayObject dispatchKernel_cnets_osblinnikov_github_com_getReaders(void *t);
+void dispatchKernel_cnets_osblinnikov_github_com_setReadData(void *t, bufferReadData *readData);
 
 struct runnablesContainer_cnets_osblinnikov_github_com dispatchKernel_cnets_osblinnikov_github_com_getRunnables(struct dispatchKernel_cnets_osblinnikov_github_com *that){
   return that->_runnables;
 }
 
-struct runnablesContainer_cnets_osblinnikov_github_com dispatchKernel_cnets_osblinnikov_github_com_getRunnablesForInterface(struct RunnablesInterface *ptr){
-  struct dispatchKernel_cnets_osblinnikov_github_com *that = (struct dispatchKernel_cnets_osblinnikov_github_com*)ptr->target;
-  return that->_runnables;
+struct arrayObject dispatchKernel_cnets_osblinnikov_github_com_getReaders(void *t){
+  struct dispatchKernel_cnets_osblinnikov_github_com *that = (struct dispatchKernel_cnets_osblinnikov_github_com*)t;
+  return arrayObjectNULL();
 }
 
+
+void dispatchKernel_cnets_osblinnikov_github_com_setReadData(void *t, bufferReadData *readData){
+}
+
+
 void dispatchKernel_cnets_osblinnikov_github_com_init(struct dispatchKernel_cnets_osblinnikov_github_com *that,
-    RunnablesInterface _parent,
-    uint32_t _threads,
-    int64_t _timeout){
+    runnablesContainer_cnets_osblinnikov_github_com* _parent,
+    uint32_t _maxNumberOfKernels,
+    uint32_t _threadId){
   
   that->parent = _parent;
-  that->threads = _threads;
-  that->timeout = _timeout;
-  that->startLocalId = dispatcherCollector_getStartLocalId();
-  that->numberOfKernels = dispatcherCollector_getLocalId()-dispatcherCollector_getStartLocalId();
-  that->buffersArr = arrayObject_init_dynamic(sizeof(vector_cnets_osblinnikov_github_com), that->numberOfKernels);
-  int buffersArr_i_ = 0;
-  for(buffersArr_i_=0;buffersArr_i_<that->numberOfKernels;buffersArr_i_++){
-    vector_cnets_osblinnikov_github_com_init(&((vector_cnets_osblinnikov_github_com*)that->buffersArr.array)[buffersArr_i_]);
+  that->maxNumberOfKernels = _maxNumberOfKernels;
+  that->threadId = _threadId;
+  that->readers = arrayObject_init_dynamic(sizeof(reader), 1);
+  int readers_i_ = 0;
+  for(readers_i_=0;readers_i_<1;readers_i_++){
+    reader_init(&((reader*)that->readers.array)[readers_i_]);
+  }
+  reader_init(&that->readerSelector);
+  that->kernels = arrayObject_init_dynamic(sizeof(RunnableStoppable), 1);
+  int kernels_i_ = 0;
+  for(kernels_i_=0;kernels_i_<1;kernels_i_++){
+    RunnableStoppable_init(&((RunnableStoppable*)that->kernels.array)[kernels_i_]);
   }
   
-  dispatchBuffer_cnets_osblinnikov_github_com_init(&that->ids,that->buffersArr,that->timeout,that->startLocalId,that->threads);
-  reader idsr0_0 = dispatchBuffer_cnets_osblinnikov_github_com_createReader(&that->ids,0);
   dispatchKernel_cnets_osblinnikov_github_com_onKernels(that);
   
-  that->kernel0 = (dispatcher_dispatchKernel_cnets_osblinnikov_github_com*)malloc(sizeof(dispatcher_dispatchKernel_cnets_osblinnikov_github_com)*that->threads);
-  int _kernel0_i;
-  for(_kernel0_i=0;_kernel0_i<(int)that->threads;_kernel0_i++){
-    dispatcher_dispatchKernel_cnets_osblinnikov_github_com_init(&that->kernel0[_kernel0_i],that->parent,_kernel0_i,that->numberOfKernels,that->startLocalId,idsr0_0);
-  }
-  that->arrContainers = (runnablesContainer_cnets_osblinnikov_github_com*)malloc(sizeof(runnablesContainer_cnets_osblinnikov_github_com)*(0+that->threads));
   that->getRunnables = dispatchKernel_cnets_osblinnikov_github_com_getRunnables;
   
     runnablesContainer_cnets_osblinnikov_github_com_init(&that->_runnables);
-    
-    int j;
-    for(j=0;j<(int)that->threads;j++){
-      that->arrContainers[0+j] = that->kernel0[j].getRunnables(&that->kernel0[j]);
-    }
-
-    arrayObject arr;
-    arr.array = (void*)that->arrContainers;
-    arr.length = 0+that->threads;
-    arr.itemSize = sizeof(runnablesContainer_cnets_osblinnikov_github_com);
-    that->_runnables.setContainers(&that->_runnables,arr);
-    /*set core to call onStart/onStop from runnablesContainer*/
     RunnableStoppable_create(runnableStoppableObj,that, dispatchKernel_cnets_osblinnikov_github_com_)
-    that->_runnables.setCore(&that->_runnables,runnableStoppableObj, (unsigned)-1, -1);
+    that->_runnables.setCore(&that->_runnables,runnableStoppableObj, 1);
   dispatchKernel_cnets_osblinnikov_github_com_onCreate(that);
 }
 
 void dispatchKernel_cnets_osblinnikov_github_com_deinit(struct dispatchKernel_cnets_osblinnikov_github_com *that){
   dispatchKernel_cnets_osblinnikov_github_com_onDestroy(that);
   
-  arrayObject_free_dynamic(that->buffersArr);
-  dispatchBuffer_cnets_osblinnikov_github_com_deinit(&that->ids);
-  int _kernel0_i;
-  for(_kernel0_i=0;_kernel0_i<(int)that->threads;_kernel0_i++){
-    dispatcher_dispatchKernel_cnets_osblinnikov_github_com_deinit(&that->kernel0[_kernel0_i]);
-  }
-  free((void*)that->kernel0);
-  free((void*)that->arrContainers);
+  arrayObject_free_dynamic(that->readers);
+  arrayObject_free_dynamic(that->kernels);
 }
 
-/*[[[end]]] (checksum: 5bff16e58d2a6c7029158fe644bc45c6)*/
+/*[[[end]]] (checksum: ccd53dd805e71f27a38bfc7001130d42)*/
+
 
 void dispatchKernel_cnets_osblinnikov_github_com_run(void *t){
-  /*struct dispatchKernel_cnets_osblinnikov_github_com *that = (struct dispatchKernel_cnets_osblinnikov_github_com*)t;*/
+  struct dispatchKernel_cnets_osblinnikov_github_com *that = (struct dispatchKernel_cnets_osblinnikov_github_com*)t;
+  if(!that->readerSelector.params.target){return;}
+  bufferReadData res = that->readerSelector.readNextWithMeta(&that->readerSelector,-1);
+  if(res.data == NULL){
+    return;
+  }
+  RunnableStoppable* rs = &((RunnableStoppable*)that->kernels.array)[res.nested_buffer_id];
+  rs->setReadData(rs->target, &res);
+  rs->run(rs->target);
+  that->readerSelector.readFinished(&that->readerSelector);
+}
+
+BOOL countKernels(struct dispatchKernel_cnets_osblinnikov_github_com* that,
+                  struct runnablesContainer_cnets_osblinnikov_github_com* parent,
+                  unsigned *count,
+                  unsigned *countReaders,
+                  BOOL fillReaders
+){
+  if(parent == NULL){return FALSE;}
+  if(parent->containers != NULL && parent->containers_size > 0){
+    for(int i=0; i< parent->containers_size; i++){
+      if(!countKernels(that, &parent->containers[i], count, countReaders, fillReaders)){
+        return FALSE;
+      }
+    }
+  }else if(parent->target.target != NULL){
+    if(that->maxNumberOfKernels != 0 && *count >= that->maxNumberOfKernels*(that->threadId+1)){
+      return FALSE;
+    }
+    if(parent->spawnMode != 0){
+      return TRUE;
+    }
+    if(that->maxNumberOfKernels == 0 || *count >= that->maxNumberOfKernels*that->threadId){
+      struct arrayObject readers = parent->target.getReaders(&parent->target.target);
+      if(fillReaders){
+        for(int i=0; i<readers.length; i++){
+          ((reader*)that->readers.array)[that->readers.length++] =  ((reader*)readers.array)[i];
+          ((RunnableStoppable*)that->kernels.array)[that->kernels.length++] =  parent->target;/*need to find the kernel very fast*/
+        }
+      }else{
+        *countReaders += readers.length;
+      }
+    }
+    *count += 1;
+  }
+  return TRUE;
+}
+
+void freeDynamic(struct dispatchKernel_cnets_osblinnikov_github_com* ptr){
+  if(ptr->readers.array){
+    arrayObject_free_dynamic(ptr->readers);
+    ptr->readers.array = 0;
+  }
+  if(ptr->kernels.array){
+    arrayObject_free_dynamic(ptr->kernels);
+    ptr->kernels.array = 0;
+  }
 }
 
 void dispatchKernel_cnets_osblinnikov_github_com_onStart(void *t){
-  /*struct dispatchKernel_cnets_osblinnikov_github_com *that = (struct dispatchKernel_cnets_osblinnikov_github_com*)t;*/
+  struct dispatchKernel_cnets_osblinnikov_github_com *ptr = (struct dispatchKernel_cnets_osblinnikov_github_com*)t;
+  freeDynamic(ptr);
+
+  unsigned countReaders = 0, count = 0;
+  countKernels(ptr, ptr->parent, &count, &countReaders, FALSE);
+
+  if(count > 0 && countReaders > 0){
+    ptr->readers = arrayObject_init_dynamic(sizeof(reader),countReaders);
+    ptr->kernels = arrayObject_init_dynamic(sizeof(RunnableStoppable),countReaders);
+    countReaders = count = 0;
+    countKernels(ptr, ptr->parent, &count, &countReaders, TRUE);
+  }
+  if(ptr->readers.length > 0){
+    selector_cnets_osblinnikov_github_com_init(&ptr->selector, ptr->readers);
+    ptr->readerSelector = selector_cnets_osblinnikov_github_com_createReader(&ptr->selector, 0);
+  }else{
+    printf("WARN: dispatchKernel_cnets_osblinnikov_github_com_onStart: readerSelector was not initialized, because readers are 0\n");
+    ptr->readerSelector.params.target = NULL;
+  }
 }
 
-void dispatchKernel_cnets_osblinnikov_github_com_onStop(void *that){
-  /*struct dispatchKernel_cnets_osblinnikov_github_com *that = (struct dispatchKernel_cnets_osblinnikov_github_com*)t;*/
+void dispatchKernel_cnets_osblinnikov_github_com_onStop(void *t){
+  struct dispatchKernel_cnets_osblinnikov_github_com *ptr = (struct dispatchKernel_cnets_osblinnikov_github_com*)t;
+  freeDynamic(ptr);
 }
 
 void dispatchKernel_cnets_osblinnikov_github_com_onCreate(struct dispatchKernel_cnets_osblinnikov_github_com *that){
-  dispatcherCollector_tagAsStartLocalId();
-  dispatcherCollector_addWriter(dispatchBuffer_cnets_osblinnikov_github_com_createWriter(&that->dispatcher, 0));
+
 }
 
 void dispatchKernel_cnets_osblinnikov_github_com_onDestroy(struct dispatchKernel_cnets_osblinnikov_github_com *that){

@@ -1,39 +1,18 @@
 name: github.com/osblinnikov/cnets/dispatchKernel
 args:
--   "parent RunnablesInterface"
--   "threads unsigned"
--   "timeout long"
+-   "parent github.com/osblinnikov/cnets/runnablesContainer*"
+-   "maxNumberOfKernels unsigned"
+-   "threadId unsigned"
 props:
--   "startLocalId unsigned dispatcherCollector_getStartLocalId()"
--   "numberOfKernels unsigned dispatcherCollector_getLocalId()-dispatcherCollector_getStartLocalId()"
--   "buffersArr github.com/osblinnikov/cnets/vector[numberOfKernels]"
+-   "readers reader[1]"
+-   "readerSelector reader"
+-   "kernels RunnableStoppable[1]"
 depends:
+-   name: github.com/osblinnikov/cnets/selector
 -   name: github.com/osblinnikov/cnets/runnablesContainer
 -   name: github.com/osblinnikov/cnets/readerWriter
 -   name: github.com/osblinnikov/cnets/types
--   name: github.com/osblinnikov/cnets/vector
--   name: github.com/osblinnikov/cnets/dispatchBuffer
+spawnMode: 1
 gen:
 - github.com/osblinnikov/gernet/plugins/kernel
 - github.com/osblinnikov/gernet/plugins/build
-channels:
--   channel: ids
-    name: github.com/osblinnikov/cnets/dispatchBuffer
-    type: unsigned
-    args:
-      - value: buffersArr
-        type:  Object[]
-      - value: timeout
-      - value: startLocalId
-      - value: threads
-hide: true
-topology:
--   name: github.com/osblinnikov/cnets/dispatchKernel/dispatcher
-    parallel: threads
-    args:
-    -   parent
-    -   _kernel0_i
-    -   numberOfKernels
-    -   startLocalId
-    receive:
-    -   "ids"

@@ -8,7 +8,6 @@ typedef struct writer{
   unsigned packetsCounter, bytesCounter, kernelId;
   uint64_t statsTime, interval;
   struct bufferKernelParams statsWriterParams;
-  struct writer *dispatchWriter;
   struct bufferKernelParams params;
   void* (*writeNext)(struct writer *that, int waitThreshold);
   int (*writeFinished)(struct writer *that);
@@ -17,15 +16,17 @@ typedef struct writer{
   int (*gridSize)(struct writer *that);
   int (*uniqueId)(struct writer *that);
   void (*incrementBytesCounter)(struct writer *that, int bytesCounter);
-  void (*setKernelId)(struct writer *that, unsigned id);
 }writer;
 
 readerWriter_cnets_osblinnikov_github_com_EXPORT_API
-  void writer_init(struct writer *that, bufferKernelParams params);
+  void writer_init_with_params(struct writer *that, bufferKernelParams params);
+
+readerWriter_cnets_osblinnikov_github_com_EXPORT_API
+  void writer_init(writer *that);
 
 #define writer_create(_NAME_,params)\
     writer _NAME_;\
-    writer_init(&_NAME_,params);
+    writer_init_with_params(&_NAME_,params);
 
 readerWriter_cnets_osblinnikov_github_com_EXPORT_API
   writer writerNULL();

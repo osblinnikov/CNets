@@ -17,6 +17,14 @@ void runnablesContainer_cnets_osblinnikov_github_com_deinit(struct runnablesCont
 }
 /*[[[end]]] (checksum: 0e47c22eafea6baea3212690d3ddb0a4)*/
 
+void RunnableStoppable_init(struct RunnableStoppable* that){
+  that->onStart = NULL;
+  that->run = NULL;
+  that->getReaders = NULL;
+  that->onStop = NULL;
+  that->target = NULL;
+}
+
 void runnablesContainer_cnets_osblinnikov_github_com_launch(
   struct runnablesContainer_cnets_osblinnikov_github_com *that, 
   BOOL lockLastElement
@@ -32,6 +40,8 @@ void runnablesContainer_cnets_osblinnikov_github_com_launch(
   }else if(that->target.target != NULL){
     if(that->spawnMode == 1){
       that->kernel.launch(&that->kernel, that->target, lockLastElement);
+    }else{
+      that->target.onStart(&that->target.target);
     }
     printf("===> runnablesContainer_cnets_osblinnikov_github_com_launch   kernel\n");
   }else {
@@ -53,6 +63,8 @@ void runnablesContainer_cnets_osblinnikov_github_com_stop(
   }else if(that->target.target != NULL){
     if(that->spawnMode == 1){
       that->kernel.stopThread(&that->kernel);
+    }else{
+      that->target.onStop(&that->target.target);
     }
   }else{
     printf("===> runnablesContainer_cnets_osblinnikov_github_com_stop NULL\n");
@@ -70,10 +82,9 @@ void runnablesContainer_cnets_osblinnikov_github_com_setContainers(
 void runnablesContainer_cnets_osblinnikov_github_com_setCore(
   struct runnablesContainer_cnets_osblinnikov_github_com *that, 
   RunnableStoppable target,
-  unsigned id, unsigned spawnMode
+  unsigned spawnMode
 ){
   that->target = target;
-  that->id = id;
   that->spawnMode = spawnMode;
 }
 

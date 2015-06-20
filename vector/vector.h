@@ -32,7 +32,7 @@ typedef struct vector_cnets_osblinnikov_github_com{
   
   
 /*[[[end]]] (checksum: 1e061ff9863f38283fe621861258d75d)*/
-  void **items;
+  unsigned *items;
   int capacity;
   int total;
 }vector_cnets_osblinnikov_github_com;
@@ -42,11 +42,11 @@ int vector_cnets_osblinnikov_github_com_total(vector_cnets_osblinnikov_github_co
 vector_cnets_osblinnikov_github_com_EXPORT_API
 void vector_cnets_osblinnikov_github_com_resize(vector_cnets_osblinnikov_github_com *v, int capacity);
 vector_cnets_osblinnikov_github_com_EXPORT_API
-void vector_cnets_osblinnikov_github_com_add(vector_cnets_osblinnikov_github_com *v, void *item);
+void vector_cnets_osblinnikov_github_com_add(vector_cnets_osblinnikov_github_com *v, unsigned item);
 vector_cnets_osblinnikov_github_com_EXPORT_API
-void vector_cnets_osblinnikov_github_com_set(vector_cnets_osblinnikov_github_com *v, int, void *item);
+void vector_cnets_osblinnikov_github_com_set(vector_cnets_osblinnikov_github_com *v, int, unsigned item);
 vector_cnets_osblinnikov_github_com_EXPORT_API
-void *vector_cnets_osblinnikov_github_com_get(vector_cnets_osblinnikov_github_com *v, int index);
+unsigned vector_cnets_osblinnikov_github_com_get(vector_cnets_osblinnikov_github_com *v, int index);
 vector_cnets_osblinnikov_github_com_EXPORT_API
 void vector_cnets_osblinnikov_github_com_delete(vector_cnets_osblinnikov_github_com *v, int index);
 

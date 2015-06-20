@@ -16,5 +16,5 @@ hide: false
 name: github.com/osblinnikov/cnets/selector
 props: []
 receive: []
-spawnMode: '1'
+spawnMode: '0'
 topology: []
