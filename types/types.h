@@ -86,6 +86,5 @@ typedef struct types_cnets_osblinnikov_github_com{
 #include "./bufferKernelParams.h"
 #include "./timeUtils.h"
 #include "./statsLocalProtocol.h"
-#include "./runnablesInterface.h"
 
 #endif /* types_cnets_osblinnikov_github_com_H */
