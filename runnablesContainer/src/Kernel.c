@@ -103,7 +103,6 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread(
     pthread_mutex_lock(&that->isRunning_cv_mutex);
     if(ETIMEDOUT == pthread_cond_timedwait(&that->isRunning_cv, &that->isRunning_cv_mutex, &wait_timespec)){
       printf("WARN: runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread: wait timeout\n");
-      taskDelay(1000000L);
     }
     pthread_mutex_unlock(&that->isRunning_cv_mutex);
      pthread_spin_lock(&that->isRunningLock);

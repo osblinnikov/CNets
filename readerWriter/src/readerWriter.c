@@ -161,6 +161,7 @@ int readerWriter_cnets_osblinnikov_github_com_addSelector(reader *that,linkedCon
 void writer_init(writer *that){
   bufferKernelParams params;
   writer_init_with_params(that, params);
+  that->params.target = NULL;
 }
 
 
@@ -189,6 +190,7 @@ void writer_init_with_params(writer *that, bufferKernelParams params){
 void reader_init(reader *that){
   bufferKernelParams params;
   reader_init_with_params(that, params);
+  that->params.target = NULL;
 }
 
 void reader_init_with_params(reader *that, bufferKernelParams params){

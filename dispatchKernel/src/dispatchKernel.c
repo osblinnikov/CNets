@@ -126,10 +126,12 @@ void freeDynamic(struct dispatchKernel_cnets_osblinnikov_github_com* ptr){
   if(ptr->readers.array){
     arrayObject_free_dynamic(ptr->readers);
     ptr->readers.array = 0;
+    ptr->readers.length = 0;
   }
   if(ptr->kernels.array){
     arrayObject_free_dynamic(ptr->kernels);
     ptr->kernels.array = 0;
+    ptr->kernels.length = 0;
   }
 }
 

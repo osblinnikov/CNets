@@ -10,6 +10,7 @@ int main(int argc, char* argv[]){
   dispatchKernel_cnets_osblinnikov_github_com_init(&classObj,NULL,0,0);
   runnablesContainer_cnets_osblinnikov_github_com runnables = classObj.getRunnables(&classObj);
   runnables.launch(&runnables,FALSE);
+  taskDelayMilisec(1000L);
   runnables.stop(&runnables);
   dispatchKernel_cnets_osblinnikov_github_com_deinit(&classObj);
   return 0;
