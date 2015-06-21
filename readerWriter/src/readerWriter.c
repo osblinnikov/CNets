@@ -98,7 +98,11 @@ bufferReadData readerWriter_cnets_osblinnikov_github_com_readNextWithMeta(reader
   res.data = NULL;
   if(that == NULL || that->params.target == NULL || that->hasReadNext){return res;}
   /*todo: add here special code for debuging data flow*/
-  res = that->params.readNextWithMeta(&that->params, waitThreshold);
+  if(that->readData){
+    res = *that->readData;
+  }else{
+    res = that->params.readNextWithMeta(&that->params, waitThreshold);
+  }
   that->hasReadNext = (res.data != NULL);
   return res;
 }
@@ -106,7 +110,12 @@ bufferReadData readerWriter_cnets_osblinnikov_github_com_readNextWithMeta(reader
 void* readerWriter_cnets_osblinnikov_github_com_readNext(reader *that, int waitThreshold) {
   if(that == NULL || that->params.target == NULL || that->hasReadNext){return NULL;}
   /*todo: add here special code for debuging data flow*/
-  void* res = that->params.readNext(&that->params, waitThreshold);
+  void* res;
+  if(that->readData){
+    res = that->readData->data;
+  }else{
+    res = that->params.readNext(&that->params, waitThreshold);
+  }
   that->hasReadNext = (res != NULL);
   return res;
 }
@@ -115,12 +124,18 @@ int readerWriter_cnets_osblinnikov_github_com_readFinished(reader *that) {
   if(that == NULL || that->params.target == NULL || !that->hasReadNext){return -1;}
   /*todo: add here special code for debuging data flow*/
 
-  that->hasReadNext = FALSE;
-
-  int res = that->params.readFinished(&that->params);
+  int res;
+  if(that->readData){
+    that->readData = NULL;
+    res = 0;
+  }else{
+    res = that->params.readFinished(&that->params);
+  }
 
   if(res == 0)
     dispatchesAndStats(that,TRUE);
+
+  that->hasReadNext = FALSE;
 
   return res;
 }
@@ -154,7 +169,12 @@ void readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterR(reader *th
 int readerWriter_cnets_osblinnikov_github_com_addSelector(reader *that,linkedContainer *container){
   if(that == NULL || that->params.target == NULL){return -1;}
   return that->params.addSelector(&that->params, (void*)container);
-} 
+}
+
+void readerWriter_cnets_osblinnikov_github_com_setReadData(struct reader *that, struct bufferReadData *readData){
+  if(that == NULL || that->params.target == NULL){return;}
+  that->readData = readData;
+}
 
 /****STRUCTURES INITIALIZATIONS***/
 
@@ -214,6 +234,8 @@ void reader_init_with_params(reader *that, bufferKernelParams params){
   that->uniqueId = readerWriter_cnets_osblinnikov_github_com_uniqueIdR;
   that->incrementBytesCounter = readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterR;
   that->addSelector = readerWriter_cnets_osblinnikov_github_com_addSelector;
+  that->setReadData = readerWriter_cnets_osblinnikov_github_com_setReadData;
+  that->readData = NULL;
   return;
 }
 

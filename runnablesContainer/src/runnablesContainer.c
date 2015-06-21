@@ -33,17 +33,19 @@ void runnablesContainer_cnets_osblinnikov_github_com_launch(
     int i;
     for(i=0; i< that->containers_size; i++){
       if(that->target.target != NULL){
+        printf("=> launch: %s mode=%d\n",that->target.name,that->spawnMode);
         that->target.onStart(that->target.target);
       }
       that->containers[i].launch(&that->containers[i], (lockLastElement && i == that->containers_size - 1) );
     }
   }else if(that->target.target != NULL){
+    printf("=> launch: %s mode=%d\n",that->target.name,that->spawnMode);
     if(that->spawnMode == 1){
       that->kernel.launch(&that->kernel, that->target, lockLastElement);
     }else{
       that->target.onStart(that->target.target);
     }
-    printf("===> runnablesContainer_cnets_osblinnikov_github_com_launch:\n  %s spawnMode=%d\n",that->target.name,that->spawnMode);
+
   }else {
     printf("===> runnablesContainer_cnets_osblinnikov_github_com_launch NULL\n");
   }

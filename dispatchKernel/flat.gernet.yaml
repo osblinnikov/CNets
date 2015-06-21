@@ -5,6 +5,8 @@ args:
     type: unsigned
 -   name: threadId
     type: unsigned
+-   name: countOfThreads
+    type: unsigned
 channels: []
 depends:
 -   name: github.com/osblinnikov/cnets/selector
@@ -28,7 +30,7 @@ props:
     value: null
 -   name: kernels
     size: 1
-    type: RunnableStoppable[]
+    type: github.com/osblinnikov/cnets/dispatchKernel/runnables[]
     value: null
 receive: []
 spawnMode: '1'

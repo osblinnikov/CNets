@@ -155,12 +155,12 @@ bufferReadData selector_cnets_osblinnikov_github_com_readNextWithMeta(bufferKern
   bufferReadData res;
   res.data = NULL;
   if(params == NULL){
-    printf("ERROR: selector_cnets_osblinnikov_github_com readNextWithMeta: params is NULL\n");
+    fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com readNextWithMeta: params is NULL\n");
     return res;
   }
   selector_cnets_osblinnikov_github_com *that = (selector_cnets_osblinnikov_github_com*)params->target;
   if(that == NULL){
-    printf("ERROR: selector_cnets_osblinnikov_github_com readNextWithMeta: Some Input parameters are wrong\n");
+    fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com readNextWithMeta: Some Input parameters are wrong\n");
     return res;
   }
   BOOL r = FALSE;
@@ -172,7 +172,7 @@ bufferReadData selector_cnets_osblinnikov_github_com_readNextWithMeta(bufferKern
   if(that->sumWrites <= 0 && nanosec > 0){
     do{
       if(ETIMEDOUT == pthread_cond_timedwait(&that->switch_cv, &that->switch_cv_lock, &wait_timespec)){
-        printf("ERROR: selector_cnets_osblinnikov_github_com_readNextWithMeta: wait timeout, params->grid_id='%d'\n",params->grid_id);
+        printf("WARN: selector_cnets_osblinnikov_github_com_readNextWithMeta: wait timeout, params->grid_id='%d'\n",params->grid_id);
       }
       if(that->sumWrites > 0){
         break;

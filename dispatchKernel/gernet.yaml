@@ -3,10 +3,11 @@ args:
 -   "parent github.com/osblinnikov/cnets/runnablesContainer*"
 -   "maxNumberOfKernels unsigned"
 -   "threadId unsigned"
+-   "countOfThreads unsigned"
 props:
 -   "readers reader[1]"
 -   "readerSelector reader"
--   "kernels RunnableStoppable[1]"
+-   "kernels github.com/osblinnikov/cnets/dispatchKernel/runnables[1]"
 depends:
 -   name: github.com/osblinnikov/cnets/selector
 -   name: github.com/osblinnikov/cnets/runnablesContainer
