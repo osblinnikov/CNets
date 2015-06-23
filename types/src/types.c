@@ -17,6 +17,18 @@ void types_cnets_osblinnikov_github_com_deinit(struct types_cnets_osblinnikov_gi
 }
 /*[[[end]]] (checksum: b756b3872908e74fdd4a1223fb5d712e)*/
 
+void serializator_types_cnets_osblinnikov_github_com_init(
+   struct serializator_types_cnets_osblinnikov_github_com* that,
+   serializator_types_cnets_osblinnikov_github_com_next next,
+   void* dst
+ ){
+  if(that == NULL){return;}
+  that->next = next;
+  that->dst = dst;
+  that->code = -1;
+  PT_INIT(&that->pt);
+}
+
 void types_cnets_osblinnikov_github_com_onCreate(types_cnets_osblinnikov_github_com *that){
   
   return;
