@@ -9,6 +9,7 @@
     _NAME_.bufferId = -1;\
     _NAME_.grid_id = _grid_id;\
     _NAME_.internalId = 0;\
+    _NAME_.readNested = TRUE;\
     _NAME_.target = (void*)_target;\
     _NAME_.readNextWithMeta = fullName_##readNextWithMeta;\
     _NAME_.readNext = fullName_##readNext;\
@@ -27,6 +28,7 @@ typedef struct bufferKernelParams{
   unsigned bufferId;
   unsigned grid_id;
   unsigned internalId;
+  BOOL readNested;
   void* target;
   bufferReadData (*readNextWithMeta)(struct bufferKernelParams *params, int waitThreshold);
   void* (*readNext)(struct bufferKernelParams *params, int waitThreshold);

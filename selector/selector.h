@@ -56,6 +56,7 @@ typedef struct selector_cnets_osblinnikov_github_com{
     int32_t         sumWrites;
     pthread_mutex_t switch_cv_lock;
     pthread_cond_t  switch_cv;
+    volatile linkedContainer     *selectorContainers;
 }selector_cnets_osblinnikov_github_com;
 
 #endif /* selector_cnets_osblinnikov_github_com_H */

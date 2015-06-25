@@ -10,10 +10,9 @@ typedef struct RunnableStoppable{
   void *target;
   char *name;
   void (*onStart)(void* target);
-  struct arrayObject (*getReaders)(void *target);
-  void (*setReadData)(void *target, bufferReadData *readData);
   void (*run)(void* target);
   void (*onStop)(void* target);
+  struct arrayObject (*getReaders)(void *target);
 }RunnableStoppable;
 
 #define RunnableStoppable_create(_NAME_,_target, fullName)\
@@ -23,8 +22,7 @@ typedef struct RunnableStoppable{
     _NAME_.onStart = fullName##_onStart;\
     _NAME_.run = fullName##_run;\
     _NAME_.onStop = fullName##_onStop;\
-    _NAME_.getReaders = fullName##_getReaders;\
-    _NAME_.setReadData = fullName##_setReadData;
+    _NAME_.getReaders = fullName##_getReaders;
 
 typedef struct runnablesContainer_cnets_osblinnikov_github_com_Kernel{
   RunnableStoppable objectToRun;

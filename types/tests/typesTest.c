@@ -26,7 +26,7 @@ int deserializeNext(struct serializator_types_cnets_osblinnikov_github_com *that
 int serializator_test(){
   printf("-- CNets: SerializatorTest ---\n");
   toSerialize from, to;
-  from.string = "test";
+  from.string = (char*)"test";
   from.arr = arrayObject_init_dynamic(4, 4);
   serializator_types_cnets_osblinnikov_github_com serializator;
   serializator_types_cnets_osblinnikov_github_com_init(&serializator,serializeNext,(void*)&from);
@@ -70,8 +70,8 @@ int main(int argc, char* argv[]){
     lastTime = curtime;
   }
   printf("-- CNets: Time Utils Tests Ending---\n");
-  if(serializator_test()!=0){
-    return -1;
-  }
+//  if(serializator_test()!=0){
+//    return -1;
+//  }
   return 0;
 }

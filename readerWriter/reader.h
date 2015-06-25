@@ -5,7 +5,6 @@
 #include "./Exports.h"
 
 typedef struct reader{
-  struct bufferReadData *readData;
   BOOL hasReadNext;
   unsigned packetsCounter, bytesCounter;
   uint64_t statsTime, interval;
@@ -20,7 +19,7 @@ typedef struct reader{
   int (*uniqueId)(struct reader *that);
   void (*incrementBytesCounter)(struct reader *that, int bytesCounter);
   int (*addSelector)(struct reader *that, linkedContainer *selectorContainer);
-  void (*setReadData)(struct reader *that, struct bufferReadData *readData);
+  void (*setReadNested)(struct reader *that, BOOL readNested);
 }reader;
 
 readerWriter_cnets_osblinnikov_github_com_EXPORT_API

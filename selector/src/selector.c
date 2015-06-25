@@ -110,7 +110,7 @@ void selector_cnets_osblinnikov_github_com_onCreate(selector_cnets_osblinnikov_g
   assert(!res);
   for(i=0; i<(int)that->reducableReaders.length; i++){
     that->writesToContainers[i] = 0;
-    reader* rdReaderItem = (reader*)&((char*)that->reducableReaders.array)[i * that->reducableReaders.itemSize];
+    reader* rdReaderItem = &((reader*)that->reducableReaders.array)[i];
     if(rdReaderItem == NULL || rdReaderItem->params.target == NULL){
       that->allContainers[i].add = NULL;
       continue;
@@ -124,6 +124,7 @@ void selector_cnets_osblinnikov_github_com_onCreate(selector_cnets_osblinnikov_g
       that->timeout_milisec = to;
     }
   }
+  that->selectorContainers = NULL;
   return;
 }
 
@@ -165,11 +166,11 @@ bufferReadData selector_cnets_osblinnikov_github_com_readNextWithMeta(bufferKern
   }
   BOOL r = FALSE;
   uint64_t nanosec = waitThreshold < 0? (uint64_t)that->timeout_milisec : (uint64_t)waitThreshold;
-  struct timespec wait_timespec;
-  wait_timespec = getTimespecDelay(nanosec*(uint64_t)1000000L);
 
   pthread_mutex_lock(&that->switch_cv_lock);
   if(that->sumWrites <= 0 && nanosec > 0){
+    struct timespec wait_timespec;
+    wait_timespec = getTimespecDelay(nanosec*(uint64_t)1000000L);
     do{
       if(ETIMEDOUT == pthread_cond_timedwait(&that->switch_cv, &that->switch_cv_lock, &wait_timespec)){
         printf("WARN: selector_cnets_osblinnikov_github_com_readNextWithMeta: wait timeout, params->grid_id='%d'\n",params->grid_id);
@@ -189,8 +190,13 @@ bufferReadData selector_cnets_osblinnikov_github_com_readNextWithMeta(bufferKern
   that->sumWrites--;
   that->writesToContainers[that->lastReadId]--;
   pthread_mutex_unlock(&that->switch_cv_lock);
-  reader* rdReaderItem = (reader*)&((char*)that->reducableReaders.array)[that->lastReadId * that->reducableReaders.itemSize];
-  res = rdReaderItem->readNextWithMeta(rdReaderItem,FALSE);
+  reader* rdReaderItem = &((reader*)that->reducableReaders.array)[that->lastReadId];
+
+  if(params->readNested > 0){
+    res = rdReaderItem->readNextWithMeta(rdReaderItem,0);
+  }else{
+    res.data = (void*)rdReaderItem;
+  }
   if(res.data != NULL){
     res.nested_buffer_id = that->lastReadId;
     params->bufferId = that->lastReadId;
@@ -210,8 +216,10 @@ int selector_cnets_osblinnikov_github_com_readFinished(bufferKernelParams *param
     return res;
   }
   if(params->bufferId >=0 && params->bufferId < (int)that->reducableReaders.length){
-    reader* rdReaderItem = (reader*)&((char*)that->reducableReaders.array)[params->bufferId * that->reducableReaders.itemSize];
-    res = rdReaderItem->readFinished(rdReaderItem);
+    if(params->readNested > 0){
+      reader* rdReaderItem = &((reader*)that->reducableReaders.array)[params->bufferId];
+      res = rdReaderItem->readFinished(rdReaderItem);
+    }
     params->bufferId = -1;
   }else{
     printf("ERROR: selector_cnets_osblinnikov_github_com readFinished: some params are wrong\n");
@@ -249,6 +257,12 @@ int selector_cnets_osblinnikov_github_com_writeFinished(bufferKernelParams *para
   ++that->writesToContainers[params->grid_id];
   pthread_cond_broadcast(&that->switch_cv);
   pthread_mutex_unlock(&that->switch_cv_lock);
+
+  linkedContainer * tmp = (linkedContainer *) that->selectorContainers; //removing volatile pointer
+  if(tmp != NULL){
+    tmp->call(tmp);
+  }
+
   return 0;
 }
 
@@ -265,7 +279,7 @@ int selector_cnets_osblinnikov_github_com_size(bufferKernelParams *params){
   if(params->bufferId <0 || params->bufferId >= (int)that->reducableReaders.length){
     return -1;
   }
-  reader* rdReaderItem = (reader*)&((char*)that->reducableReaders.array)[params->bufferId * that->reducableReaders.itemSize];
+  reader* rdReaderItem = &((reader*)that->reducableReaders.array)[params->bufferId];
   return rdReaderItem->size(rdReaderItem);
 }
 
@@ -291,6 +305,25 @@ int selector_cnets_osblinnikov_github_com_uniqueId(bufferKernelParams *params){
 }
 
 int selector_cnets_osblinnikov_github_com_addSelector(bufferKernelParams *params, void* selectorContainer) {
-  printf("ERROR: selector_cnets_osblinnikov_github_com addSelector is not allowed: nested selectors look ambiguous\n");
-  return -1;
+  selector_cnets_osblinnikov_github_com *that;
+#ifdef _DEBUG
+  if(params == NULL){
+    fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com: params is NULL\n");
+    return -1;
+  }
+  that = (selector_cnets_osblinnikov_github_com*)params->target;
+  if(that == NULL){
+    fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com: Some Input parameters are wrong\n");
+    return -1;
+  };
+#endif
+  that = (selector_cnets_osblinnikov_github_com*)params->target;
+  linkedContainer *sContainer = (linkedContainer*)selectorContainer;
+  if(that->selectorContainers == NULL){
+      that->selectorContainers = sContainer;
+  }else{
+      linkedContainer * tmp = (linkedContainer *) that->selectorContainers; //removing volatile pointer
+      tmp->add(tmp, sContainer);
+  }
+  return 0;
 }

@@ -199,18 +199,17 @@ bufferReadData mapBuffer_cnets_osblinnikov_github_com_readNextWithMeta(bufferKer
 #endif
   that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
   uint64_t nanosec = waitThreshold < 0? (uint64_t)that->timeout_milisec : (uint64_t)waitThreshold;
-  struct timespec wait_timespec;
-  wait_timespec = getTimespecDelay(nanosec*(uint64_t)1000000L);
   /*find the reader's queue*/
   queue_cnets_osblinnikov_github_com *grid_queue = &that->grid[params->grid_id];
   pthread_spinlock_t              *grid_mutex = &that->grid_mutex[params->grid_id];
   /*Lock `wrote` dqueue for the Reader "params->grid_id"*/
   pthread_spin_lock(grid_mutex);
-
   /*if number of wrote dqueue elements = 0*/
-  if(nanosec && grid_queue->isEmpty(grid_queue)){
+  if(nanosec > 0L && grid_queue->isEmpty(grid_queue)){
     /*wait until cond variable of wrote buffer with "Lock `wrote` dqueue" mutex*/
     pthread_spin_unlock(grid_mutex);
+    struct timespec wait_timespec;
+    wait_timespec = getTimespecDelay(nanosec*(uint64_t)1000000L);
     pthread_mutex_lock(&that->switch_cv_mutex);
     pthread_spin_lock(grid_mutex);
     if(grid_queue->isEmpty(grid_queue)){

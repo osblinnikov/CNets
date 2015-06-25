@@ -91,7 +91,7 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread(
   // }
    pthread_spin_lock(&that->isRunningLock);
 
-  struct timespec wait_timespec = getTimespecDelay((uint64_t)1000*(uint64_t)1000000);
+  struct timespec wait_timespec = getTimespecDelay((uint64_t)10*(uint64_t)1000000000L);
 
   while(that->isRunning){
      pthread_spin_unlock(&that->isRunningLock);
@@ -102,7 +102,7 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread(
 
     pthread_mutex_lock(&that->isRunning_cv_mutex);
     if(ETIMEDOUT == pthread_cond_timedwait(&that->isRunning_cv, &that->isRunning_cv_mutex, &wait_timespec)){
-      printf("WARN: runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread: wait timeout\n");
+      printf("WARN: runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread: wait timeout %s\n", that->objectToRun.name);
     }
     pthread_mutex_unlock(&that->isRunning_cv_mutex);
      pthread_spin_lock(&that->isRunningLock);
