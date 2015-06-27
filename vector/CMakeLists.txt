@@ -12,8 +12,12 @@ function(addDeps buildType dstBuildType)
 # c.tpl(cog,templateFile,c.a(prefix=configFile))
 # ]]]
 
-include_directories(../../../../)
-# [[[end]]] (checksum: 3815ebbb76fc61e4d238f5ae1d019ccb)
+  include_directories(../../../../)
+
+# install includes
+install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/vector FILES_MATCHING PATTERN "*.h" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
+install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/vector FILES_MATCHING PATTERN "*.hpp" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
+# [[[end]]] (checksum: 63ab1d629613df8b74cd83ce0eb40351)
 endfunction(addDeps)
 
 file(GLOB VECTOR_CNETS_OSBLINNIKOV_GITHUB_COM_HDRS "*.h")
@@ -64,12 +68,4 @@ endif ()
 
 link_directories(${LD_DIRS})
 include_directories(. ${INCLUDE_DIRS})
-
-# install includes
-if(NOT WIN32)
-  install(DIRECTORY / DESTINATION include/ FILES_MATCHING PATTERN "*.h")
-  install(DIRECTORY / DESTINATION include/ FILES_MATCHING PATTERN "*.h")
-endif()
-
-
 

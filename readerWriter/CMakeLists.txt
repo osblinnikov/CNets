@@ -12,10 +12,14 @@ function(addDeps buildType dstBuildType)
 # c.tpl(cog,templateFile,c.a(prefix=configFile))
 # ]]]
 
-include_directories(../../../../)
-add_dependencies(readerWriter_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
-target_link_libraries(readerWriter_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
-# [[[end]]] (checksum: af3d39b29bada0cf31b92a1d56ca9449)
+  include_directories(../../../../)
+  add_dependencies(readerWriter_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
+  target_link_libraries(readerWriter_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
+
+# install includes
+install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/readerWriter FILES_MATCHING PATTERN "*.h" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
+install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/readerWriter FILES_MATCHING PATTERN "*.hpp" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
+# [[[end]]] (checksum: 96d2231fe19865df3f276a6bf83a0d53)
 endfunction(addDeps)
 
 file(GLOB READERWRITER_CNETS_OSBLINNIKOV_GITHUB_COM_HDRS "*.h")
@@ -67,12 +71,5 @@ endif ()
 
 link_directories(${LD_DIRS})
 include_directories(. ${INCLUDE_DIRS})
-
-# install includes
-if(NOT WIN32)
-  install(DIRECTORY / DESTINATION include/ FILES_MATCHING PATTERN "*.h")
-  install(DIRECTORY / DESTINATION include/ FILES_MATCHING PATTERN "*.h")
-endif()
-
 
 

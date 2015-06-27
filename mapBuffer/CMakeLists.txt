@@ -12,16 +12,23 @@ function(addDeps buildType dstBuildType)
 # c.tpl(cog,templateFile,c.a(prefix=configFile))
 # ]]]
 
-include_directories(../../../../)
-add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} queue_cnets_osblinnikov_github_com${dstBuildType})
-target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} queue_cnets_osblinnikov_github_com${dstBuildType})
-add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
-target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
-add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
-target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
-add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
-target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
-# [[[end]]] (checksum: d008a7b6229ac1a0f2a15bc841cfc5d6)
+  include_directories(../../../../)
+  add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} queue_cnets_osblinnikov_github_com${dstBuildType})
+  target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} queue_cnets_osblinnikov_github_com${dstBuildType})
+  add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
+  target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
+  add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
+  target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
+  add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
+  target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
+
+# install includes
+install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/mapBuffer FILES_MATCHING PATTERN "*.h" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
+install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/mapBuffer FILES_MATCHING PATTERN "*.hpp" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
+# [[[end]]] (checksum: eca427c9a9981d16d91f99fd68607cf4)
+
+target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} pthread)
+
 endfunction(addDeps)
 
 file(GLOB MAPBUFFER_CNETS_OSBLINNIKOV_GITHUB_COM_HDRS "*.h")
@@ -72,12 +79,6 @@ endif ()
 
 link_directories(${LD_DIRS})
 include_directories(. ${INCLUDE_DIRS})
-
-# install includes
-if(NOT WIN32)
-  install(DIRECTORY / DESTINATION include/ FILES_MATCHING PATTERN "*.h")
-  install(DIRECTORY / DESTINATION include/ FILES_MATCHING PATTERN "*.h")
-endif()
 
 
 

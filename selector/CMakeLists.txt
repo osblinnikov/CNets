@@ -12,20 +12,24 @@ function(addDeps buildType dstBuildType)
 # c.tpl(cog,templateFile,c.a(prefix=configFile))
 # ]]]
 
-include_directories(../../../../)
-add_dependencies(selector_cnets_osblinnikov_github_com${buildType} mapBuffer_cnets_osblinnikov_github_com${dstBuildType})
-target_link_libraries(selector_cnets_osblinnikov_github_com${buildType} mapBuffer_cnets_osblinnikov_github_com${dstBuildType})
-add_dependencies(selector_cnets_osblinnikov_github_com${buildType} queue_cnets_osblinnikov_github_com${dstBuildType})
-target_link_libraries(selector_cnets_osblinnikov_github_com${buildType} queue_cnets_osblinnikov_github_com${dstBuildType})
-add_dependencies(selector_cnets_osblinnikov_github_com${buildType} runnablesContainer_cnets_osblinnikov_github_com${dstBuildType})
-target_link_libraries(selector_cnets_osblinnikov_github_com${buildType} runnablesContainer_cnets_osblinnikov_github_com${dstBuildType})
-add_dependencies(selector_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
-target_link_libraries(selector_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
-add_dependencies(selector_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
-target_link_libraries(selector_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
-add_dependencies(selector_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
-target_link_libraries(selector_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
-# [[[end]]] (checksum: 4ac66d63a12bb41f6e833190376b3e36)
+  include_directories(../../../../)
+  add_dependencies(selector_cnets_osblinnikov_github_com${buildType} mapBuffer_cnets_osblinnikov_github_com${dstBuildType})
+  target_link_libraries(selector_cnets_osblinnikov_github_com${buildType} mapBuffer_cnets_osblinnikov_github_com${dstBuildType})
+  add_dependencies(selector_cnets_osblinnikov_github_com${buildType} queue_cnets_osblinnikov_github_com${dstBuildType})
+  target_link_libraries(selector_cnets_osblinnikov_github_com${buildType} queue_cnets_osblinnikov_github_com${dstBuildType})
+  add_dependencies(selector_cnets_osblinnikov_github_com${buildType} runnablesContainer_cnets_osblinnikov_github_com${dstBuildType})
+  target_link_libraries(selector_cnets_osblinnikov_github_com${buildType} runnablesContainer_cnets_osblinnikov_github_com${dstBuildType})
+  add_dependencies(selector_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
+  target_link_libraries(selector_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
+  add_dependencies(selector_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
+  target_link_libraries(selector_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
+  add_dependencies(selector_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
+  target_link_libraries(selector_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
+
+# install includes
+install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/selector FILES_MATCHING PATTERN "*.h" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
+install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/selector FILES_MATCHING PATTERN "*.hpp" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
+# [[[end]]] (checksum: 4fd114771c83454b3fe606b197b14910)
 endfunction(addDeps)
 
 file(GLOB SELECTOR_CNETS_OSBLINNIKOV_GITHUB_COM_HDRS "*.h")
@@ -76,12 +80,5 @@ endif ()
 
 link_directories(${LD_DIRS})
 include_directories(. ${INCLUDE_DIRS})
-
-# install includes
-if(NOT WIN32)
-  install(DIRECTORY / DESTINATION include/ FILES_MATCHING PATTERN "*.h")
-  install(DIRECTORY / DESTINATION include/ FILES_MATCHING PATTERN "*.h")
-endif()
-
 
 
