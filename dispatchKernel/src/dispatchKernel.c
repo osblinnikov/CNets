@@ -99,7 +99,8 @@ BOOL countKernels(struct dispatchKernel_cnets_osblinnikov_github_com* that,
 ){
   if(parent == NULL){return FALSE;}
   if(parent->containers != NULL && parent->containers_size > 0){
-    for(int i=0; i< parent->containers_size; i++){
+    int i;
+    for(i=0; i< parent->containers_size; i++){
       if(!countKernels(that, &parent->containers[i], count, countReaders, fillReaders)){
         return FALSE;
       }
@@ -119,7 +120,8 @@ BOOL countKernels(struct dispatchKernel_cnets_osblinnikov_github_com* that,
       struct arrayObject readers = parent->target.getReaders(parent->target.target);
       if(fillReaders){
         unsigned startNumber = *countReaders;
-        for(int i=0; i<readers.length; i++){
+        int i;
+        for(i=0; i<readers.length; i++){
           ((reader*)that->readers.array)[*countReaders] =  ((reader*)readers.array)[i];
           runnables_dispatchKernel_cnets_osblinnikov_github_com *tmp = &((runnables_dispatchKernel_cnets_osblinnikov_github_com*)that->kernels.array)[(*countReaders)++];
           tmp->r =  parent->target;/*need to find the kernel very fast*/

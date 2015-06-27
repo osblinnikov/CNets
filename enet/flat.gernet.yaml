@@ -1,0 +1,13 @@
+args: []
+channels: []
+depends: []
+emit: []
+gen:
+- github.com/osblinnikov/gernet/plugins/library
+- github.com/osblinnikov/gernet/plugins/build
+hide: false
+name: github.com/osblinnikov/cnets/enet
+props: []
+receive: []
+spawnMode: '0'
+topology: []

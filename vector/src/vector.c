@@ -78,8 +78,8 @@ void vector_cnets_osblinnikov_github_com_delete(vector_cnets_osblinnikov_github_
         return;
 
     v->items[index] = 0;
-
-    for (int i = 0; i < v->total - 1; i++) {
+    int i;
+    for (i = 0; i < v->total - 1; i++) {
         v->items[i] = v->items[i + 1];
         v->items[i + 1] = 0;
     }

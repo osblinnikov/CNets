@@ -18,3 +18,9 @@ add_subdirectory(mapBuffer)
 
 message(STATUS "Enter subdirectory selector")
 add_subdirectory(selector)
+
+message(STATUS "Enter subdirectory dispatchKernel")
+add_subdirectory(dispatchKernel)
+
+message(STATUS "Enter subdirectory enet")
+add_subdirectory(enet)

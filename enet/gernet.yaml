@@ -1,0 +1,4 @@
+name: github.com/osblinnikov/cnets/enet
+gen:
+- github.com/osblinnikov/gernet/plugins/library
+- github.com/osblinnikov/gernet/plugins/build
