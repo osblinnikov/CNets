@@ -1,0 +1,39 @@
+args:
+-   name: parent
+    type: github.com/osblinnikov/cnets/runnablesContainer*
+-   name: maxNumberOfKernelsPerThread
+    type: unsigned
+-   name: countOfThreads
+    type: unsigned
+-   name: bindTo
+    type: string
+channels: []
+depends:
+-   name: github.com/osblinnikov/cnets/selector
+-   name: github.com/osblinnikov/cnets/runnablesContainer
+-   name: github.com/osblinnikov/cnets/readerWriter
+-   name: github.com/osblinnikov/cnets/types
+emit: []
+gen:
+- github.com/osblinnikov/gernet/plugins/kernel
+- github.com/osblinnikov/gernet/plugins/build
+hide: false
+name: github.com/osblinnikov/cnets/replicator/topology
+props: []
+receive: []
+spawnMode: '0'
+topology:
+-   args:
+    -   type: null
+        value: parent
+    -   type: null
+        value: maxNumberOfKernelsPerThread
+    -   type: null
+        value: _parallelId_
+    -   type: null
+        value: _parallel_
+    emit: []
+    name: github.com/osblinnikov/cnets/dispatchKernel
+    parallel: countOfThreads
+    parents: []
+    receive: []

@@ -10,7 +10,6 @@ add_subdirectory(queue)
 message(STATUS "Enter subdirectory vector")
 add_subdirectory(vector)
 
-
 message(STATUS "Enter subdirectory readerWriter")
 add_subdirectory(readerWriter)
 

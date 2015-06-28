@@ -1,6 +1,8 @@
 #ifndef readerWriter_cnets_osblinnikov_github_com_writer_H
 #define readerWriter_cnets_osblinnikov_github_com_writer_H
 
+#include "./bufferWriteData.h"
+#include "./bufferKernelParams.h"
 #include "./Exports.h"
 
 typedef struct writer{
@@ -11,6 +13,7 @@ typedef struct writer{
   struct bufferKernelParams params;
   void* (*writeNext)(struct writer *that, int waitThreshold);
   int (*writeFinished)(struct writer *that);
+  int (*writeFinishedWithMeta)(struct writer *params, bufferWriteData writeData);
   int (*size)(struct writer *that);
   int (*timeout)(struct writer *that);
   int (*gridSize)(struct writer *that);

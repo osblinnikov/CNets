@@ -18,6 +18,10 @@ function(addDeps buildType dstBuildType)
 install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/types FILES_MATCHING PATTERN "*.h" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
 install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/types FILES_MATCHING PATTERN "*.hpp" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
 # [[[end]]] (checksum: cf856658d798f322fc7a324c27c4e236)
+
+target_link_libraries(types_cnets_osblinnikov_github_com${buildType} pthread)
+
+
 endfunction(addDeps)
 
 file(GLOB TYPES_CNETS_OSBLINNIKOV_GITHUB_COM_HDRS "vc/*.h" "*.h")

@@ -12,6 +12,7 @@ bufferReadData mapBuffer_cnets_osblinnikov_github_com_readNextWithMeta(bufferKer
 int mapBuffer_cnets_osblinnikov_github_com_readFinished(bufferKernelParams *params);
 void* mapBuffer_cnets_osblinnikov_github_com_writeNext(bufferKernelParams *params, int waitThreshold);
 int mapBuffer_cnets_osblinnikov_github_com_writeFinished(bufferKernelParams *params);
+int mapBuffer_cnets_osblinnikov_github_com_writeFinishedWithMeta(bufferKernelParams *params, bufferWriteData writeData);
 int mapBuffer_cnets_osblinnikov_github_com_size(bufferKernelParams *params);
 int64_t mapBuffer_cnets_osblinnikov_github_com_timeout(bufferKernelParams *params);
 int mapBuffer_cnets_osblinnikov_github_com_gridSize(bufferKernelParams *params);
@@ -21,6 +22,7 @@ void mapBuffer_cnets_osblinnikov_github_com_onCreate(mapBuffer_cnets_osblinnikov
 void mapBuffer_cnets_osblinnikov_github_com_onDestroy(mapBuffer_cnets_osblinnikov_github_com *that);
 void mapBuffer_cnets_osblinnikov_github_com_setKernelIds(bufferKernelParams *params, short isReader, void* ids, void (*idsDestructor)(void*));
 void* mapBuffer_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *params, short isReader);
+void mapBuffer_cnets_osblinnikov_github_com_enable(bufferKernelParams *params, short isEnabled);
 
 reader mapBuffer_cnets_osblinnikov_github_com_createReader(mapBuffer_cnets_osblinnikov_github_com *that, int gridId){
   bufferKernelParams_create(params, that, gridId, mapBuffer_cnets_osblinnikov_github_com_)
@@ -96,7 +98,7 @@ void* mapBuffer_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *pa
     return that->_writerIds_;
   }
 }
-/*[[[end]]] (checksum: 3b7ccaa29d76274a94cc3cf8c3fe2aff)*/
+/*[[[end]]] (checksum: bc0371da0a61e9916ff43ce2dfd98f60)*/
 
 void mapBuffer_cnets_osblinnikov_github_com_onCreate(mapBuffer_cnets_osblinnikov_github_com *that){
 
@@ -105,11 +107,13 @@ void mapBuffer_cnets_osblinnikov_github_com_onCreate(mapBuffer_cnets_osblinnikov
   that->buffers_to_read_lock = (pthread_spinlock_t*)malloc(sizeof(pthread_spinlock_t)*that->buffers.length);
   that->grid = queue_cnets_osblinnikov_github_com_createGrid_dynamic(that->readers_grid_size, that->buffers.length);
   that->grid_mutex = (pthread_spinlock_t*)malloc(sizeof(pthread_spinlock_t)*that->readers_grid_size);
+  that->isEnabled = (char*)malloc(sizeof(char)*that->readers_grid_size);
   that->free_buffers = queue_cnets_osblinnikov_github_com_create_dynamic(that->buffers.length);
 
   int res;
   int i;
   for(i=0; i < that->readers_grid_size; i++){
+    that->isEnabled[i] = 1;
     res = pthread_spin_init(&that->grid_mutex[i], 0);
     assert(!res);
   }
@@ -172,6 +176,7 @@ void mapBuffer_cnets_osblinnikov_github_com_onDestroy(mapBuffer_cnets_osblinniko
   free((void*)that->buffers_to_read_lock);/* = (pthread_spinlock_t*)malloc(sizeof(pthread_spinlock_t)*that->buffers.length);*/
   queue_cnets_osblinnikov_github_com_freeGrid_dynamic(that->grid, that->readers_grid_size);
   free((void*)that->grid_mutex);/* = (pthread_spinlock_t*)malloc(sizeof(pthread_spinlock_t)*that->readers_grid_size);*/
+  free((void*)that->isEnabled);
   queue_cnets_osblinnikov_github_com_free_dynamic(that->free_buffers);
 
   return;
@@ -200,8 +205,9 @@ bufferReadData mapBuffer_cnets_osblinnikov_github_com_readNextWithMeta(bufferKer
   that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
   uint64_t nanosec = waitThreshold < 0? (uint64_t)that->timeout_milisec : (uint64_t)waitThreshold;
   /*find the reader's queue*/
-  queue_cnets_osblinnikov_github_com *grid_queue = &that->grid[params->grid_id];
-  pthread_spinlock_t              *grid_mutex = &that->grid_mutex[params->grid_id];
+  unsigned grid_id = params->grid_id%that->readers_grid_size;
+  queue_cnets_osblinnikov_github_com *grid_queue = &that->grid[grid_id];
+  pthread_spinlock_t              *grid_mutex = &that->grid_mutex[grid_id];
   /*Lock `wrote` dqueue for the Reader "params->grid_id"*/
   pthread_spin_lock(grid_mutex);
   /*if number of wrote dqueue elements = 0*/
@@ -312,15 +318,22 @@ void* mapBuffer_cnets_osblinnikov_github_com_writeNext(bufferKernelParams *param
 }
 
 int mapBuffer_cnets_osblinnikov_github_com_writeFinished(bufferKernelParams *params) {
+  bufferWriteData writeData;
+  writeData.grid_ids = 0;
+  writeData.isFromNetwork = 0;
+  return mapBuffer_cnets_osblinnikov_github_com_writeFinishedWithMeta(params, writeData);
+}
+
+int mapBuffer_cnets_osblinnikov_github_com_writeFinishedWithMeta(bufferKernelParams *params, bufferWriteData writeData) {
   mapBuffer_cnets_osblinnikov_github_com *that;
 #ifdef _DEBUG
   if(params == NULL){
-    fprintf(stderr,"ERROR: mapBuffer_cnets_osblinnikov_github_com_writeFinished: params is NULL\n");
+    fprintf(stderr,"ERROR: mapBuffer_cnets_osblinnikov_github_com_writeFinishedWithMeta: params is NULL\n");
     return -1;
   }
   that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
   if(that == NULL){
-    fprintf(stderr,"ERROR: mapBuffer_cnets_osblinnikov_github_com_writeFinished: Some Input parameters are wrong\n");
+    fprintf(stderr,"ERROR: mapBuffer_cnets_osblinnikov_github_com_writeFinishedWithMeta: Some Input parameters are wrong\n");
     return -1;
   };
 #endif
@@ -329,29 +342,55 @@ int mapBuffer_cnets_osblinnikov_github_com_writeFinished(bufferKernelParams *par
 
   pthread_spin_lock(&that->buffers_to_read_lock[params->internalId]);
   if(that->buffers_to_read[params->internalId]){
-    fprintf(stderr,"ERROR: mapBuffer_cnets_osblinnikov_github_com_writeFinished: ERROR not all readers read buffer %d, there are %d remain!\n",params->internalId, that->buffers_to_read[params->internalId]);
+    fprintf(stderr,"ERROR: mapBuffer_cnets_osblinnikov_github_com_writeFinishedWithMeta: ERROR not all readers read buffer %d, there are %d remain!\n",params->internalId, that->buffers_to_read[params->internalId]);
     pthread_spin_unlock(&that->buffers_to_read_lock[params->internalId]);
     return -1;
   }
-  that->buffers_to_read[params->internalId] = that->readers_grid_size;
-  pthread_spin_unlock(&that->buffers_to_read_lock[params->internalId]);
-  /*foreach reader push new buffer id*/
-  for(i=0; i<(int)that->readers_grid_size; ++i){
-    pthread_spin_lock( &that->grid_mutex[i] );
-    if(!that->grid[i].enqueue(&that->grid[i], params->internalId)){
-      fprintf(stderr,"ERROR: mapBuffer_cnets_osblinnikov_github_com_writeFinished: enqueue %d failed\n", params->internalId);
+  unsigned readers_size = 0;
+  if(writeData.grid_ids == 0){
+    /*foreach reader push new buffer id*/
+    for(i=0; i<(int)that->readers_grid_size; ++i){
+      pthread_spin_lock( &that->grid_mutex[i] );
+      if(that->isEnabled[i]){
+        if(!that->grid[i].enqueue(&that->grid[i], params->internalId)){
+          fprintf(stderr,"ERROR: mapBuffer_cnets_osblinnikov_github_com_writeFinishedWithMeta: enqueue %d failed\n", params->internalId);
+        }else{
+          that->buffers_grid_ids[params->internalId] = params->grid_id;
+          ++readers_size;
+        }
+      }
+      pthread_spin_unlock(&that->grid_mutex[i]);
     }
-    that->buffers_grid_ids[params->internalId] = params->grid_id;
-    pthread_spin_unlock(&that->grid_mutex[i]);
+  }else{
+    /*foreach reader push new buffer id*/
+    int j;
+    for(j=0; j<(int)writeData.grid_ids_length; ++j){
+      i = writeData.grid_ids[j]%that->readers_grid_size;
+      pthread_spin_lock( &that->grid_mutex[i] );
+      if(that->isEnabled[i]){
+        if(!that->grid[i].enqueue(&that->grid[i], params->internalId)){
+          fprintf(stderr,"ERROR: mapBuffer_cnets_osblinnikov_github_com_writeFinishedWithMeta: enqueue %d failed\n", params->internalId);
+        }else{
+          that->buffers_grid_ids[params->internalId] = params->grid_id;
+          ++readers_size;
+        }
+      }
+      pthread_spin_unlock(&that->grid_mutex[i]);
+    }
   }
 
-  pthread_mutex_lock(&that->switch_cv_mutex);
-    pthread_cond_broadcast(&that->switch_cv);
-  pthread_mutex_unlock(&that->switch_cv_mutex);
+  that->buffers_to_read[params->internalId] = readers_size;
+  pthread_spin_unlock(&that->buffers_to_read_lock[params->internalId]);
 
-  linkedContainer * tmp = (linkedContainer *) that->selectorContainers; //removing volatile pointer
-  if(tmp != NULL){
-    tmp->call(tmp);
+  if(readers_size > 0){
+    pthread_mutex_lock(&that->switch_cv_mutex);
+      pthread_cond_broadcast(&that->switch_cv);
+    pthread_mutex_unlock(&that->switch_cv_mutex);
+
+    linkedContainer * tmp = (linkedContainer *) that->selectorContainers; //removing volatile pointer
+    if(tmp != NULL){
+      tmp->call(tmp);
+    }
   }
   return 0;
 }
@@ -442,4 +481,22 @@ int mapBuffer_cnets_osblinnikov_github_com_addSelector(bufferKernelParams *param
       tmp->add(tmp, sContainer);
   }
   return 0;
+}
+
+void mapBuffer_cnets_osblinnikov_github_com_enable(bufferKernelParams *params, short isEnabled){
+  if(params == NULL){
+    fprintf(stderr,"ERROR: mapBuffer_cnets_osblinnikov_github_com enable: params is NULL\n");
+    return;
+  }
+  mapBuffer_cnets_osblinnikov_github_com *that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
+  if(that == NULL){
+    fprintf(stderr,"ERROR: mapBuffer_cnets_osblinnikov_github_com enable: Some Input parameters are wrong\n");
+    return;
+  };
+  unsigned grid_id = params->grid_id%that->readers_grid_size;
+  pthread_spinlock_t              *grid_mutex = &that->grid_mutex[grid_id];
+  /*Lock `wrote` dqueue for the Reader "params->grid_id"*/
+  pthread_spin_lock(grid_mutex);
+  that->isEnabled[grid_id] = (char)isEnabled;
+  pthread_spin_unlock(grid_mutex);
 }

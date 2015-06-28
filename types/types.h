@@ -82,8 +82,6 @@ typedef struct types_cnets_osblinnikov_github_com{
 
 #include "./binary.h"
 #include "./arrayObject.h"
-#include "./bufferReadData.h"
-#include "./bufferKernelParams.h"
 #include "./timeUtils.h"
 #include "./statsLocalProtocol.h"
 #include "./serializator.h"

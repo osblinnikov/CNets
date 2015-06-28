@@ -1,0 +1,47 @@
+name: github.com/osblinnikov/cnets/replicator/topology
+hide: false
+args:
+-   "parent github.com/osblinnikov/cnets/runnablesContainer*"
+-   "maxNumberOfKernelsPerThread unsigned"
+-   "countOfThreads unsigned"
+-   "bindTo string"
+depends:
+- github.com/osblinnikov/cnets/selector
+- github.com/osblinnikov/cnets/runnablesContainer
+- github.com/osblinnikov/cnets/readerWriter
+- github.com/osblinnikov/cnets/types
+#- github.com/osblinnikov/cnets/replicator/dataProtocol
+#- github.com/osblinnikov/cnets/replicator/connProtocol
+gen:
+- github.com/osblinnikov/gernet/plugins/kernel
+- github.com/osblinnikov/gernet/plugins/build
+#channels:
+#- "inputConns github.com/osblinnikov/cnets/replicator/connProtocol:connProtocol 1 1000"
+#- "connectTo   github.com/osblinnikov/cnets/replicator/connProtocol:connProtocol 1 1000"
+#- "dispatch    github.com/osblinnikov/cnets/types/dispatchProtocol 1 1000"
+topology:
+-   name: github.com/osblinnikov/cnets/dispatchKernel
+    parallel: "countOfThreads"
+    args:
+    -   "parent"
+    -   "maxNumberOfKernelsPerThread"
+    -   "_parallelId_"
+    -   "_parallel_"
+    #receive:
+    #-  "dispatch"
+#-   name: github.com/osblinnikov/cnets/replicator/connsKeeper
+    #args:
+    #-   "parent"
+    #receive:
+    #-   "inputConns"
+    #emit:
+    #-   "connectTo"
+    #-   "dispatch"
+#-   name: github.com/osblinnikov/cnets/replicator/server
+    #args:
+    #-  "bindTo"
+    #emit:
+    #-  "inputConns"
+#-   name: github.com/osblinnikov/cnets/replicator/client
+    #receive:
+    #-  "connectTo"

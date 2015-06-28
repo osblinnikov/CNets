@@ -2,6 +2,8 @@
 #define readerWriter_cnets_osblinnikov_github_com_reader_H
 
 #include "./linkedContainer.h"
+#include "./bufferKernelParams.h"
+#include "./bufferReadData.h"
 #include "./Exports.h"
 
 typedef struct reader{
@@ -19,7 +21,8 @@ typedef struct reader{
   int (*uniqueId)(struct reader *that);
   void (*incrementBytesCounter)(struct reader *that, int bytesCounter);
   int (*addSelector)(struct reader *that, linkedContainer *selectorContainer);
-  void (*setReadNested)(struct reader *that, BOOL readNested);
+  void (*setReadNested)(struct reader *that, BOOL allowReadNested);
+  void (*enable)(struct reader *that, BOOL isEnabled);
 }reader;
 
 readerWriter_cnets_osblinnikov_github_com_EXPORT_API

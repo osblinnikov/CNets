@@ -10,6 +10,7 @@ bufferReadData selector_cnets_osblinnikov_github_com_readNextWithMeta(bufferKern
 int selector_cnets_osblinnikov_github_com_readFinished(bufferKernelParams *params);
 void* selector_cnets_osblinnikov_github_com_writeNext(bufferKernelParams *params, int waitThreshold);
 int selector_cnets_osblinnikov_github_com_writeFinished(bufferKernelParams *params);
+int selector_cnets_osblinnikov_github_com_writeFinishedWithMeta(bufferKernelParams *params, bufferWriteData writeData);
 int selector_cnets_osblinnikov_github_com_size(bufferKernelParams *params);
 int64_t selector_cnets_osblinnikov_github_com_timeout(bufferKernelParams *params);
 int selector_cnets_osblinnikov_github_com_gridSize(bufferKernelParams *params);
@@ -19,6 +20,7 @@ void selector_cnets_osblinnikov_github_com_onCreate(selector_cnets_osblinnikov_g
 void selector_cnets_osblinnikov_github_com_onDestroy(selector_cnets_osblinnikov_github_com *that);
 void selector_cnets_osblinnikov_github_com_setKernelIds(bufferKernelParams *params, short isReader, void* ids, void (*idsDestructor)(void*));
 void* selector_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *params, short isReader);
+void selector_cnets_osblinnikov_github_com_enable(bufferKernelParams *params, short isEnabled);
 
 reader selector_cnets_osblinnikov_github_com_createReader(selector_cnets_osblinnikov_github_com *that, int gridId){
   bufferKernelParams_create(params, that, gridId, selector_cnets_osblinnikov_github_com_)
@@ -90,7 +92,7 @@ void* selector_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *par
     return that->_writerIds_;
   }
 }
-/*[[[end]]] (checksum: 85d549e829456ceaa6512aa4f5d62572)*/
+/*[[[end]]] (checksum: be5ebb8555f03c823f9b1d4a82c9cb86)*/
 
 #include <assert.h>
 
@@ -242,14 +244,23 @@ void* selector_cnets_osblinnikov_github_com_writeNext(bufferKernelParams *params
   return res;
 }
 
+
+
 int selector_cnets_osblinnikov_github_com_writeFinished(bufferKernelParams *params) {
+  bufferWriteData writeData;
+//  writeData.grid_ids = 0;
+//  writeData.isLocalOnly = 0;
+  return selector_cnets_osblinnikov_github_com_writeFinishedWithMeta(params, writeData);
+}
+
+int selector_cnets_osblinnikov_github_com_writeFinishedWithMeta(bufferKernelParams *params, bufferWriteData writeData){
   if(params == NULL){
-    printf("ERROR: selector_cnets_osblinnikov_github_com writeFinished: params is NULL\n");
+    printf("ERROR: selector_cnets_osblinnikov_github_com_writeFinishedWithMeta: params is NULL\n");
     return -1;
   }
   selector_cnets_osblinnikov_github_com *that = (selector_cnets_osblinnikov_github_com*)params->target;
   if(that == NULL){
-    printf("ERROR: selector writeFinished: Some Input parameters are wrong\n");
+    printf("ERROR: selector_cnets_osblinnikov_github_com_writeFinishedWithMeta: Some Input parameters are wrong\n");
     return -1;
   };
   pthread_mutex_lock(&that->switch_cv_lock);
@@ -327,3 +338,8 @@ int selector_cnets_osblinnikov_github_com_addSelector(bufferKernelParams *params
   }
   return 0;
 }
+
+void selector_cnets_osblinnikov_github_com_enable(bufferKernelParams *params, short isEnabled){
+  return;
+}
+

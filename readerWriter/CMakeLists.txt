@@ -20,6 +20,9 @@ function(addDeps buildType dstBuildType)
 install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/readerWriter FILES_MATCHING PATTERN "*.h" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
 install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/readerWriter FILES_MATCHING PATTERN "*.hpp" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
 # [[[end]]] (checksum: 96d2231fe19865df3f276a6bf83a0d53)
+
+target_link_libraries(readerWriter_cnets_osblinnikov_github_com${buildType} pthread)
+
 endfunction(addDeps)
 
 file(GLOB READERWRITER_CNETS_OSBLINNIKOV_GITHUB_COM_HDRS "*.h")

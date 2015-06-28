@@ -53,6 +53,17 @@ int readerWriter_cnets_osblinnikov_github_com_writeFinished(writer *that) {
 
   if(res == 0)
     dispatchesAndStats(that,FALSE);
+}
+
+int readerWriter_cnets_osblinnikov_github_com_writeFinishedWithMeta(writer *that, bufferWriteData writeData){
+  if(that == NULL || that->params.target == NULL || !that->hasWriteNext){return -1;}
+
+  that->hasWriteNext = FALSE;
+
+  int res = that->params.writeFinishedWithMeta(&that->params, writeData);
+
+  if(res == 0)
+    dispatchesAndStats(that,FALSE);
 
   return res;
 }
@@ -156,6 +167,19 @@ int readerWriter_cnets_osblinnikov_github_com_addSelector(reader *that,linkedCon
   return that->params.addSelector(&that->params, (void*)container);
 }
 
+void readerWriter_cnets_osblinnikov_github_com_setReadNested(struct reader *that, BOOL readNested){
+  if(that == NULL){
+    printf("readerWriter_cnets_osblinnikov_github_com_setReadNested 'that' is NULL\n");
+    return;
+  }
+  that->params.readNested = readNested;
+}
+
+void readerWriter_cnets_osblinnikov_github_com_enable(struct reader *that, BOOL isEnabled){
+  if(that == NULL || that->params.target == NULL){return;}
+  return that->params.enable(&that->params, isEnabled);
+}
+
 /****STRUCTURES INITIALIZATIONS***/
 
 void writer_init(writer *that){
@@ -179,20 +203,13 @@ void writer_init_with_params(writer *that, bufferKernelParams params){
   that->params = params;
   that->writeNext = readerWriter_cnets_osblinnikov_github_com_writeNext;
   that->writeFinished = readerWriter_cnets_osblinnikov_github_com_writeFinished;
+  that->writeFinishedWithMeta = readerWriter_cnets_osblinnikov_github_com_writeFinishedWithMeta;
   that->size = readerWriter_cnets_osblinnikov_github_com_sizeW;
   that->timeout = readerWriter_cnets_osblinnikov_github_com_timeoutW;
   that->gridSize = readerWriter_cnets_osblinnikov_github_com_gridSizeW;
   that->uniqueId = readerWriter_cnets_osblinnikov_github_com_uniqueIdW;
   that->incrementBytesCounter = readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterW;
   return;
-}
-
-void readerWriter_cnets_osblinnikov_github_com_setReadNested(struct reader *that, BOOL readNested){
-  if(that == NULL){
-    printf("readerWriter_cnets_osblinnikov_github_com_setReadNested 'that' is NULL\n");
-    return;
-  }
-  that->params.readNested = readNested;
 }
 
 void reader_init(reader *that){
@@ -224,6 +241,7 @@ void reader_init_with_params(reader *that, bufferKernelParams params){
   that->incrementBytesCounter = readerWriter_cnets_osblinnikov_github_com_incrementBytesCounterR;
   that->addSelector = readerWriter_cnets_osblinnikov_github_com_addSelector;
   that->setReadNested = readerWriter_cnets_osblinnikov_github_com_setReadNested;
+  that->enable = readerWriter_cnets_osblinnikov_github_com_enable;
   return;
 }
 
