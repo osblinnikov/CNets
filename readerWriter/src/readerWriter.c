@@ -223,6 +223,7 @@ void reader_init_with_params(reader *that, bufferKernelParams params){
     printf("reader_init 'that' is NULL\n");
     return;
   }
+  that->params.allowForwardCall = TRUE;
   that->params.readNested = TRUE;
   that->hasReadNext = FALSE;
   that->packetsCounter = 0;
@@ -277,14 +278,25 @@ void readerWriter_cnets_osblinnikov_github_com_callContainer(struct linkedContai
     return;
   }
 //  that->w.writeNext(&that->w, -1);//will not cause anithing, but makes writer work consistent
-  that->w.hasWriteNext = TRUE;
-  that->w.writeFinished(&that->w);
+  that->w.params.writeFinished(&that->w.params);
   if(that->next != NULL){
     that->next->call(that->next);
   }
 }
 
-void linkedContainer_init(struct linkedContainer *that, struct writer w){
+void readerWriter_cnets_osblinnikov_github_com_reverseCallContainer(struct linkedContainer *that){
+  if(that == NULL){
+    printf("readerWriter_cnets_osblinnikov_github_com_callContainer that is NULL\n");
+    return;
+  }
+//  that->w.writeNext(&that->w, -1);//will not cause anithing, but makes reader work consistent
+  that->r.params.readFinished(&that->r.params);
+  if(that->next != NULL){
+    that->next->reverseCall(that->next);
+  }
+}
+
+void linkedContainer_init(struct linkedContainer *that, struct writer w, struct reader r){
   if(that == NULL){
     printf("linkedContainer_init that is NULL\n");
     return;
@@ -292,7 +304,9 @@ void linkedContainer_init(struct linkedContainer *that, struct writer w){
   that->next = NULL;
   that->prev = NULL;
   that->w = w;
+  that->r = r;
   that->add = readerWriter_cnets_osblinnikov_github_com_addContainer;
   that->remove = readerWriter_cnets_osblinnikov_github_com_removeContainer;
   that->call = readerWriter_cnets_osblinnikov_github_com_callContainer;
+  that->reverseCall = readerWriter_cnets_osblinnikov_github_com_reverseCallContainer;
 }

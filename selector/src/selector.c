@@ -100,7 +100,7 @@ void selector_cnets_osblinnikov_github_com_onCreate(selector_cnets_osblinnikov_g
 
   that->allContainers = (linkedContainer*)malloc(sizeof(linkedContainer)*that->reducableReaders.length);
   that->writesToContainers = (uint32_t*)malloc(sizeof(uint32_t)*that->reducableReaders.length);
-  
+  that->isEnabled = 1;
   that->timeout_milisec = -1;
   that->lastReadId = -1;
   that->sumWrites = 0;
@@ -117,7 +117,11 @@ void selector_cnets_osblinnikov_github_com_onCreate(selector_cnets_osblinnikov_g
       that->allContainers[i].add = NULL;
       continue;
     }
-    linkedContainer_init(&that->allContainers[i], selector_cnets_osblinnikov_github_com_createWriter(that, i));
+    writer w = selector_cnets_osblinnikov_github_com_createWriter(that, i);
+    reader r = selector_cnets_osblinnikov_github_com_createReader(that, i);
+    r.params.bufferId = i;/*so that the top level buffers can finish reading here*/
+    r.params.allowForwardCall = FALSE;/*to disable circular finalizing*/
+    linkedContainer_init(&that->allContainers[i], w, r);
     if(0!=rdReaderItem->addSelector(rdReaderItem,&that->allContainers[i]) ) {
       printf("ERROR: selector_cnets_osblinnikov_github_com_onCreate addSelector failed\n");
     }
@@ -157,6 +161,7 @@ void* selector_cnets_osblinnikov_github_com_readNext(bufferKernelParams *params,
 bufferReadData selector_cnets_osblinnikov_github_com_readNextWithMeta(bufferKernelParams *params, int waitThreshold) {
   bufferReadData res;
   res.data = NULL;
+#ifdef _DEBUG
   if(params == NULL){
     fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com readNextWithMeta: params is NULL\n");
     return res;
@@ -166,6 +171,9 @@ bufferReadData selector_cnets_osblinnikov_github_com_readNextWithMeta(bufferKern
     fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com readNextWithMeta: Some Input parameters are wrong\n");
     return res;
   }
+#else
+  selector_cnets_osblinnikov_github_com *that = (selector_cnets_osblinnikov_github_com*)params->target;
+#endif
   BOOL r = FALSE;
   uint64_t nanosec = waitThreshold < 0? (uint64_t)that->timeout_milisec : (uint64_t)waitThreshold;
 
@@ -189,8 +197,6 @@ bufferReadData selector_cnets_osblinnikov_github_com_readNextWithMeta(bufferKern
     ++that->lastReadId;
     if(that->lastReadId >= (int)that->reducableReaders.length){that->lastReadId = 0;}
   }while(that->writesToContainers[that->lastReadId] == 0);
-  that->sumWrites--;
-  that->writesToContainers[that->lastReadId]--;
   pthread_mutex_unlock(&that->switch_cv_lock);
   reader* rdReaderItem = &((reader*)that->reducableReaders.array)[that->lastReadId];
 
@@ -208,6 +214,7 @@ bufferReadData selector_cnets_osblinnikov_github_com_readNextWithMeta(bufferKern
 
 int selector_cnets_osblinnikov_github_com_readFinished(bufferKernelParams *params) {
   int res = -1;
+#ifdef _DEBUG
   if(params == NULL){
     printf("ERROR: selector_cnets_osblinnikov_github_com readFinished: params is NULL\n");
     return res;
@@ -217,12 +224,26 @@ int selector_cnets_osblinnikov_github_com_readFinished(bufferKernelParams *param
     printf("ERROR: selector_cnets_osblinnikov_github_com readFinished: Some Input parameters are wrong\n");
     return res;
   }
+#else
+  selector_cnets_osblinnikov_github_com *that = (selector_cnets_osblinnikov_github_com*)params->target;
+#endif
   if(params->bufferId >=0 && params->bufferId < (int)that->reducableReaders.length){
     if(params->readNested > 0){
-      reader* rdReaderItem = &((reader*)that->reducableReaders.array)[params->bufferId];
-      res = rdReaderItem->readFinished(rdReaderItem);
+      if(params->allowForwardCall){
+        reader* rdReaderItem = &((reader*)that->reducableReaders.array)[params->bufferId];
+        res = rdReaderItem->readFinished(rdReaderItem);
+      }else{
+        pthread_mutex_lock(&that->switch_cv_lock);
+        that->sumWrites--;
+        that->writesToContainers[params->bufferId]--;
+        pthread_mutex_unlock(&that->switch_cv_lock);
+
+        linkedContainer * tmp = (linkedContainer *) that->selectorContainers; //removing volatile pointer
+        if(tmp != NULL){
+          tmp->reverseCall(tmp);
+        }
+      }
     }
-    params->bufferId = -1;
   }else{
     printf("ERROR: selector_cnets_osblinnikov_github_com readFinished: some params are wrong\n");
   }
@@ -230,16 +251,18 @@ int selector_cnets_osblinnikov_github_com_readFinished(bufferKernelParams *param
 }
 
 void* selector_cnets_osblinnikov_github_com_writeNext(bufferKernelParams *params, int waitThreshold) {
+  void* res = NULL;
+#ifdef _DEBUG
   if(params == NULL){
     printf("ERROR: selector_cnets_osblinnikov_github_com writeNext: params is NULL\n");
-    return NULL;
+    return res;
   }
   selector_cnets_osblinnikov_github_com *that = (selector_cnets_osblinnikov_github_com*)params->target;
-  void* res = NULL;
   if(that == NULL){
     printf("ERROR: selector_cnets_osblinnikov_github_com writeNext: Some Input parameters are wrong\n");
     return res;
   }
+#endif
 //  printf("ERROR: selector_cnets_osblinnikov_github_com writeNext is not allowed\n");
   return res;
 }
@@ -254,6 +277,7 @@ int selector_cnets_osblinnikov_github_com_writeFinished(bufferKernelParams *para
 }
 
 int selector_cnets_osblinnikov_github_com_writeFinishedWithMeta(bufferKernelParams *params, bufferWriteData writeData){
+#ifdef _DEBUG
   if(params == NULL){
     printf("ERROR: selector_cnets_osblinnikov_github_com_writeFinishedWithMeta: params is NULL\n");
     return -1;
@@ -263,6 +287,12 @@ int selector_cnets_osblinnikov_github_com_writeFinishedWithMeta(bufferKernelPara
     printf("ERROR: selector_cnets_osblinnikov_github_com_writeFinishedWithMeta: Some Input parameters are wrong\n");
     return -1;
   };
+#else
+  selector_cnets_osblinnikov_github_com *that = (selector_cnets_osblinnikov_github_com*)params->target;
+#endif
+  if(!that->isEnabled){
+    return 0;
+  }
   pthread_mutex_lock(&that->switch_cv_lock);
   ++that->sumWrites;
   ++that->writesToContainers[params->grid_id];
@@ -319,16 +349,17 @@ int selector_cnets_osblinnikov_github_com_addSelector(bufferKernelParams *params
   selector_cnets_osblinnikov_github_com *that;
 #ifdef _DEBUG
   if(params == NULL){
-    fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com: params is NULL\n");
+    fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com_addSelector: params is NULL\n");
     return -1;
   }
   that = (selector_cnets_osblinnikov_github_com*)params->target;
   if(that == NULL){
-    fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com: Some Input parameters are wrong\n");
+    fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com_addSelector: Some Input parameters are wrong\n");
     return -1;
   };
-#endif
+#else
   that = (selector_cnets_osblinnikov_github_com*)params->target;
+#endif
   linkedContainer *sContainer = (linkedContainer*)selectorContainer;
   if(that->selectorContainers == NULL){
       that->selectorContainers = sContainer;
@@ -340,6 +371,33 @@ int selector_cnets_osblinnikov_github_com_addSelector(bufferKernelParams *params
 }
 
 void selector_cnets_osblinnikov_github_com_enable(bufferKernelParams *params, short isEnabled){
-  return;
+  selector_cnets_osblinnikov_github_com *that;
+#ifdef _DEBUG
+  if(params == NULL){
+    fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com_enable: params is NULL\n");
+    return;
+  }
+  that = (selector_cnets_osblinnikov_github_com*)params->target;
+  if(that == NULL){
+    fprintf(stderr,"ERROR: selector_cnets_osblinnikov_github_com_enable: Some Input parameters are wrong\n");
+    return;
+  };
+#else
+  that = (selector_cnets_osblinnikov_github_com*)params->target;
+#endif
+  if(!that->isEnabled == !isEnabled){return;}/*make sure we are dealing with 1|0*/
+  if(isEnabled){
+    that->isEnabled = isEnabled;
+  }
+  for(i=0; i<(int)that->reducableReaders.length; i++){
+    reader* rdReaderItem = &((reader*)that->reducableReaders.array)[i];
+    if(rdReaderItem == NULL || rdReaderItem->params.target == NULL){
+      continue;
+    }
+    rdReaderItem->enable(rdReaderItem,isEnabled);
+  }
+  if(!isEnabled){
+    that->isEnabled = isEnabled;
+  }
 }
 

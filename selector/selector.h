@@ -63,6 +63,7 @@ typedef struct selector_cnets_osblinnikov_github_com{
     pthread_mutex_t switch_cv_lock;
     pthread_cond_t  switch_cv;
     volatile linkedContainer     *selectorContainers;
+    volatile short  isEnabled;
 }selector_cnets_osblinnikov_github_com;
 
 #endif /* selector_cnets_osblinnikov_github_com_H */

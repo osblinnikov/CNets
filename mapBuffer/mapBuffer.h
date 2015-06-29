@@ -59,14 +59,14 @@ typedef struct mapBuffer_cnets_osblinnikov_github_com{
 
   
 /*[[[end]]] (checksum: 9fe0565ecdd570d6ef37f794d3118406)*/
-  int                                       uniqueId;
+  int                                        uniqueId;
   unsigned                                  *buffers_grid_ids;/*required for storing ids of writers*/
   int                                       *buffers_to_read;
   pthread_spinlock_t                        *buffers_to_read_lock;
-  queue_cnets_osblinnikov_github_com           free_buffers;/*only one queue actually*/
-  queue_cnets_osblinnikov_github_com           *grid;
+  queue_cnets_osblinnikov_github_com         free_buffers;/*only one queue actually*/
+  queue_cnets_osblinnikov_github_com        *grid;
   pthread_spinlock_t                        *grid_mutex;
-  char *isEnabled;
+  char                                      *isEnabled;
 
   pthread_mutex_t     switch_cv_ow_mutex;
   pthread_mutex_t     switch_cv_mutex;

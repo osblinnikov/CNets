@@ -83,9 +83,9 @@ void dispatchKernel_cnets_osblinnikov_github_com_run(void *t){
     return;
   }
   runnables_dispatchKernel_cnets_osblinnikov_github_com* rs = &((runnables_dispatchKernel_cnets_osblinnikov_github_com*)that->kernels.array)[res.nested_buffer_id];
-  that->readerSelector.readFinished(&that->readerSelector);
+//  that->readerSelector.readFinished(&that->readerSelector); //can't do it because top-level buffers will finalize it for us
 //  res.nested_buffer_id -= rs->startNumber;
-  printf("dispatchKernel_cnets_osblinnikov_github_com_run -> %s\n",rs->r.name);
+//  printf("dispatchKernel_cnets_osblinnikov_github_com_run -> %s\n",rs->r.name);
   rs->r.run(rs->r.target);
 //  printf("end %s\n",rs->r.name);
 

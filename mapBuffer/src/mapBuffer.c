@@ -211,7 +211,7 @@ bufferReadData mapBuffer_cnets_osblinnikov_github_com_readNextWithMeta(bufferKer
   /*Lock `wrote` dqueue for the Reader "params->grid_id"*/
   pthread_spin_lock(grid_mutex);
   /*if number of wrote dqueue elements = 0*/
-  if(nanosec > 0L && grid_queue->isEmpty(grid_queue)){
+  if(that->isEnabled[grid_id] && nanosec > 0L && grid_queue->isEmpty(grid_queue)){
     /*wait until cond variable of wrote buffer with "Lock `wrote` dqueue" mutex*/
     pthread_spin_unlock(grid_mutex);
     struct timespec wait_timespec;
@@ -275,6 +275,12 @@ int mapBuffer_cnets_osblinnikov_github_com_readFinished(bufferKernelParams *para
   }
   pthread_cond_signal(&that->free_buffers_cv);
   pthread_mutex_unlock(&that->free_buffers_cv_mutex);
+
+  linkedContainer * tmp = (linkedContainer *) that->selectorContainers; //removing volatile pointer
+  if(tmp != NULL){
+    tmp->reverseCall(tmp);
+  }
+
   return 0;
 }
 
@@ -484,6 +490,7 @@ int mapBuffer_cnets_osblinnikov_github_com_addSelector(bufferKernelParams *param
 }
 
 void mapBuffer_cnets_osblinnikov_github_com_enable(bufferKernelParams *params, short isEnabled){
+  /*TODO: probably we will need also a function for atomic enable/disable multiple readers*/
   if(params == NULL){
     fprintf(stderr,"ERROR: mapBuffer_cnets_osblinnikov_github_com enable: params is NULL\n");
     return;
