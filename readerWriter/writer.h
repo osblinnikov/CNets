@@ -13,7 +13,7 @@ typedef struct writer{
   struct bufferKernelParams params;
   void* (*writeNext)(struct writer *that, int waitThreshold);
   int (*writeFinished)(struct writer *that);
-  int (*writeFinishedWithMeta)(struct writer *params, bufferWriteData writeData);
+  int (*writeFinishedWithMeta)(struct writer *params, bufferWriteData *writeData);
   int (*size)(struct writer *that);
   int (*timeout)(struct writer *that);
   int (*gridSize)(struct writer *that);

@@ -55,7 +55,7 @@ int readerWriter_cnets_osblinnikov_github_com_writeFinished(writer *that) {
     dispatchesAndStats(that,FALSE);
 }
 
-int readerWriter_cnets_osblinnikov_github_com_writeFinishedWithMeta(writer *that, bufferWriteData writeData){
+int readerWriter_cnets_osblinnikov_github_com_writeFinishedWithMeta(writer *that, bufferWriteData *writeData){
   if(that == NULL || that->params.target == NULL || !that->hasWriteNext){return -1;}
 
   that->hasWriteNext = FALSE;

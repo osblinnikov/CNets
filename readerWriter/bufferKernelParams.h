@@ -39,7 +39,7 @@ typedef struct bufferKernelParams{
   int (*readFinished)(struct bufferKernelParams *params);
   void* (*writeNext)(struct bufferKernelParams *params, int waitThreshold);
   int (*writeFinished)(struct bufferKernelParams *params);
-  int (*writeFinishedWithMeta)(struct bufferKernelParams *params, bufferWriteData writeData);
+  int (*writeFinishedWithMeta)(struct bufferKernelParams *params, bufferWriteData *writeData);
   int (*size)(struct bufferKernelParams *params);
   int64_t (*timeout)(struct bufferKernelParams *params);
   int (*gridSize)(struct bufferKernelParams *params);

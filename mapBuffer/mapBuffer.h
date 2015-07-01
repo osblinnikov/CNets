@@ -44,12 +44,6 @@ mapBuffer_cnets_osblinnikov_github_com_EXPORT_API
 writer mapBuffer_cnets_osblinnikov_github_com_createWriter(struct mapBuffer_cnets_osblinnikov_github_com *that, int gridId);
 
 typedef struct mapBuffer_cnets_osblinnikov_github_com{
-//  void* context;
-//  char* (*serialize)(void* that, void* target, unsigned *data_len);
-//  void (*deserialize)(void* that, char* data, unsigned data_len);
-//  void (*sendData)(void* that, char* data, unsigned data_len);
-//  void (*sendReply)(void* that);
-
   void *_readerIds_, *_writerIds_;
   void (*readerIdsDestructor)(void*);
   void (*writerIdsDestructor)(void*);
@@ -58,20 +52,19 @@ typedef struct mapBuffer_cnets_osblinnikov_github_com{
   int32_t readers_grid_size;
 
   
-/*[[[end]]] (checksum: 9fe0565ecdd570d6ef37f794d3118406)*/
+/*[[[end]]] (checksum: 179d4c7113d2f5a4f40999f0c98635da)*/
   int                                        uniqueId;
   unsigned                                  *buffers_grid_ids;/*required for storing ids of writers*/
   int                                       *buffers_to_read;
   pthread_spinlock_t                        *buffers_to_read_lock;
   queue_cnets_osblinnikov_github_com         free_buffers;/*only one queue actually*/
   queue_cnets_osblinnikov_github_com        *grid;
-  pthread_spinlock_t                        *grid_mutex;
-  char                                      *isEnabled;
+  pthread_spinlock_t                        *grid_mutex, free_buffers_queue_mutex;
+  unsigned                                  *isEnabled;
 
   pthread_mutex_t     switch_cv_ow_mutex;
   pthread_mutex_t     switch_cv_mutex;
   pthread_cond_t      switch_cv;
-  pthread_mutex_t     free_buffers_cv_ow_mutex;
   pthread_mutex_t     free_buffers_cv_mutex;
   pthread_cond_t      free_buffers_cv;
   volatile linkedContainer     *selectorContainers;

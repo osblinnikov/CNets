@@ -1,7 +1,7 @@
 #ifndef readerWriter_cnets_osblinnikov_github_com_reader_H
 #define readerWriter_cnets_osblinnikov_github_com_reader_H
 
-#include "./linkedContainer.h"
+struct linkedContainer;
 #include "./bufferKernelParams.h"
 #include "./bufferReadData.h"
 #include "./Exports.h"
@@ -20,7 +20,7 @@ typedef struct reader{
   int (*gridSize)(struct reader *that);
   int (*uniqueId)(struct reader *that);
   void (*incrementBytesCounter)(struct reader *that, int bytesCounter);
-  int (*addSelector)(struct reader *that, linkedContainer *selectorContainer);
+  int (*addSelector)(struct reader *that, struct linkedContainer *selectorContainer);
   void (*setReadNested)(struct reader *that, BOOL allowReadNested);
   void (*enable)(struct reader *that, BOOL isEnabled);
 }reader;
@@ -37,5 +37,7 @@ void reader_init(reader *that);
 
 readerWriter_cnets_osblinnikov_github_com_EXPORT_API
   reader readerNULL();
+
+#include "./linkedContainer.h"
 
 #endif /* readerWriter_cnets_osblinnikov_github_com_reader_H */

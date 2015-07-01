@@ -10,7 +10,7 @@ bufferReadData selector_cnets_osblinnikov_github_com_readNextWithMeta(bufferKern
 int selector_cnets_osblinnikov_github_com_readFinished(bufferKernelParams *params);
 void* selector_cnets_osblinnikov_github_com_writeNext(bufferKernelParams *params, int waitThreshold);
 int selector_cnets_osblinnikov_github_com_writeFinished(bufferKernelParams *params);
-int selector_cnets_osblinnikov_github_com_writeFinishedWithMeta(bufferKernelParams *params, bufferWriteData writeData);
+int selector_cnets_osblinnikov_github_com_writeFinishedWithMeta(bufferKernelParams *params, bufferWriteData *writeData);
 int selector_cnets_osblinnikov_github_com_size(bufferKernelParams *params);
 int64_t selector_cnets_osblinnikov_github_com_timeout(bufferKernelParams *params);
 int selector_cnets_osblinnikov_github_com_gridSize(bufferKernelParams *params);
@@ -92,7 +92,7 @@ void* selector_cnets_osblinnikov_github_com_getKernelIds(bufferKernelParams *par
     return that->_writerIds_;
   }
 }
-/*[[[end]]] (checksum: be5ebb8555f03c823f9b1d4a82c9cb86)*/
+/*[[[end]]] (checksum: d51752756470a70d395129881891b5e5)*/
 
 #include <assert.h>
 
@@ -270,13 +270,10 @@ void* selector_cnets_osblinnikov_github_com_writeNext(bufferKernelParams *params
 
 
 int selector_cnets_osblinnikov_github_com_writeFinished(bufferKernelParams *params) {
-  bufferWriteData writeData;
-//  writeData.grid_ids = 0;
-//  writeData.isLocalOnly = 0;
-  return selector_cnets_osblinnikov_github_com_writeFinishedWithMeta(params, writeData);
+  return selector_cnets_osblinnikov_github_com_writeFinishedWithMeta(params, NULL);
 }
 
-int selector_cnets_osblinnikov_github_com_writeFinishedWithMeta(bufferKernelParams *params, bufferWriteData writeData){
+int selector_cnets_osblinnikov_github_com_writeFinishedWithMeta(bufferKernelParams *params, bufferWriteData *writeData){
 #ifdef _DEBUG
   if(params == NULL){
     printf("ERROR: selector_cnets_osblinnikov_github_com_writeFinishedWithMeta: params is NULL\n");
@@ -389,6 +386,7 @@ void selector_cnets_osblinnikov_github_com_enable(bufferKernelParams *params, sh
   if(isEnabled){
     that->isEnabled = isEnabled;
   }
+  int i;
   for(i=0; i<(int)that->reducableReaders.length; i++){
     reader* rdReaderItem = &((reader*)that->reducableReaders.array)[i];
     if(rdReaderItem == NULL || rdReaderItem->params.target == NULL){

@@ -8,6 +8,7 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 /*[[[end]]] (checksum: e52bf3d992008716f42df794df287184)*/
 
 const int countToSend = 6000000;
+const int buffersLength = 100;
 
 BOOL checkTotal(int total){
   return total >= countToSend;
@@ -76,7 +77,7 @@ void *readKernel(void* inTarget){
 }
 
 int main(int argc, char* argv[]){
-  arrayObject_create(arrBufs,unsigned,100)
+  arrayObject arrBufs = arrayObject_init_dynamic(sizeof(unsigned),buffersLength);
   mapBuffer_cnets_osblinnikov_github_com classObj;
   mapBuffer_cnets_osblinnikov_github_com_init(&classObj, arrBufs,1000,2);
   reader classObjR0 = mapBuffer_cnets_osblinnikov_github_com_createReader(&classObj,0);
