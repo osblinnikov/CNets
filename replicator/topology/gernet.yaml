@@ -4,44 +4,36 @@ args:
 -   "parent github.com/osblinnikov/cnets/runnablesContainer*"
 -   "maxNumberOfKernelsPerThread unsigned"
 -   "countOfThreads unsigned"
--   "bindTo string"
+-   "ioBuffersCount unsigned"
+-   "heartBeatInterval unsigned"
+receive:
+-   "connectTo github.com/osblinnikov/cnets/replicator/connProtocol"
+emit:
+-   "conStatus github.com/osblinnikov/cnets/replicator/connProtocol"
 depends:
-- github.com/osblinnikov/cnets/selector
 - github.com/osblinnikov/cnets/runnablesContainer
 - github.com/osblinnikov/cnets/readerWriter
 - github.com/osblinnikov/cnets/types
-#- github.com/osblinnikov/cnets/replicator/dataProtocol
-#- github.com/osblinnikov/cnets/replicator/connProtocol
+- github.com/osblinnikov/cnets/replicator/dataProtocol
+- github.com/osblinnikov/cnets/replicator/connProtocol
 gen:
 - github.com/osblinnikov/gernet/plugins/kernel
 - github.com/osblinnikov/gernet/plugins/build
-#channels:
-#- "inputConns github.com/osblinnikov/cnets/replicator/connProtocol:connProtocol 1 1000"
-#- "connectTo   github.com/osblinnikov/cnets/replicator/connProtocol:connProtocol 1 1000"
-#- "dispatch    github.com/osblinnikov/cnets/types/dispatchProtocol 1 1000"
+channels:
+- "inputData  github.com/osblinnikov/cnets/replicator/dataProtocol ioBuffersCount heartBeatInterval"
+- "outputData github.com/osblinnikov/cnets/replicator/dataProtocol ioBuffersCount heartBeatInterval"
 topology:
--   name: github.com/osblinnikov/cnets/dispatchKernel
-    parallel: "countOfThreads"
+-   name: github.com/osblinnikov/cnets/replicator/connectionManager
     args:
     -   "parent"
-    -   "maxNumberOfKernelsPerThread"
-    -   "_parallelId_"
-    -   "_parallel_"
-    #receive:
-    #-  "dispatch"
-#-   name: github.com/osblinnikov/cnets/replicator/connsKeeper
-    #args:
-    #-   "parent"
-    #receive:
-    #-   "inputConns"
-    #emit:
-    #-   "connectTo"
-    #-   "dispatch"
-#-   name: github.com/osblinnikov/cnets/replicator/server
-    #args:
-    #-  "bindTo"
-    #emit:
-    #-  "inputConns"
-#-   name: github.com/osblinnikov/cnets/replicator/client
-    #receive:
-    #-  "connectTo"
+    receive:
+    -   "inputData"
+    -   "connectTo"
+    emit:
+    -   "outputData"
+    -   "conStatus"
+-   name: github.com/osblinnikov/cnets/replicator/connector
+    emit:
+    -  "inputData"
+    receive:
+    -  "outputData"
