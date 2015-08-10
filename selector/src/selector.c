@@ -196,7 +196,7 @@ bufferReadData selector_cnets_osblinnikov_github_com_readNextWithMeta(bufferKern
   do{
     ++that->lastReadId;
     if(that->lastReadId >= (int)that->reducableReaders.length){that->lastReadId = 0;}
-  }while(that->writesToContainers[that->lastReadId] == 0);
+  }while(that->writesToContainers[that->lastReadId] == 0 && that->sumWrites > 0);
   pthread_mutex_unlock(&that->switch_cv_lock);
   reader* rdReaderItem = &((reader*)that->reducableReaders.array)[that->lastReadId];
 
