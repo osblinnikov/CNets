@@ -1,6 +1,6 @@
 {
 "name":"github.com/osblinnikov/cnets/mapBuffer",
-"gen":["github.com/osblinnikov/gernet/plugins/buffer","github.com/osblinnikov/gernet/plugins/build"],
+"gen":["github.com/osblinnikov/cnets/generators/buffer","github.com/osblinnikov/cnets/generators/build"],
 "args": [{
   "name": "buffers",
   "type": "Object[]"

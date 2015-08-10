@@ -8,8 +8,8 @@ def add_dependencies(env):
   c.tpl(cog,templateFile,c.a(prefix=configFile))
   ]]]'''
 
-  AddDependency(env,'vector_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/vector')
-  '''[[[end]]] (checksum: 8212724e4b647248ce0cf9201d9e99ab)'''
+  AddDependency(env,'types_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/types')
+  '''[[[end]]] (checksum: e8208f4ef21ca5bbecb9c806b80170a9)'''
   AddPthreads(env)
   # AddNetwork(env) 
 

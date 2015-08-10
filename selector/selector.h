@@ -9,11 +9,10 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
 #include "github.com/osblinnikov/cnets/mapBuffer/mapBuffer.h"
+#include "github.com/osblinnikov/cnets/readerWriter/readerWriter.h"
 #include "github.com/osblinnikov/cnets/queue/queue.h"
 #include "github.com/osblinnikov/cnets/runnablesContainer/runnablesContainer.h"
 #include "github.com/osblinnikov/cnets/types/types.h"
-#include "github.com/osblinnikov/cnets/readerWriter/readerWriter.h"
-#include "github.com/osblinnikov/cnets/vector/vector.h"
 
 #undef selector_cnets_osblinnikov_github_com_EXPORT_API
 #if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(SELECTOR_CNETS_OSBLINNIKOV_GITHUB_COM_STATIC)
@@ -48,7 +47,7 @@ typedef struct selector_cnets_osblinnikov_github_com{
   arrayObject reducableReaders;
 
   
-/*[[[end]]] (checksum: 98114602d917a85c94da07a597364bcb)*/
+/*[[[end]]] (checksum: 66a0064e62b81f09dbfaa4ab88c6520a)*/
     linkedContainer *allContainers;
     uint32_t        *writesToContainers;
     int64_t         timeout_milisec;

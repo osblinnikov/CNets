@@ -1,6 +1,6 @@
 {
 "name":"github.com/osblinnikov/cnets/runnablesContainer",
-"gen":["github.com/osblinnikov/gernet/plugins/library","github.com/osblinnikov/gernet/plugins/build"],
+"gen":["github.com/osblinnikov/cnets/generators/library","github.com/osblinnikov/cnets/generators/build"],
 "depends":[{
   "name":"github.com/osblinnikov/cnets/types"
 }]

@@ -9,12 +9,11 @@ def add_dependencies(env):
   ]]]'''
 
   AddDependency(env,'mapBuffer_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/mapBuffer')
+  AddDependency(env,'readerWriter_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/readerWriter')
   AddDependency(env,'queue_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/queue')
   AddDependency(env,'runnablesContainer_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/runnablesContainer')
   AddDependency(env,'types_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/types')
-  AddDependency(env,'readerWriter_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/readerWriter')
-  AddDependency(env,'vector_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/vector')
-  '''[[[end]]] (checksum: 8e28c7af708554d9ff1b39e4517cbf95)'''
+  '''[[[end]]] (checksum: fcc8e8ea2a34f6a86238b04cdc2437ef)'''
   AddPthreads(env)
   # AddNetwork(env) 
 

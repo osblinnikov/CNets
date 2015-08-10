@@ -39,10 +39,10 @@ void runnablesContainer_cnets_osblinnikov_github_com_doLaunch(
       runnablesContainer_cnets_osblinnikov_github_com_doLaunch(&that->containers[i], (lockLastElement && i == that->containers_size - 1), isOnStart );
     }
   }else if(that->target.target != NULL){
-    printf("=> launch: %s mode=%d\n",that->target.name,that->spawnMode);
     if(that->spawnMode == 1 && !isOnStart){
       that->kernel.launch(&that->kernel, that->target, lockLastElement);
     }else if(isOnStart){
+      printf("=> launch: %s mode=%d\n",that->target.name,that->spawnMode);
       that->target.onStart(that->target.target);
     }
   }else {

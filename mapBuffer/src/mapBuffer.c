@@ -201,13 +201,16 @@ bufferReadData mapBuffer_cnets_osblinnikov_github_com_readNextWithMeta(bufferKer
   }
 #endif
   that = (mapBuffer_cnets_osblinnikov_github_com*)params->target;
+  unsigned grid_id = params->grid_id%that->readers_grid_size;
+  if(!that->isEnabled[grid_id]){
+    return res;
+  }
   uint64_t nanosec = waitThreshold < 0? (uint64_t)that->timeout_milisec : (uint64_t)waitThreshold;
   /*find the reader's queue*/
-  unsigned grid_id = params->grid_id%that->readers_grid_size;
   queue_cnets_osblinnikov_github_com *grid_queue = &that->grid[grid_id];
   pthread_spinlock_t              *grid_mutex = &that->grid_mutex[grid_id];
   /*Lock `wrote` dqueue for the Reader "params->grid_id"*/
-  if(that->isEnabled[grid_id] && nanosec > 0L){
+  if(nanosec > 0L){
     pthread_spin_lock(grid_mutex);
     /*if number of wrote dqueue elements = 0*/
     if(grid_queue->isEmpty(grid_queue)){
@@ -387,6 +390,7 @@ int mapBuffer_cnets_osblinnikov_github_com_writeFinishedWithMeta(bufferKernelPar
     /*foreach reader push new buffer id*/
     for(i=0; i<(int)that->readers_grid_size; ++i){
       if(that->isEnabled[i]){
+        that->buffers_to_read[params->internalId] += 1;
         pthread_spin_lock( &that->grid_mutex[i] );
         int resEnq = that->grid[i].enqueue(&that->grid[i], params->internalId);
         pthread_spin_unlock(&that->grid_mutex[i]);
@@ -395,6 +399,7 @@ int mapBuffer_cnets_osblinnikov_github_com_writeFinishedWithMeta(bufferKernelPar
         }else{
           that->buffers_grid_ids[params->internalId] = params->grid_id;
           ++readers_size;
+
         }
       }
     }
@@ -404,6 +409,7 @@ int mapBuffer_cnets_osblinnikov_github_com_writeFinishedWithMeta(bufferKernelPar
     for(j=0; j<(int)writeData->grid_ids_length; ++j){
       i = writeData->grid_ids[j]%that->readers_grid_size;
       if(that->isEnabled[i]){
+        that->buffers_to_read[params->internalId] += 1;
         pthread_spin_lock( &that->grid_mutex[i] );
         int resEnq = that->grid[i].enqueue(&that->grid[i], params->internalId);
         pthread_spin_unlock(&that->grid_mutex[i]);
@@ -416,10 +422,7 @@ int mapBuffer_cnets_osblinnikov_github_com_writeFinishedWithMeta(bufferKernelPar
       }
     }
   }
-
-  that->buffers_to_read[params->internalId] = readers_size;
-//  pthread_spin_unlock(&that->buffers_to_read_lock[params->internalId]);
-
+  
   if(readers_size > 0){
     pthread_mutex_lock(&that->switch_cv_mutex);
       pthread_cond_broadcast(&that->switch_cv);

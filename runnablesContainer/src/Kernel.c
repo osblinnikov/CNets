@@ -53,7 +53,7 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_launch(
 
     that->objectToRun = objectToRun;
     that->isRunning = TRUE;
-    that->objectToRun.onStart(that->objectToRun.target);
+    //that->objectToRun.onStart(that->objectToRun.target);
     if(lockLaunch){
       that->isSeparateThread = FALSE;
       runnablesContainer_cnets_osblinnikov_github_com_Kernel_run((void*)that);
@@ -111,7 +111,7 @@ void runnablesContainer_cnets_osblinnikov_github_com_Kernel_stopThread(
   // if (that->isSeparateThread) {
   //   this.join();
   // }
-  that->objectToRun.onStop(that->objectToRun.target);
+  //that->objectToRun.onStop(that->objectToRun.target);
   that->objectToRun.target = NULL;
 }
 

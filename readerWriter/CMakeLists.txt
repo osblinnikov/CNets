@@ -13,13 +13,13 @@ function(addDeps buildType dstBuildType)
 # ]]]
 
   include_directories(../../../../)
-  add_dependencies(readerWriter_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
-  target_link_libraries(readerWriter_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
+  add_dependencies(readerWriter_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
+  target_link_libraries(readerWriter_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
 
 # install includes
 install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/readerWriter FILES_MATCHING PATTERN "*.h" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
 install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/readerWriter FILES_MATCHING PATTERN "*.hpp" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
-# [[[end]]] (checksum: 96d2231fe19865df3f276a6bf83a0d53)
+# [[[end]]] (checksum: ee17a3dc8caf7c4c8fbea06eda7673a6)
 
 target_link_libraries(readerWriter_cnets_osblinnikov_github_com${buildType} pthread)
 

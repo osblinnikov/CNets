@@ -15,5 +15,5 @@ depends:
 -   name: github.com/osblinnikov/cnets/types
 spawnMode: 1
 gen:
-- github.com/osblinnikov/gernet/plugins/kernel
-- github.com/osblinnikov/gernet/plugins/build
+- github.com/osblinnikov/cnets/generators/kernel
+- github.com/osblinnikov/cnets/generators/build

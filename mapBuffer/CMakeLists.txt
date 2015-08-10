@@ -13,19 +13,17 @@ function(addDeps buildType dstBuildType)
 # ]]]
 
   include_directories(../../../../)
+  add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
+  target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
   add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} queue_cnets_osblinnikov_github_com${dstBuildType})
   target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} queue_cnets_osblinnikov_github_com${dstBuildType})
   add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
   target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
-  add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
-  target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} readerWriter_cnets_osblinnikov_github_com${dstBuildType})
-  add_dependencies(mapBuffer_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
-  target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
 
 # install includes
 install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/mapBuffer FILES_MATCHING PATTERN "*.h" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
 install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/mapBuffer FILES_MATCHING PATTERN "*.hpp" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
-# [[[end]]] (checksum: eca427c9a9981d16d91f99fd68607cf4)
+# [[[end]]] (checksum: 1f6f7302a7f25c75070de35db232d537)
 
 target_link_libraries(mapBuffer_cnets_osblinnikov_github_com${buildType} pthread)
 

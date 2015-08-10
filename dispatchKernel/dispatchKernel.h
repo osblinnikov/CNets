@@ -12,7 +12,6 @@ c.tpl(cog,templateFile,c.a(prefix=configFile))
 #include "github.com/osblinnikov/cnets/readerWriter/readerWriter.h"
 #include "github.com/osblinnikov/cnets/queue/queue.h"
 #include "github.com/osblinnikov/cnets/types/types.h"
-#include "github.com/osblinnikov/cnets/vector/vector.h"
 
 #undef dispatchKernel_cnets_osblinnikov_github_com_EXPORT_API
 #if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(DISPATCHKERNEL_CNETS_OSBLINNIKOV_GITHUB_COM_STATIC)
@@ -49,7 +48,7 @@ typedef struct dispatchKernel_cnets_osblinnikov_github_com{
   
   struct runnablesContainer_cnets_osblinnikov_github_com (*getRunnables)(struct dispatchKernel_cnets_osblinnikov_github_com *that);
   struct runnablesContainer_cnets_osblinnikov_github_com _runnables;
-/*[[[end]]] (checksum: 022a18961674ce90960201be825b4223)*/
+/*[[[end]]] (checksum: ea216562905c9f363890a441e502d60e)*/
   struct selector_cnets_osblinnikov_github_com selector;
 }dispatchKernel_cnets_osblinnikov_github_com;
 

@@ -10,8 +10,8 @@ depends:
 -   name: github.com/osblinnikov/cnets/runnablesContainer
 emit: []
 gen:
-- github.com/osblinnikov/gernet/plugins/buffer
-- github.com/osblinnikov/gernet/plugins/build
+- github.com/osblinnikov/cnets/generators/buffer
+- github.com/osblinnikov/cnets/generators/build
 hide: false
 name: github.com/osblinnikov/cnets/selector
 props: []

@@ -14,8 +14,7 @@ def add_dependencies(env):
   AddDependency(env,'readerWriter_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/readerWriter')
   AddDependency(env,'queue_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/queue')
   AddDependency(env,'types_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/types')
-  AddDependency(env,'vector_cnets_osblinnikov_github_com','github.com/osblinnikov/cnets/vector')
-  '''[[[end]]] (checksum: 67d7175c530b3d67d0fa48f2dfac0a04)'''
+  '''[[[end]]] (checksum: 5988adcefdccad7611aac4cb40d0c691)'''
   AddPthreads(env)
   # AddNetwork(env) 
 

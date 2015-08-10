@@ -17,8 +17,8 @@ depends:
 - github.com/osblinnikov/cnets/replicator/dataProtocol
 - github.com/osblinnikov/cnets/replicator/connProtocol
 gen:
-- github.com/osblinnikov/gernet/plugins/kernel
-- github.com/osblinnikov/gernet/plugins/build
+- github.com/osblinnikov/cnets/generators/kernel
+- github.com/osblinnikov/cnets/generators/build
 channels:
 - "inputData  github.com/osblinnikov/cnets/replicator/dataProtocol ioBuffersCount heartBeatInterval"
 - "outputData github.com/osblinnikov/cnets/replicator/dataProtocol ioBuffersCount heartBeatInterval"

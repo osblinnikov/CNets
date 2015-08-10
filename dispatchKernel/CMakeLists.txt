@@ -25,13 +25,11 @@ function(addDeps buildType dstBuildType)
   target_link_libraries(dispatchKernel_cnets_osblinnikov_github_com${buildType} queue_cnets_osblinnikov_github_com${dstBuildType})
   add_dependencies(dispatchKernel_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
   target_link_libraries(dispatchKernel_cnets_osblinnikov_github_com${buildType} types_cnets_osblinnikov_github_com${dstBuildType})
-  add_dependencies(dispatchKernel_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
-  target_link_libraries(dispatchKernel_cnets_osblinnikov_github_com${buildType} vector_cnets_osblinnikov_github_com${dstBuildType})
 
 # install includes
 install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/dispatchKernel FILES_MATCHING PATTERN "*.h" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
 install(DIRECTORY . DESTINATION include/github.com/osblinnikov/cnets/dispatchKernel FILES_MATCHING PATTERN "*.hpp" PATTERN "tests" EXCLUDE PATTERN "src" EXCLUDE PATTERN "Release" EXCLUDE  PATTERN "Debug" EXCLUDE PATTERN ".s*" EXCLUDE )
-# [[[end]]] (checksum: 8d565dc994ab00f938843ee756b83e79)
+# [[[end]]] (checksum: 4d35b349c71c7d34a4e5de6b276758a5)
 endfunction(addDeps)
 
 file(GLOB DISPATCHKERNEL_CNETS_OSBLINNIKOV_GITHUB_COM_HDRS "*.h")

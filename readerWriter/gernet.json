@@ -1,8 +1,7 @@
 {
 "name":"github.com/osblinnikov/cnets/readerWriter",
-"gen":["github.com/osblinnikov/gernet/plugins/library","github.com/osblinnikov/gernet/plugins/build"],
+"gen":["github.com/osblinnikov/cnets/generators/library","github.com/osblinnikov/cnets/generators/build"],
 "depends":[{
-  "name":"github.com/osblinnikov/cnets/types",
-  "name":"github.com/osblinnikov/cnets/vector"
+  "name":"github.com/osblinnikov/cnets/types"
 }]
 }

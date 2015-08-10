@@ -10,10 +10,9 @@ import cogging as c
 c.tpl(cog,templateFile,c.a(prefix=configFile))
 ]]]*/
 
+#include "github.com/osblinnikov/cnets/readerWriter/readerWriter.h"
 #include "github.com/osblinnikov/cnets/queue/queue.h"
 #include "github.com/osblinnikov/cnets/types/types.h"
-#include "github.com/osblinnikov/cnets/readerWriter/readerWriter.h"
-#include "github.com/osblinnikov/cnets/vector/vector.h"
 
 #undef mapBuffer_cnets_osblinnikov_github_com_EXPORT_API
 #if defined WIN32 && !defined __MINGW32__ && !defined(CYGWIN) && !defined(MAPBUFFER_CNETS_OSBLINNIKOV_GITHUB_COM_STATIC)
@@ -52,7 +51,7 @@ typedef struct mapBuffer_cnets_osblinnikov_github_com{
   int32_t readers_grid_size;
 
   
-/*[[[end]]] (checksum: 179d4c7113d2f5a4f40999f0c98635da)*/
+/*[[[end]]] (checksum: dd6eb6a85e572f12e19ede34b179b0c9)*/
   int                                        uniqueId;
   unsigned                                  *buffers_grid_ids;/*required for storing ids of writers*/
   int                                       *buffers_to_read;
